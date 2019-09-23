@@ -2,10 +2,8 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ReadWriteFile;
 
@@ -17,7 +15,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.robotcore.internal.system.AppUtil;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.revextensions2.ExpansionHubEx;
-import org.openftc.revextensions2.ExpansionHubMotor;
 import org.openftc.revextensions2.RevBulkData;
 
 import java.io.File;
@@ -32,15 +29,8 @@ import java.util.Arrays;
  * (Basically an autonomous base)
  */
 public class Robot {
-    public Orientation angles;
-    public int gameState = 0;
+    private final HardwareMap hardware;
     public float beepbeep = 0;
-    RevBulkData bulkData;
-    AnalogInput a0, a1, a2, a3;
-    DigitalChannel d0, d1, d2, d3, d4, d5, d6, d7;
-    ExpansionHubMotor motor0, motor1, motor2, motor3;
-    ExpansionHubEx expansionHub;
-    BNO055IMU imu;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -51,28 +41,30 @@ public class Robot {
     protected DcMotorEx Motor7;
     protected DcMotorEx Motor8;
     //Location of the bot
-    protected Location robot;
+    public Location robot;
     //Array of different types of things
     protected ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
+    /**
+     * Sets all drive motor run modes to given mode.
+     *
+     * @param mode name DcMotor mode to given value.
+     */
+    protected ArrayList<DcMotorEx> rightMotors;
+    BNO055IMU imu;
+    private Orientation angles;
+    private int gameState = 0;
+    private RevBulkData bulkData;
+    private ExpansionHubEx expansionHub;
     //This array should go left encoder, right encoder, back encoder
     private ArrayList<DcMotorEx> encoders;
     private int[] encoderPosition = {0, 0, 0};
-    //-----tweak values-----//
-    //private float maximumMotorPower = 0.5f;             //when executing a goToLocation function, robot will never travel faster than this value (percentage 0=0%, 1=100%)
-    private float encoderCountsPerRev = 1120f;         //encoder ticks per one revolution
-    private boolean useTelemetry;                       //whether to execute the telemetry method while holding
-    private float minVelocityCutoff = 0.06f;            //velocity with which to continue program execution during a hold (encoder ticks per millisecond)
-    //-----misc internal values-----//
-    private com.qualcomm.robotcore.eventloop.opmode.LinearOpMode hardwareGetter;
     private org.firstinspires.ftc.robotcore.external.Telemetry telemetry;
-    private DcMotor velocityMotor;
     private long prevTime;
     private int prevEncoder;
     private float velocity = 0f;
     private float wheelDistance = 6.66f;                //distance from center of robot to center of wheel (inches)
     private float wheelDiameter = 4;                //diameter of wheel (inches)
-
     //location of robot as [x,y,z,rot] (inches / degrees)
     private Location pos = new Location();
     //-----motors-----//
@@ -80,42 +72,9 @@ public class Robot {
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
-    /**
-     * Sets all drive motor run modes to given mode.
-     *
-     * @param mode name DcMotor mode to given value.
-     */
-    protected ArrayList<DcMotorEx> rightMotors;
-
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
-        this.telemetry = telemetry;
-        Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
-        Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
-        Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
-        Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
-        expansionHub = hw.get(ExpansionHubEx.class, "Expansion Hub 2");
-        robot = loc;
-
-        driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
-        leftMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2));
-        rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
-        encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
-        for (DcMotorEx motorEx : driveMotors) {
-            motorEx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorEx.setTargetPositionTolerance(50);
-        }
-        BNO055IMU.Parameters noots = new BNO055IMU.Parameters();
-        noots.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        noots.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        noots.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        noots.loggingEnabled = true;
-        noots.loggingTag = "IMU";
-        noots.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu = hardwareGetter.hardwareMap.get(BNO055IMU.class, "imu");
-        imu.initialize(noots);
-    }
-    public Robot(HardwareMap hw) {
+        hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
@@ -139,7 +98,7 @@ public class Robot {
         noots.loggingEnabled = true;
         noots.loggingTag = "IMU";
         noots.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu = hardwareGetter.hardwareMap.get(BNO055IMU.class, "imu");
+        imu = hw.get(BNO055IMU.class, "imu");
         imu.initialize(noots);
     }
 
@@ -162,12 +121,14 @@ public class Robot {
         Motor3.setPower(right);
         Motor4.setPower(left);
     }
-    public void drivePower(float[] powers) throws InvalidParameterException{
-        if(powers.length != 4)
+
+    public void drivePower(float[] powers) throws InvalidParameterException {
+        if (powers.length != 4)
             throw new InvalidParameterException("BOI YOUR ARRAY NEEDS TO HAVE 4 VALUES");
         int i = 0;
-        for (DcMotorEx motorEx: driveMotors){
-            motorEx.setPower(i); i++;
+        for (DcMotorEx motorEx : driveMotors) {
+            motorEx.setPower(i);
+            i++;
         }
     }
 
@@ -199,7 +160,7 @@ public class Robot {
     }
 
     public void driveMode(DcMotor.RunMode mode) {
-        for(DcMotorEx motorEx: driveMotors){
+        for (DcMotorEx motorEx : driveMotors) {
             motorEx.setMode(mode);
         }
     }
@@ -213,52 +174,10 @@ public class Robot {
     }
 
 
-
-    @Deprecated
-    /**
-     * Holds program execution until drive motor velocities are below the minimum cutoff.
-     * Will output telemetry if class initialized with useTelemetry true.
-     *
-     */
-    protected void holdForDrive() {
-        hold(0.2f);
-        gameState++;
-        while (updateVelocity() > minVelocityCutoff && hardwareGetter.opModeIsActive()) {
-            if (useTelemetry) telemetryMethod();
-        }
-    }
-
-    /**
-     * Hold program for given number of seconds.
-     *
-     * @param seconds float. Number of seconds to wait.
-     */
-    public void hold(float seconds) {
-        long stopTime = System.currentTimeMillis() + (long) (seconds * 1000);
-        gameState++;
-        while (System.currentTimeMillis() < stopTime && hardwareGetter.opModeIsActive()) {
-            if (useTelemetry) telemetryMethod();
-        }
-    }
-    @Deprecated
-
-    /**
-     * Updates the stored velocity of the robot to reflect reality.
-     *
-     * @return float. New velocity in encoder ticks per millisecond.
-     */
-    private float updateVelocity() {
-        velocity = Math.abs((float) (velocityMotor.getCurrentPosition() - prevEncoder) / (System.currentTimeMillis() - prevTime));
-        prevEncoder = velocityMotor.getCurrentPosition();
-        prevTime = System.currentTimeMillis();
-        return velocity;
-    }
-
     /**
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
-        updateVelocity();
         telemetry.addData("Party has started", "woot woot");
         telemetry.addData("Game State = ", gameState);
         String motorString = "FL = " + frontLeft.getCurrentPosition() + " BL = " + backLeft.getCurrentPosition() + " FR = " + frontRight.getCurrentPosition() + " BR = " + backRight.getCurrentPosition();
@@ -306,12 +225,6 @@ public class Robot {
         angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         return Math.abs(heading - angles.firstAngle) < err;
     }
-
-
-
-
-
-
 
 
 }
