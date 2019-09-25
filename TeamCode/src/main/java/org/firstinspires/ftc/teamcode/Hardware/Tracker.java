@@ -28,6 +28,9 @@ public class Tracker {
         m_encoder = encoder;
         reset();
     }
+    public Tracker(){
+        reset();
+    }
 
     public void reset(){
         num_of_wraparounds = 0;
@@ -61,6 +64,28 @@ public class Tracker {
 
         lastReading = currentReading;
     }
+    // helps get it from bulk read
+    public void update(double currentReading){
+        this.currentReading = currentReading;
+        double delta_temp = currentReading-lastReading;
+        if(Math.abs(delta_temp) > WRAP_AROUND_THRESHOLD){
+            wrapingAround = true;
+        }else{
+            if(wrapingAround){
+                wrapingAround = false;
+                if(currentReading-lastValidReading >0){
+                    num_of_wraparounds --;
+                }else{
+                    num_of_wraparounds ++;
+                }
+            }
+
+            lastValidReading = currentReading;
+        }
+
+        lastReading = currentReading;
+    }
+
     public double getPos(){
         return (num_of_wraparounds+((lastValidReading-resetReading)-limit_bot)/(limit_top-limit_bot));
     }

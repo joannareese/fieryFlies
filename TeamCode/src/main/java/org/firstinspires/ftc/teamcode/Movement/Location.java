@@ -115,7 +115,7 @@ public class Location {
      */
     public void translateLocal(double forward, double right, double deltaRotRad) {
         this.setRotation(this.getLocation(3)+(float) Math.toDegrees(deltaRotRad));
-        translateLocal(forward, 0f, right);
+        translateLocal((float) forward, 0f, (float) right);
     }
 
     /**

@@ -13,6 +13,6 @@ public class RobotValues {
     public static double distFromCenter = 13.75;
     public static double odoDiamMM = 50.8;
     public static double odoTicksPerRev;
-    public static double odoDistBetweenMM = 200;
+    public static double odoDistBetweenMM = 330;
     public static double middleOdoFromMiddleMM = 200;
 }
