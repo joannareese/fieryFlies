@@ -42,20 +42,20 @@ public class Mechanum extends Robot {
        // holdForDrive();
     }
 
-    public void turnDegrees(double degrees) throws UnsupportedOperationException {
-        if (!Motor1.isBusy() && !Motor4.isBusy()) {
-
-            for (DcMotorEx motorEx : leftMotors) {
-                motorEx.setPower(.5);
-                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-            }
-            for (DcMotorEx motorEx : rightMotors) {
-                motorEx.setPower(.5);
-                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) -(RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-            }
-        }
-
-    }
+//    public void turnDegrees(double degrees) throws UnsupportedOperationException {
+//        if (!Motor1.isBusy() && !Motor4.isBusy()) {
+//
+//            for (DcMotorEx motorEx : leftMotors) {
+//                motorEx.setPower(.5);
+//                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
+//            }
+//            for (DcMotorEx motorEx : rightMotors) {
+//                motorEx.setPower(.5);
+//                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) -(RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
+//            }
+//        }
+//
+//    }
 
     public void forwardInches(double distance) throws UnsupportedOperationException {
 
@@ -84,7 +84,7 @@ public class Mechanum extends Robot {
         Motor2.setPower(forward - rotation + sideways);
         Motor3.setPower(forward + rotation + sideways);
         Motor4.setPower(forward + rotation - sideways);
-        updatePosition();
+        updatePosition2();
     }
 
     private double distanceAlongPath(Point location,Point p) {

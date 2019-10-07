@@ -30,6 +30,8 @@ import java.util.Arrays;
  */
 public class Robot {
     private final HardwareMap hardware;
+    public RoadRunnerBot rrBot;
+    //    private final RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
@@ -42,6 +44,7 @@ public class Robot {
     protected DcMotorEx Motor8;
     //Location of the bot
     public Location robot;
+
     //Array of different types of things
     protected ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
@@ -51,14 +54,14 @@ public class Robot {
      * @param mode name DcMotor mode to given value.
      */
     protected ArrayList<DcMotorEx> rightMotors;
-    BNO055IMU imu;
     private Orientation angles;
     private int gameState = 0;
     public RevBulkData bulkData;
     private ExpansionHubEx expansionHub;
     //This array should go left encoder, right encoder, back encoder
     private ArrayList<DcMotorEx> encoders;
-    private int[] encoderPosition = {0, 0, 0};
+   private int[] encoderPosition = {0, 0, 0};
+    private int[] encoderPosition2 = {0, 0, 0};
     private Telemetry telemetry;
     private long prevTime;
     private int prevEncoder;
@@ -66,21 +69,25 @@ public class Robot {
     private float wheelDistance = 6.66f;                //distance from center of robot to center of wheel (inches)
     private float wheelDiameter = 4;                //diameter of wheel (inches)
     //location of robot as [x,y,z,rot] (inches / degrees)
-    private Location pos = new Location();
+    public Location pos = new Location();
     //-----motors-----//
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private DcMotor backLeft;
     private DcMotor backRight;
+    private double relativeY;
+    private double relativeX;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
+        rrBot= new RoadRunnerBot(hw);
+
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
-        expansionHub = hw.get(ExpansionHubEx.class, "Expansion Hub 2");
+        expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
@@ -92,36 +99,45 @@ public class Robot {
            // motorEx.setTargetPositionTolerance(50);
         }
         robot=loc;
-        BNO055IMU.Parameters noots = new BNO055IMU.Parameters();
-        noots.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        noots.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        noots.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        noots.loggingEnabled = true;
-        noots.loggingTag = "IMU";
-        noots.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-        imu = hw.get(BNO055IMU.class, "imu");
-        imu.initialize(noots);
     }
 
 
-    double round(double value) { //Allows telemetry to display nicely
+    public static double round(double value) { //Allows telemetry to display nicely
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
 
     }
-    public void updatePosition2(){
-//        if(Math.abs(angleIncrement) > 0){
-//            double radiusOfMovement = (wheelRightDeltaScale+wheelLeftDeltaScale)/(2*angleIncrement);
-//            double radiusOfStraif = r_xDistance/angleIncrement;
-//            relativeY = (radiusOfMovement * Math.sin(angleIncrement)) + (radiusOfStraif * (1 - Math.cos(angleIncrement)));
-//            relativeX = radiusOfMovement * (1 - Math.cos(angleIncrement)) + (radiusOfStraif * Math.sin(angleIncrement));
-
+    public void updatePosition2() {
+        bulkData = expansionHub.getBulkInputData();
+        double[] encoderDeltamm = new double[3];
+        for (int i = 0; i < 3; i++) {
+            if (0==i)
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition2[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
+            else
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition2[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
+            encoderPosition2[i] = bulkData.getMotorCurrentPosition(i);
         }
+        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
+        relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
+        relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
+        pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut )-(RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev))))/RobotValues.trackWidthmm)));
+
+        if (Math.abs(botRotDelta) > 0) {
+            double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2*botRotDelta);
+            double radiusOfStraif = relativeX/botRotDelta;
+
+            relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
+
+            relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
+        }
+        pos.translateLocal(relativeY, relativeX, 0);
+
+    }
 
     /**
      * Sets drive motor powers.
-     *
+     *v
      * @param left  power of left two motors as percentage (0-1).
      * @param right power of right two motors as percentage (0-1).
      */
@@ -155,20 +171,6 @@ public class Robot {
         backLeft.setTargetPosition(left);
     }
 
-    public void updatePosition() {
-        bulkData = expansionHub.getBulkInputData();
-        double[] encoderDeltamm = new double[3];
-        for (int i = 0; i < 3; i++) {
-            encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.twentyTicksPerRev);
-            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
-        }
-        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.odoDistBetweenMM;
-        double robotXDelta = encoderDeltamm[2] - RobotValues.middleOdoFromMiddleMM * botRotDelta;
-        double robotYDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / 2;
-        robot.translateLocal(robotYDelta, robotXDelta, botRotDelta);
-
-    }
-
     public void driveMode(DcMotor.RunMode mode) {
         for (DcMotorEx motorEx : driveMotors) {
             motorEx.setMode(mode);
@@ -197,44 +199,6 @@ public class Robot {
         telemetry.update();
     }
 
-    /**
-     * Calibrates the imu, probably best to do in init
-     * May take a hot second.
-     */
-    public void calibrateHeading() {
-        BNO055IMU.Parameters noots = new BNO055IMU.Parameters();
-        noots.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        noots.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        noots.calibrationDataFile = "BNO055IMUCalibration.json"; // see the calibration sample opmode
-        noots.loggingEnabled = true;
-        noots.loggingTag = "IMU";
-        noots.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu.initialize(noots);
-
-        BNO055IMU.CalibrationData calibrationData = imu.readCalibrationData();
-        String filename = "BNO055IMUCalibration.json";
-        File file = AppUtil.getInstance().getSettingsFile(filename);
-        ReadWriteFile.writeFile(file, calibrationData.serialize());
-
-        pos.setRotation((imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES)).firstAngle);
-
-        telemetry.update();
-        telemetry.log().add("IMU: CALIBRATED", filename);
-        telemetry.update();
-    }
-
-    /**
-     * Compares given heading value with IMU heading value. If less than error, returns true.
-     *
-     * @param heading the heading to check for, heading in is degrees
-     * @param err     the amount of error (in degrees) allowed to return true
-     * @return boolean.
-     */
-    public boolean checkHeading(float heading, float err) {
-        angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        return Math.abs(heading - angles.firstAngle) < err;
-    }
 
 
 }

@@ -111,10 +111,10 @@ public class Location {
      *
      * @param forward Translates position given units forward.
      * @param right   Translates position given units right.
-     * @param deltaRotRad translates rotation in given units Radian
+     * @param rotRad translates rotation in given units Radian
      */
-    public void translateLocal(double forward, double right, double deltaRotRad) {
-        this.setRotation(this.getLocation(3)+(float) Math.toDegrees(deltaRotRad));
+    public void translateLocal(double forward, double right, double rotRad) {
+        this.setRotation((float) Math.toDegrees(rotRad) + this.getLocation(3));
         translateLocal((float) forward, 0f, (float) right);
     }
 
