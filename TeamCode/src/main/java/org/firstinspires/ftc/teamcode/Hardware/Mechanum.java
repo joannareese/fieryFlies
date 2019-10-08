@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.firstinspires.ftc.teamcode.Movement.WayPoint;
 import org.firstinspires.ftc.teamcode.Utils.LineSegment;
 import org.firstinspires.ftc.teamcode.Utils.MathFunctions;
-import org.jetbrains.annotations.NotNull;
+
 import org.opencv.core.Point;
 
 import java.util.ArrayList;
@@ -24,37 +24,6 @@ public class Mechanum extends Robot {
      */
     public Mechanum(Location loc, Telemetry telemetry, HardwareMap hw) {
         super(telemetry, loc, hw);
-    }
-
-    /**
-     * TODO superload this method with one that does this with power
-     *
-     * @param distance
-     * @param maximumMotorPower
-     * @param maxiumMotorPower
-     */
-    public void goDistance(float distance, float maximumMotorPower, float maxiumMotorPower) {
-        forwardInches(distance);
-    }
-
-    public void goDistanceHold(float distance) {
-        goDistance(distance, 0.7f, 0.7f);
-        holdForDrive();
-    }
-
-    public void turnDegrees(double degrees) throws UnsupportedOperationException {
-        if (!Motor1.isBusy() && !Motor4.isBusy()) {
-
-            for (DcMotorEx motorEx : leftMotors) {
-                motorEx.setPower(.5);
-                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-            }
-            for (DcMotorEx motorEx : rightMotors) {
-                motorEx.setPower(.5);
-                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) -(RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-            }
-        }
-
     }
 
     public void forwardInches(double distance) throws UnsupportedOperationException {
@@ -84,16 +53,16 @@ public class Mechanum extends Robot {
         Motor2.setPower(forward - rotation + sideways);
         Motor3.setPower(forward + rotation + sideways);
         Motor4.setPower(forward + rotation - sideways);
-        updatePosition();
+        updatePosition2();
     }
 
-    private double distanceAlongPath(@NotNull Point location, @NotNull Point p) {
+    private double distanceAlongPath(Point location,Point p) {
 
         return Math.sqrt(Math.pow(location.x - p.x, 2) + Math.pow(location.y - p.y, 2));
 
     }
 
-    private double[] goalPoint(int iRel, @NotNull ArrayList<WayPoint> p, double lookAheadDistance) {
+    private double[] goalPoint(int iRel, ArrayList<WayPoint> p, double lookAheadDistance) {
 
         try {
             double x1 = p.get(iRel - 1).x - robot.getLocation(0);
@@ -164,7 +133,7 @@ public class Mechanum extends Robot {
 
     }
 
-    public void goToPurePoint(@NotNull Point goalPoint, @NotNull ArrayList<WayPoint> p, int iRel) {
+    public void goToPurePoint( Point goalPoint,  ArrayList<WayPoint> p, int iRel) {
 
         double distanceToTarget = Math.hypot(goalPoint.x - robot.getLocation(0), goalPoint.y - robot.getLocation(1));
         double absoluteAngleToTarget = Math.atan2(goalPoint.y - robot.getLocation(1), goalPoint.x - robot.getLocation(0));
@@ -237,7 +206,7 @@ public class Mechanum extends Robot {
     }
 
     //follow path with pure pursuit
-    public void followPath(@org.jetbrains.annotations.NotNull ArrayList<WayPoint> p, double lookAheadDistance) {
+    public void followPath(ArrayList<WayPoint> p, double lookAheadDistance) {
 
         p.add(p.get(p.size() - 1));
         double[] d = goalPoint(p.size() - 2, p, lookAheadDistance);
