@@ -25,10 +25,6 @@ import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.Hardware.DriveConstants.encoderTicksToInches;
 
-/*
- * Optimized mecanum drive implementation for REV ExHs. The time savings may significantly improve
- * trajectory following performance with moderate additional complexity.
- */
 public class RoadRunnerBot extends SampleMecanumDriveBase {
     private ExpansionHubEx hub;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
@@ -96,17 +92,7 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     @NonNull
     @Override
     public List<Double> getWheelPositions() {
-        RevBulkData bulkData = hub.getBulkInputData();
-
-       // if (bulkData == null) {
             return Arrays.asList(0.0, 0.0, 0.0, 0.0);
-        //}
-//
-//        List<Double> wheelPositions = new ArrayList<>();
-//        for (ExpansionHubMotor motor : motors) {
-//            wheelPositions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(motor)));
-//        }
-//        return wheelPositions;
     }
 
     @Override
@@ -122,7 +108,6 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         return imu.getAngularOrientation().firstAngle;
     }
 }
-/** TODO fix the issue that will cause bus bottlenecks. It is fun to say bus bottlenecks **/
 class localizer extends ThreeTrackingWheelLocalizer{
 
     private DcMotor leftEncoder;

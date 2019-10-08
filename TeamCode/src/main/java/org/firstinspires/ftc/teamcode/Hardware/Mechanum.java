@@ -26,37 +26,6 @@ public class Mechanum extends Robot {
         super(telemetry, loc, hw);
     }
 
-    /**
-     * TODO superload this method with one that does this with power
-     *
-     * @param distance
-     * @param maximumMotorPower
-     * @param maxiumMotorPower
-     */
-    public void goDistance(float distance, float maximumMotorPower, float maxiumMotorPower) {
-        forwardInches(distance);
-    }
-
-    public void goDistanceHold(float distance) {
-        goDistance(distance, 0.7f, 0.7f);
-       // holdForDrive();
-    }
-
-//    public void turnDegrees(double degrees) throws UnsupportedOperationException {
-//        if (!Motor1.isBusy() && !Motor4.isBusy()) {
-//
-//            for (DcMotorEx motorEx : leftMotors) {
-//                motorEx.setPower(.5);
-//                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-//            }
-//            for (DcMotorEx motorEx : rightMotors) {
-//                motorEx.setPower(.5);
-//                motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) -(RobotValues.distFromCenter * 2 * Math.PI * (degrees / 360)));
-//            }
-//        }
-//
-//    }
-
     public void forwardInches(double distance) throws UnsupportedOperationException {
 
         for (DcMotorEx motorEx : driveMotors) {
