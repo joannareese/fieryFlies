@@ -30,9 +30,9 @@ public class DriveConstants {
      * angular distances although most angular parameters are wrapped in Math.toRadians() for
      * convenience.
      */
-    public static double WHEEL_RADIUS = 2;
-    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1;
+    public static double WHEEL_RADIUS = 50.8;
+    public static double GEAR_RATIO = 1.5; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = 406.4;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -53,7 +53,7 @@ public class DriveConstants {
      * forces acceleration-limited profiling).
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 30.0, 0.0,
+            762, 762, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
