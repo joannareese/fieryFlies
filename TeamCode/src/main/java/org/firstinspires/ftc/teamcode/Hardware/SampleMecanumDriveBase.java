@@ -31,8 +31,8 @@ import org.firstinspires.ftc.teamcode.Utils.DashboardUtil;
  */
 @Config
 public abstract class SampleMecanumDriveBase extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(0, 0, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(0, 0, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(.6, 0, .1);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(.2, 0, 0);
 
 
     public enum Mode {
@@ -65,7 +65,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
-        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID);
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(50,50),5.0);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {
@@ -173,7 +173,8 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
                 fieldOverlay.setStroke("#3F51B5");
                 fieldOverlay.fillCircle(currentPose.getX(), currentPose.getY(), 3);
 
-                if (!follower.isFollowing()) {
+                if (!follower.isFollowing() && (lastError.getX()<100)&&lastError.getY()<100) {
+
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }

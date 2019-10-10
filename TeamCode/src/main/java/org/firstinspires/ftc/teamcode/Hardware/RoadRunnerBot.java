@@ -121,8 +121,8 @@ class localizer extends ThreeTrackingWheelLocalizer{
     localizer(HardwareMap hwMap){
 
         super(Arrays.asList(
-                new Pose2d(50, -RobotValues.trackWidthmm/2.0, 0), // left
-                new Pose2d(50, RobotValues.trackWidthmm/2.0, 0), // right
+                new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
+                new Pose2d(0, RobotValues.trackWidthmm/2.0, 0), // right
                 new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(90)) // front
         ));
         hub = hwMap.get(ExpansionHubEx.class, "hub");
