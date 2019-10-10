@@ -131,7 +131,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
         frontEncoder = hwMap.dcMotor.get("backLeft");
     }
     public static double encoderTicksToInches(int ticks) {
-        return 50.8 * 2 * Math.PI * ticks / RobotValues.odoTicksPerRev;
+        return 50.8 * Math.PI * ticks / RobotValues.odoTicksPerRev;
     }
 
     @Override
