@@ -173,7 +173,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
                 fieldOverlay.setStroke("#3F51B5");
                 fieldOverlay.fillCircle(currentPose.getX(), currentPose.getY(), 3);
 
-                if (!follower.isFollowing() && (lastError.getX()<100)&&lastError.getY()<100) {
+                if (!follower.isFollowing()) {
 
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());

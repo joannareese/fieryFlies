@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import java.io.File;
@@ -24,12 +25,25 @@ public class AutoPrototype extends LinearOpMode {
                 .build();
 
         waitForStart();
+        while(!gamepad1.a && RobotValues.WTFAREWEEVENDOING!=-1) {
 
-        if (isStopRequested()) return;
+            //tang
+            r.drivePower(gamepad1.left_stick_y/2.0f,gamepad1.right_stick_y/2.0f);
 
-        r.followTrajectorySync(trajectory);
+            if (isStopRequested()) return;
 
+            //press b to go 1 m
+
+            if (gamepad1.b||RobotValues.WTFAREWEEVENDOING==1){
+            r.followTrajectorySync(trajectory);}
+
+            // press x to turn 90
+
+            if (gamepad1.x||RobotValues.WTFAREWEEVENDOING==3){
+                r.turnSync(90);}
+        }
 
     }
 }
 //jojo
+//HI JOJO :)
