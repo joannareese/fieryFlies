@@ -65,7 +65,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
-        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(50,50),5.0);
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(50,50,0),1.0);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {
@@ -150,7 +150,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
                         0, 0, targetAlpha
                 )));
 
-                if (t >= turnProfile.duration()) {
+                if (t+1 >= turnProfile.duration()) {
                     mode = Mode.IDLE;
                     setDriveSignal(new DriveSignal());
                 }
