@@ -137,7 +137,7 @@ public class Robot {
         Motor4.setPower(left);
     }
 
-    public void drivePower(float[] powers) throws InvalidParameterException {
+    public void drivePower(double[] powers) throws InvalidParameterException {
         if (powers.length != 4)
             throw new InvalidParameterException("BOI YOUR ARRAY NEEDS TO HAVE 4 VALUES");
         int i = 0;
