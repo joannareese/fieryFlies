@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryLoader;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,32 +13,26 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import java.io.File;
 
-@Autonomous(name = "TrajTest",group="trajPaths")
-public class AutoPrototype extends LinearOpMode {
+@Autonomous(name = "aito",group="trajPaths")
+public class Aitonomois extends LinearOpMode {
     Robot r;
-
 
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
-                .back(250)
-                .strafeRight(250)
-                .strafeLeft(250)
-                .forward(250)
-                .build();
+                .strafeLeft(28*25.4)
+//          .splineTo(new Pose2d(-48.0*25.4,-11.0*25.4,270))
+//          .splineTo(new Pose2d(25.4*48.0,25.4*11.0,-270))
+          .build();
 
         waitForStart();
 
+        if (isStopRequested()) return;
 
-            if (isStopRequested()) return;
+        //press b to go 1 m
 
-            //press b to go 1 m
-
-
-            r.followTrajectorySync(trajectory);
+        r.followTrajectorySync(trajectory);
 
     }
 }
-//jojo
-//HI JOJO :)

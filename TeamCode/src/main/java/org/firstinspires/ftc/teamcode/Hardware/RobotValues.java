@@ -10,6 +10,6 @@ public class RobotValues {
     public static double odoDiamMM = 50.8;
     public static double odoTicksPerRev = 720;
     public static double odoTicksPerRevOddOnesOut = 800;
-    public static double trackWidthmm = 300;
+    public static double trackWidthmm = 330;
     public static double middleOdoFromMiddleMM = 158.75;
 }

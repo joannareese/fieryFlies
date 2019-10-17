@@ -17,13 +17,13 @@ public class servos extends OpMode {
         left = hardwareMap.servo.get("left");
     }
     public void loop() {
-        if(gamepad1.dpad_left){
+        if(gamepad2.a){
             right.setPosition(0.5);
             left.setPosition(0.5);
-        }if(gamepad1.dpad_right){
+        }if(gamepad2.b){
             right.setPosition(0.1);
             left.setPosition(0.1);
-        }if(gamepad1.dpad_up){
+        }if(gamepad2.x){
             right.setPosition(0.9);
             left.setPosition(0.9);
         }

@@ -20,16 +20,12 @@ public class Slidey extends OpMode {
     public void init() {
 
         slidey = hardwareMap.crservo.get("slidey");
-
-
-
     }
 
-
     public void loop() {
-        if (gamepad2.right_bumper) { //
+        if (gamepad2.left_bumper) { //
             slidey.setPower(-0.5);
-        } else if (gamepad2.right_trigger > 0.5) {
+        } else if (gamepad2.left_trigger > 0.5) {
             slidey.setPower(0.5);
         } else {
             slidey.setPower(0);

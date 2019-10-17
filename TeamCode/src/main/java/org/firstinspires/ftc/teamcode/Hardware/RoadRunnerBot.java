@@ -138,9 +138,9 @@ class localizer extends ThreeTrackingWheelLocalizer{
     public List<Double> getWheelPositions() {
         RevBulkData bulk = hub.getBulkInputData();
         return Arrays.asList(
-                encoderTicksToInches((bulk.getMotorCurrentPosition(0)/800)*720),
-                encoderTicksToInches(bulk.getMotorCurrentPosition(1)),
-                encoderTicksToInches(bulk.getMotorCurrentPosition(2))
+                encoderTicksToInches(-(bulk.getMotorCurrentPosition(0)/800)*720),
+                encoderTicksToInches(-bulk.getMotorCurrentPosition(1)),
+                encoderTicksToInches(-bulk.getMotorCurrentPosition(2))
         );
     }
 }

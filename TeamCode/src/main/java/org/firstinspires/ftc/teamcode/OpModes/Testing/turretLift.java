@@ -6,32 +6,53 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name="hi_jonah", group="Outreach")
+@TeleOp(name="liftyTest", group="TESTING")
 
 public class turretLift extends OpMode {
 
-    public DcMotor turret;
-    public DcMotor jonah;
+    public DcMotor lifty;
+    public DcMotor chainy;
 
     public void init() {
-        turret = hardwareMap.dcMotor.get("turret");
-        jonah = hardwareMap.dcMotor.get("jonah");
+        lifty = hardwareMap.dcMotor.get("lifty");
+        chainy = hardwareMap.dcMotor.get("chainy");
     }
     public void loop() {
-        if (gamepad2.left_bumper) {
-            turret.setPower(-0.5);
+
+        lifty.setPower(-gamepad2.right_stick_y);
+        if (gamepad2.dpad_up) {
+            chainy.setPower(-0.5);
         } else if (gamepad2.left_trigger > 0.5) {
-            turret.setPower(0.5);
+            chainy.setPower(0.5);
         } else {
-            turret.setPower(0);
+            chainy.setPower(0);
         }
 
-        if (gamepad2.right_bumper) {
-            jonah.setPower(-0.5);
-        } else if (gamepad2.right_trigger > 0.5) {
-            jonah.setPower(0.5);
-        } else {
-            jonah.setPower(0);
-        }
     }
 }
+
+/**if (gamepad2.dpad_down && nav.canMoveLiftyJr && !nav.limitSwitch.isPressed()) { //
+        nav.goDown();
+        } else if (gamepad2.dpad_left && nav.canMoveLiftyJr) {
+        nav.goUpBit();
+        } else if (gamepad2.dpad_up && nav.canMoveLiftyJr) {
+        nav.goUpAll();
+        } else if (gamepad2.right_stick_button && nav.canMoveLiftyJr) {
+        nav.goupBalance();
+        } else {
+        if (Math.abs(gamepad2.left_stick_y) > .5 && !nav.limitSwitch.isPressed()){
+        nav.liftyJr.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        nav.liftyJr.setPower(gamepad2.left_stick_y);
+        }
+        }
+
+        if (gamepad2.dpad_right ) {
+        nav.lifty.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        nav.ITS_ENDGAME_NOW();
+        } else if (!nav.lifty.isBusy()){
+        nav.lifty.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        nav.lifty.setPower(-gamepad2.right_stick_y);
+        }
+
+        telemetry.addData("ManualMode: ", nav.manualMode);
+        telemetry.addData("LiftyJr: ", nav.liftyJr.getCurrentPosition()); **/
