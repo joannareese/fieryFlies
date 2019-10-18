@@ -21,8 +21,8 @@ public class Aitonomois extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
-                .strafeLeft(28*25.4)
-//          .splineTo(new Pose2d(-48.0*25.4,-11.0*25.4,270))
+                //.forward(28*25.4)
+          .splineTo(new Pose2d(28.0*25.4,-23.0*25.4,0))
 //          .splineTo(new Pose2d(25.4*48.0,25.4*11.0,-270))
           .build();
 
