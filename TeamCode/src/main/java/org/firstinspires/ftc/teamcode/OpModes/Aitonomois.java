@@ -33,6 +33,6 @@ public class Aitonomois extends LinearOpMode {
         //press b to go 1 m
 
         r.followTrajectorySync(trajectory);
-
+//
     }
 }
