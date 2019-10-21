@@ -59,7 +59,7 @@ public class Robot {
 
     //This array should go left encoder, right encoder, back encoder
     private ArrayList<DcMotorEx> encoders;
-    private int[] encoderPosition2 = {0, 0, 0};
+    private int[] encoderPosition = {0, 0, 0};
 
     private Telemetry telemetry;
 
@@ -106,15 +106,15 @@ public class Robot {
 
     }
 
-    public void updatePosition2() {
+    public void updatePosition() {
         bulkData = expansionHub.getBulkInputData();
         double[] encoderDeltamm = new double[3];
         for (int i = 0; i < 3; i++) {
             if (0 == i)
-                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition2[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
             else
-                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition2[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
-            encoderPosition2[i] = bulkData.getMotorCurrentPosition(i);
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
+            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
         }
         double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
         relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);

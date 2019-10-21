@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DigitalChannelImpl;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.configuration.annotations.DigitalIoDeviceType;
-import com.qualcomm.robotcore.hardware.configuration.typecontainers.DigitalIoDeviceConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Movement.Location;
@@ -56,7 +53,7 @@ public class Mechanum extends Robot {
         Motor2.setPower(forward - rotation + sideways);
         Motor3.setPower(forward + rotation + sideways);
         Motor4.setPower(forward + rotation - sideways);
-        updatePosition2();
+        updatePosition();
     }
 
     private double distanceAlongPath(Point location,Point p) {

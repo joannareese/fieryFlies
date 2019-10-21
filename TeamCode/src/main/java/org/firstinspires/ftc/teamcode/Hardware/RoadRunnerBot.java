@@ -112,10 +112,6 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     }
 }
 class localizer extends ThreeTrackingWheelLocalizer{
-
-    private DcMotor leftEncoder;
-    private DcMotor rightEncoder;
-    private DcMotor frontEncoder;
     private ExpansionHubEx hub;
 
     localizer(HardwareMap hwMap){
@@ -126,9 +122,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
                 new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(90)) // front
         ));
         hub = hwMap.get(ExpansionHubEx.class, "hub");
-        leftEncoder = hwMap.dcMotor.get("backRight");
-        rightEncoder = hwMap.dcMotor.get("frontRight");
-        frontEncoder = hwMap.dcMotor.get("backLeft");
+
     }
     public static double encoderTicksToInches(int ticks) {
         return 50.8 * Math.PI * ticks / RobotValues.odoTicksPerRev;
@@ -138,7 +132,11 @@ class localizer extends ThreeTrackingWheelLocalizer{
     public List<Double> getWheelPositions() {
         RevBulkData bulk = hub.getBulkInputData();
         return Arrays.asList(
-                encoderTicksToInches(-(bulk.getMotorCurrentPosition(0)/800)*720),
+                /**
+                 * TODO double check my math here
+                 * I THINK I DID AN OOOF
+                 */
+                encoderTicksToInches(-(bulk.getMotorCurrentPosition(0))*(800/720)),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(1)),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(2))
         );
