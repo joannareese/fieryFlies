@@ -22,12 +22,12 @@ public class autoFoundation extends LinearOpMode {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
                 //.forward(28*25.4)
-                .splineTo(new Pose2d(0,23.0*25.4,0))
+                .splineTo(new Pose2d(23.0*25.4,0,0))
 
                 .build();
         Trajectory trajectory2 = r.rrBot.trajectoryBuilder()
                 //.forward(28*25.4)
-                .splineTo(new Pose2d(0,23.0*25.4,0))
+                .splineTo(new Pose2d(-23.0*25.4,0,0))
 
                 .build();
         waitForStart();
@@ -38,7 +38,7 @@ public class autoFoundation extends LinearOpMode {
 
         r.followTrajectorySync(trajectory);
         r.left.setPosition(0.5);
-
+        r.right.setPosition(0.5);
         r.followTrajectorySync(trajectory2);
     }
 }

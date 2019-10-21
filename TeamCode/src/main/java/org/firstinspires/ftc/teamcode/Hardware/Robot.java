@@ -76,8 +76,8 @@ public class Robot {
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
 
-        right = (Servo) hw.servo.get("right");
-        left = (Servo) hw.servo.get("left");
+        //right = (Servo) hw.servo.get("right");
+        //left = (Servo) hw.servo.get("left");
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
