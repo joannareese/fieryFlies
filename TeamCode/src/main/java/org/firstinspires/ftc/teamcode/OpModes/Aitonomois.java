@@ -25,15 +25,17 @@ public class Aitonomois extends LinearOpMode {
           .splineTo(new Pose2d(23.0*25.4,-18.0*25.4,0))
 //          .splineTo(new Pose2d(25.4*48.0,25.4*11.0,-270))
           .build();
-        Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(23.0*25.4,10*25.4,90)).build();
 
-        waitForStart();
 
         if (isStopRequested()) return;
 
-        r.followTrajectorySync(trajectory);
-        sleep(5000);
+        //r.followTrajectorySync(trajectory);
+        Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
+                .splineTo(new Pose2d(0,10*25.4,90)).build();
+
+        waitForStart();
+       // sleep(5000);
+
 
         r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
 
