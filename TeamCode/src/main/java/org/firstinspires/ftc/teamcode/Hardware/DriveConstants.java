@@ -47,7 +47,7 @@ public class DriveConstants {
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
      * the constraints should never exceed ~80% of the robot's actual capabilities. While Road
-     * Runner is designed to enable faster autonomous motion, it is a good idea for testing to start
+     * Runner is designed to enable faster autonomous motion, it is a good idea for OdometryTesting to start
      * small and gradually increase them later after everything is working. The velocity and
      * acceleration values are required, and the jerk values are optional (setting a jerk of 0.0
      * forces acceleration-limited profiling).

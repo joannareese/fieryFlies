@@ -27,7 +27,7 @@ import java.util.List;
 import static org.firstinspires.ftc.teamcode.Hardware.DriveConstants.encoderTicksToInches;
 
 public class RoadRunnerBot extends SampleMecanumDriveBase {
-    private ExpansionHubEx hub;
+    public ExpansionHubEx hub;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
     private BNO055IMU imu;
@@ -60,21 +60,18 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (ExpansionHubMotor motor : motors) {
-            // TODO: decide whether or not to use the built-in velocity PID
             // if you keep it, then don't tune kStatic or kA
             // otherwise, comment out the following line
             //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        // TODO: reverse any motors using DcMotor.setDirection()
+        // reverse any motors using DcMotor.setDirection()
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-        // TODO: set the tuned coefficients from DriveVelocityPIDTuner if using RUN_USING_ENCODER
-        // setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, ...);
 
-        // TODO: if desired, use setLocalizer() to change the localization method
-        setLocalizer(new localizer(hardwareMap));
+
+        setLocalizer(new localizer(hardwareMap,this));
     }
 
     @Override
@@ -112,23 +109,17 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     }
 }
 class localizer extends ThreeTrackingWheelLocalizer{
-
-    private DcMotor leftEncoder;
-    private DcMotor rightEncoder;
-    private DcMotor frontEncoder;
-    private ExpansionHubEx hub;
-
-    localizer(HardwareMap hwMap){
+    public RoadRunnerBot bot;
+    localizer(HardwareMap hwMap,RoadRunnerBot bot){
 
         super(Arrays.asList(
                 new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
                 new Pose2d(0, RobotValues.trackWidthmm/2.0, 0), // right
                 new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(90)) // front
         ));
-        hub = hwMap.get(ExpansionHubEx.class, "hub");
-        leftEncoder = hwMap.dcMotor.get("backRight");
-        rightEncoder = hwMap.dcMotor.get("frontRight");
-        frontEncoder = hwMap.dcMotor.get("backLeft");
+        this.bot = bot;
+        bot.hub = hwMap.get(ExpansionHubEx.class, "hub");
+
     }
     public static double encoderTicksToInches(int ticks) {
         return 50.8 * Math.PI * ticks / RobotValues.odoTicksPerRev;
@@ -136,9 +127,13 @@ class localizer extends ThreeTrackingWheelLocalizer{
 
     @Override
     public List<Double> getWheelPositions() {
-        RevBulkData bulk = hub.getBulkInputData();
+        RevBulkData bulk = bot.hub.getBulkInputData();
         return Arrays.asList(
-                encoderTicksToInches(-(bulk.getMotorCurrentPosition(0)/800)*720),
+                /**
+                 * TODO double check my math here
+                 * I THINK I DID AN OOOF
+                 */
+                (double)(50.8*Math.PI* bulk.getMotorCurrentPosition(0)/RobotValues.odoTicksPerRevOddOnesOut),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(1)),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(2))
         );
