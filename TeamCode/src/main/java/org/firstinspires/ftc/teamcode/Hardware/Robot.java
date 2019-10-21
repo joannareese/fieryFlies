@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Movement.Location;
@@ -45,10 +46,15 @@ public class Robot {
     protected DcMotorEx Motor7;
     protected DcMotorEx Motor8;
 
+    public Servo right;
+    public Servo left;
+
     //Arrays of different motors
     protected ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
+
+
 
 
     //This array should go left encoder, right encoder, back encoder
@@ -69,6 +75,9 @@ public class Robot {
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
+
+        right = (Servo) hw.servo.get("right");
+        left = (Servo) hw.servo.get("left");
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
@@ -80,6 +89,7 @@ public class Robot {
     }
 
     public void followTrajectory(Trajectory trajectory){
+        
         rrBot.followTrajectory(trajectory);
     }
     public void followTrajectorySync(Trajectory trajectory){
