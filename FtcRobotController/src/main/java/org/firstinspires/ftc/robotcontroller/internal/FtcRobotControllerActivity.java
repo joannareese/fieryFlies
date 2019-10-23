@@ -137,7 +137,7 @@ public class FtcRobotControllerActivity extends Activity
     protected ProgrammingModeController programmingModeController;
 
     protected UpdateUI.Callback callback;
-    protected Context context;
+    public static Context context;
     protected Utility utility;
     protected StartResult prefRemoterStartResult = new StartResult();
     protected StartResult deviceNameStartResult = new StartResult();
@@ -285,6 +285,7 @@ public class FtcRobotControllerActivity extends Activity
         }
 
         context = this;
+
         utility = new Utility(this);
 
         DeviceNameManagerFactory.getInstance().start(deviceNameStartResult);

@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import android.content.Context;
+
 import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class RobotValues {
+    public static Context context;
     public static int WTFAREWEEVENDOING = 0;
     public static double twentyTicksPerRev = 1120;
 

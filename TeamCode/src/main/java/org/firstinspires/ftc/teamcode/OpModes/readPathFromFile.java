@@ -5,33 +5,31 @@ import android.content.res.AssetManager;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryGenerator;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryLoader;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.apache.commons.io.FileUtils;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 @Autonomous(name = "aito",group="trajPaths")
-public class Aitonomois extends LinearOpMode {
+public class readPathFromFile extends LinearOpMode {
     Robot r;
 
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry,new Location(), hardwareMap);
+        Context context = org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity.context;
+        AssetManager ass = context.getAssets();
+        File test = new File("ahh");
+        try {
+            FileUtils.copyInputStreamToFile(ass.open("thing"),test);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //  r.rrBot.setPoseEstimate();
         Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
                 .splineTo(new Pose2d(23*25.4,-18.0*25.4,0)).build();
