@@ -133,7 +133,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
                  * TODO double check my math here
                  * I THINK I DID AN OOOF
                  */
-                (double)(50.8*Math.PI* bulk.getMotorCurrentPosition(0)/RobotValues.odoTicksPerRevOddOnesOut),
+                (double)(50.8*Math.PI* -bulk.getMotorCurrentPosition(0)/RobotValues.odoTicksPerRevOddOnesOut),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(1)),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(2))
         );

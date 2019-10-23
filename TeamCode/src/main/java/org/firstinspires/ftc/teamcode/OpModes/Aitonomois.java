@@ -21,12 +21,17 @@ public class Aitonomois extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(23.0*25.4,10*25.4,90)).build();
+                .splineTo(new Pose2d(23*25.4,-18.0*25.4,0)).build();
+        Trajectory trajectoryP2ElectricBoogallo =r.rrBot.trajectoryBuilder()
+                .splineTo(new Pose2d(23*25.4,45.0*25.4,1.57)).build();
+
 
         waitForStart();
 
         if (isStopRequested()) return;
         r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
+        sleep(1000);
+        r.followTrajectorySync(trajectoryP2ElectricBoogallo);
 
     }
 }
