@@ -27,7 +27,7 @@ public class autoFoundation extends LinearOpMode {
                 .build();
         Trajectory trajectory2 = r.rrBot.trajectoryBuilder()
                 //.forward(28*25.4)
-                .splineTo(new Pose2d(-23.0*25.4,0,0))
+                .splineTo(new Pose2d(0,0,0))
 
                 .build();
         waitForStart();
@@ -35,7 +35,6 @@ public class autoFoundation extends LinearOpMode {
         if (isStopRequested()) return;
 
         //press b to go 1 m
-
         r.followTrajectorySync(trajectory);
         r.left.setPosition(0.5);
         r.right.setPosition(0.5);

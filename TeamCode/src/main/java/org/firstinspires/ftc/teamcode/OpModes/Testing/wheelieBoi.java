@@ -28,6 +28,5 @@ public class wheelieBoi extends OpMode {
             wheelieboi.setPower(0);
             wheeliegurl.setPower(0);
         }
-
     }
 }

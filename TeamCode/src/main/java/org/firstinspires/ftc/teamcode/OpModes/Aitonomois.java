@@ -11,7 +11,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.apache.commons.io.FileUtils;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
@@ -39,8 +38,6 @@ public class Aitonomois extends LinearOpMode {
                 .splineTo(new Pose2d(23*25.4,45.0*25.4,1.57)).build();
         Trajectory trajectoryP4ElectricBoogallo =r.rrBot.trajectoryBuilder()
                 .splineTo(new Pose2d(23*25.4,22.0*25.4,0)).build();
-
-
 
         waitForStart();
 
