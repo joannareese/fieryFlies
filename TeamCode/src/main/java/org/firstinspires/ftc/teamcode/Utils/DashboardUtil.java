@@ -22,8 +22,8 @@ public class DashboardUtil {
         for (int i = 0; i < samples; i++) {
             double displacement = i * dx;
             Pose2d pose = path.get(displacement);
-            xPoints[i] = pose.getX();
-            yPoints[i] = pose.getY();
+            xPoints[i] = pose.getX()/25.4;
+            yPoints[i] = pose.getY()/25.4;
         }
         canvas.strokePolyline(xPoints, yPoints);
     }
