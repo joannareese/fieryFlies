@@ -25,6 +25,7 @@ import java.util.Arrays;
 public class Robot {
 
     private final HardwareMap hardware;
+    public final WheelIntake intake;
     public RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Location of the bot
@@ -86,6 +87,7 @@ public class Robot {
         rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
         encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
         robot = loc;
+        intake = new WheelIntake(this);
     }
 
     public void followTrajectory(Trajectory trajectory){
