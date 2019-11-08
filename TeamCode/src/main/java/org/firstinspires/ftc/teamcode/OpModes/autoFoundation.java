@@ -21,14 +21,14 @@ public class autoFoundation extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
-                //.forward(28*25.4)
-                .splineTo(new Pose2d(23.0*25.4,0,0))
-
+                .reverse()
+                .splineTo(new Pose2d(-35 * 25.4, -15 * 25.4, 0))
                 .build();
         Trajectory trajectory2 = r.rrBot.trajectoryBuilder()
-                //.forward(28*25.4)
-                .splineTo(new Pose2d(-23.0*25.4,0,0))
-
+                .splineTo(new Pose2d(20*25.4, 15*25.4,90))
+                .build();
+        Trajectory trajectory3 = r.rrBot.trajectoryBuilder()
+                .forward(30)
                 .build();
         waitForStart();
 
@@ -37,8 +37,11 @@ public class autoFoundation extends LinearOpMode {
         //press b to go 1 m
 
         r.followTrajectorySync(trajectory);
-        r.left.setPosition(0.5);
-        r.right.setPosition(0.5);
+        r.movey.dropItLikeItsHot();
+        sleep(1000);
         r.followTrajectorySync(trajectory2);
+        r.movey.grabFoundation();
+        sleep(1000);
+        r.followTrajectorySync(trajectory3);
     }
 }

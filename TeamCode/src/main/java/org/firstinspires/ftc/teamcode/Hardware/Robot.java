@@ -17,7 +17,7 @@ import java.math.RoundingMode;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+//
 /**
  * A class for all movement methods (using PID and IMU) for Rover Ruc for autonomous as well as mechanisms methods for autonomous as well
  * (Basically an autonomous base)
@@ -33,6 +33,7 @@ public class Robot {
 
     //location of robot as [x,y,z,rot] (inches / degrees)
     public Location pos = new Location();
+    public FoundationMover movey;
 
     private ExpansionHubEx expansionHub;
 
@@ -68,7 +69,7 @@ public class Robot {
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         rrBot = new RoadRunnerBot(hw);
-
+        movey = new FoundationMover(this);
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
@@ -76,8 +77,8 @@ public class Robot {
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
 
-        //right = (Servo) hw.servo.get("right");
-        //left = (Servo) hw.servo.get("left");
+        right = (Servo) hw.servo.get("right");
+        left = (Servo) hw.servo.get("left");
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
@@ -89,7 +90,7 @@ public class Robot {
     }
 
     public void followTrajectory(Trajectory trajectory){
-        
+
         rrBot.followTrajectory(trajectory);
     }
     public void followTrajectorySync(Trajectory trajectory){
