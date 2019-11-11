@@ -1,16 +1,20 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
 /**
  *TODO  add a stay on for time thing
  */
 public class WheelIntake {
-    private ArrayList<DcMotorEx> motors;
+    private List<DcMotorEx> motors;
     public WheelIntake(Robot robot){
-        motors = (ArrayList<DcMotorEx>) Arrays.asList(robot.Motor5, robot.Motor6);
+        robot.Motor5.setDirection(DcMotorEx.Direction.REVERSE);
+        motors = Arrays.asList(robot.Motor5, robot.Motor6);
     }
 
     /**

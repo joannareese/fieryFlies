@@ -34,6 +34,7 @@ public class GamePadHandler {
         final double v2 = (P * sinRAngle) - (P * cosRAngle) + driveRot;
         final double v3 = (P * sinRAngle) - (P * cosRAngle) - driveRot;
         final double v4 = (P * sinRAngle) + (P * cosRAngle) + driveRot;
+
         double[] powers = {v1,v2,v3,v4};
         bot.drivePower(powers);
         //_________ _______ _________ _______  _______  _______  _______  _______

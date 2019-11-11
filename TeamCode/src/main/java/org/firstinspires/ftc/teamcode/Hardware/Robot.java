@@ -76,10 +76,12 @@ public class Robot {
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
+        Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
+        Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
 
         //right = (Servo) hw.servo.get("right");
         //left = (Servo) hw.servo.get("left");
-        expansionHub = hw.get(ExpansionHubEx.class, "hub");
+        //expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
@@ -92,7 +94,7 @@ public class Robot {
 
     public void followTrajectory(Trajectory trajectory){
         
-        rrBot.followTrajectory(trajectory);
+        //rrBot.followTrajectory(trajectory);
     }
     public void followTrajectorySync(Trajectory trajectory){
         rrBot.followTrajectorySync(trajectory);
@@ -109,29 +111,29 @@ public class Robot {
     }
 
     public void updatePosition() {
-        bulkData = expansionHub.getBulkInputData();
-        double[] encoderDeltamm = new double[3];
-        for (int i = 0; i < 3; i++) {
-            if (0 == i)
-                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
-            else
-                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
-            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
-        }
-        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
-        relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
-        relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
-        pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut) - (RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev)))) / RobotValues.trackWidthmm)));
-
-        if (Math.abs(botRotDelta) > 0) {
-            double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2 * botRotDelta);
-            double radiusOfStraif = relativeX / botRotDelta;
-
-            relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
-
-            relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
-        }
-        pos.translateLocal(relativeY, relativeX, 0);
+//        bulkData = expansionHub.getBulkInputData();
+//        double[] encoderDeltamm = new double[3];
+//        for (int i = 0; i < 3; i++) {
+//            if (0 == i)
+//                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
+//            else
+//                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
+//            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
+//        }
+//        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
+//        relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
+//        relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
+//        pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut) - (RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev)))) / RobotValues.trackWidthmm)));
+//
+//        if (Math.abs(botRotDelta) > 0) {
+//            double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2 * botRotDelta);
+//            double radiusOfStraif = relativeX / botRotDelta;
+//
+//            relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
+//
+//            relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
+//        }
+//        pos.translateLocal(relativeY, relativeX, 0);
 
     }
 
@@ -154,7 +156,7 @@ public class Robot {
             throw new InvalidParameterException("BOI YOUR ARRAY NEEDS TO HAVE 4 VALUES");
         int i = 0;
         for (DcMotorEx motorEx : driveMotors) {
-            motorEx.setPower(i);
+            motorEx.setPower(powers[i]);
             i++;
         }
     }
