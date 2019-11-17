@@ -21,21 +21,18 @@ public class GamePadHandler {
         //  | |\___/ \__, |___/\__|_|\___|_|\_\
         // _/ |       __/ |
         //|__/       |___/
-        driveX = game1.left_stick_x;
-        driveY = game1.left_stick_y;
-        driveRot = game1.right_stick_x;
-        // Thx for the Code ally :) ///
-        double P = Math.hypot(-driveX, -driveY);
-        double robotAngle = Math.atan2(-driveY, -driveX);
+        double P = Math.hypot(-game1.left_stick_x, -game1.left_stick_y);
+        double robotAngle = Math.atan2(-game1.left_stick_y, -game1.left_stick_x);
+        double rightX = -game1.right_stick_x;
         double sinRAngle = Math.sin(robotAngle);
         double cosRAngle = Math.cos(robotAngle);
 
-        final double v1 = (P * sinRAngle) + (P * cosRAngle) - driveRot;
-        final double v2 = (P * sinRAngle) - (P * cosRAngle) + driveRot;
-        final double v3 = (P * sinRAngle) - (P * cosRAngle) - driveRot;
-        final double v4 = (P * sinRAngle) + (P * cosRAngle) + driveRot;
+        final double v1 = (P * sinRAngle) + (P * cosRAngle) - rightX;
+        final double v2 = (P * sinRAngle) - (P * cosRAngle) + rightX;
+        final double v3 = (P * sinRAngle) - (P * cosRAngle) - rightX;
+        final double v4 = (P * sinRAngle) + (P * cosRAngle) + rightX;
 
-        double[] powers = {v1,v2,v3,v4};
+        double[] powers = {.75*v2,.75*v4,.75*v1,.75*v3};
         bot.drivePower(powers);
         //_________ _______ _________ _______  _______  _______  _______  _______
         //\__   __/(  ____ )\__   __/(  ____ \(  ____ \(  ____ \(  ____ )(  ____ \

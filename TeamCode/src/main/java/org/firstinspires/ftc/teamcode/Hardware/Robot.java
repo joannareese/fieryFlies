@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -35,7 +36,7 @@ public class Robot {
     //location of robot as [x,y,z,rot] (inches / degrees)
     public Location pos = new Location();
 
-    private ExpansionHubEx expansionHub;
+    public ExpansionHubEx expansionHub;
 
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
@@ -51,7 +52,7 @@ public class Robot {
     public Servo left;
 
     //Arrays of different motors
-    protected ArrayList<DcMotorEx> driveMotors;
+    public ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
 
@@ -73,7 +74,9 @@ public class Robot {
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
+        Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
+        Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
@@ -81,7 +84,7 @@ public class Robot {
 
         //right = (Servo) hw.servo.get("right");
         //left = (Servo) hw.servo.get("left");
-        //expansionHub = hw.get(ExpansionHubEx.class, "hub");
+        expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
@@ -111,29 +114,29 @@ public class Robot {
     }
 
     public void updatePosition() {
-//        bulkData = expansionHub.getBulkInputData();
-//        double[] encoderDeltamm = new double[3];
-//        for (int i = 0; i < 3; i++) {
-//            if (0 == i)
-//                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
-//            else
-//                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
-//            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
-//        }
-//        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
-//        relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
-//        relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
-//        pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut) - (RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev)))) / RobotValues.trackWidthmm)));
-//
-//        if (Math.abs(botRotDelta) > 0) {
-//            double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2 * botRotDelta);
-//            double radiusOfStraif = relativeX / botRotDelta;
-//
-//            relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
-//
-//            relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
-//        }
-//        pos.translateLocal(relativeY, relativeX, 0);
+        bulkData = expansionHub.getBulkInputData();
+        double[] encoderDeltamm = new double[3];
+        for (int i = 0; i < 3; i++) {
+            if (0 == i)
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
+            else
+                encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
+            encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
+        }
+        double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
+        relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
+        relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
+        pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut) - (RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev)))) / RobotValues.trackWidthmm)));
+
+        if (Math.abs(botRotDelta) > 0) {
+            double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2 * botRotDelta);
+            double radiusOfStraif = relativeX / botRotDelta;
+
+            relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
+
+            relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
+        }
+        pos.translateLocal(relativeY, relativeX, 0);
 
     }
 
