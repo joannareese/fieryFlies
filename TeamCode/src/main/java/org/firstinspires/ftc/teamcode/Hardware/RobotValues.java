@@ -18,9 +18,9 @@ public class RobotValues {
     public static double heading;
     public static double y;
     public static double x;
-    public static boolean flag1 = false;
-    public static boolean flag2 = false;
-    public static boolean flag3 = false;
-    public static boolean flag4 = false;
+    public static double servo1bottom = 0;
+    public static double servo1top = 0;
+    public static double servo2bottom = 0;
+    public static double servo2top = 0;
     public static double backHeading = 270;
 }

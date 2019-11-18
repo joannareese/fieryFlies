@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -52,7 +53,7 @@ public class Robot {
     public Servo left;
 
     //Arrays of different motors
-    protected ArrayList<DcMotorEx> driveMotors;
+    public ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
 
