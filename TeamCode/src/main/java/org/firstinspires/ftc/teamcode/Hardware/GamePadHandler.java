@@ -23,7 +23,7 @@ public class GamePadHandler {
         //|__/       |___/
         double P = Math.hypot(-game1.left_stick_x, -game1.left_stick_y);
         double robotAngle = Math.atan2(-game1.left_stick_y, -game1.left_stick_x);
-        double rightX = -game1.right_stick_x;
+        double rightX = game1.right_stick_x;
         double sinRAngle = Math.sin(robotAngle);
         double cosRAngle = Math.cos(robotAngle);
 
