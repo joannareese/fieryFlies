@@ -36,6 +36,7 @@ public class Robot {
     //location of robot as [x,y,z,rot] (inches / degrees)
     public Location pos = new Location();
     public FoundationMover movey;
+    public Lifty lifty;
 
     public ExpansionHubEx expansionHub;
 
@@ -82,6 +83,7 @@ public class Robot {
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
+        Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
 
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
