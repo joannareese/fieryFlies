@@ -67,7 +67,7 @@ public class Robot {
     private ArrayList<DcMotorEx> encoders;
     private int[] encoderPosition = {0, 0, 0};
 
-    private Telemetry telemetry;
+    public Telemetry telemetry;
 
     private double relativeY;
     private double relativeX;
@@ -148,6 +148,7 @@ public class Robot {
             relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
         }
         pos.translateLocal(relativeY, relativeX, 0);
+        telemetryMethod();
 
     }
 
@@ -210,6 +211,8 @@ public class Robot {
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
+
+        telemetry.addData("lifty", Motor7.getCurrentPosition());
         telemetry.update();
     }
 
