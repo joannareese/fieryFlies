@@ -93,6 +93,7 @@ public class Robot {
         rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
         encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
         robot = loc;
+        movey = new FoundationMover(this);
         intake = new WheelIntake(this);
     }
 

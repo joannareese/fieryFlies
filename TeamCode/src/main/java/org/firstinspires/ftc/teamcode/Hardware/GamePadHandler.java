@@ -27,10 +27,10 @@ public class GamePadHandler {
         double sinRAngle = Math.sin(robotAngle);
         double cosRAngle = Math.cos(robotAngle);
 
-        final double v1 = (P * sinRAngle) + (P * cosRAngle) - rightX;
-        final double v2 = (P * sinRAngle) - (P * cosRAngle) + rightX;
-        final double v3 = (P * sinRAngle) - (P * cosRAngle) - rightX;
-        final double v4 = (P * sinRAngle) + (P * cosRAngle) + rightX;
+        final double v1 = (P * sinRAngle) + (P * cosRAngle) + rightX;
+        final double v2 = (P * sinRAngle) - (P * cosRAngle) - rightX;
+        final double v3 = (P * sinRAngle) - (P * cosRAngle) + rightX;
+        final double v4 = (P * sinRAngle) + (P * cosRAngle) - rightX;
 
         double[] powers = {.75*v2,.75*v4,.75*v1,.75*v3};
         bot.drivePower(powers);
@@ -44,7 +44,12 @@ public class GamePadHandler {
         //   )_(   |/   \__/\_______/(_______)(_______)(_______/|/   \__/\_______)
         double intakepower = game1.right_trigger-game1.left_trigger;
         bot.intake.intake(intakepower);
-
+        if(game1.a){
+            bot.movey.dropItLikeItsHot();
+        }
+        if(game1.b){
+            bot.movey.grabFoundation();
+        }
 
     }
 }
