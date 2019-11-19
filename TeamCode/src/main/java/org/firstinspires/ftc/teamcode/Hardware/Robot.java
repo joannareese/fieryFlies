@@ -38,6 +38,7 @@ public class Robot {
     public FoundationMover movey;
     public Lifty lifty;
 
+
     public ExpansionHubEx expansionHub;
 
     //Declaration of our 8 DC motors
@@ -52,6 +53,7 @@ public class Robot {
 
     public Servo right;
     public Servo left;
+    public Servo grabby;
 
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
@@ -87,6 +89,9 @@ public class Robot {
 
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
+
+        grabby = (Servo) hw.servo.get("grab");
+
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
@@ -97,6 +102,8 @@ public class Robot {
         robot = loc;
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
+        lifty = new Lifty(this);
+
     }
 
     public void followTrajectory(Trajectory trajectory){

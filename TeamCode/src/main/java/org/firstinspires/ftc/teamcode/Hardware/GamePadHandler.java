@@ -34,7 +34,7 @@ public class GamePadHandler {
         final double v3 = (P * sinRAngle) - (P * cosRAngle) + rightX;
         final double v4 = (P * sinRAngle) + (P * cosRAngle) - rightX;
 
-        double[] powers = {.75*v2,.75*v4,.75*v1,.75*v3};
+        double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
 
         //_________ _______ _________ _______  _______  _______  _______  _______
@@ -46,19 +46,31 @@ public class GamePadHandler {
         //   | |   | ) \ \_____) (___| (___) || (___) || (____/\| ) \ \__/\____) |
         //   )_(   |/   \__/\_______/(_______)(_______)(_______/|/   \__/\_______)
 
-        double intakepower = game2.right_trigger-game2.left_trigger;
+        double intakepower = game2.right_trigger - game2.left_trigger;
         bot.intake.intake(intakepower);
-        if(game2.a){
+
+
+        //Some cool comment shit
+
+        if (game2.a) {
             bot.movey.dropItLikeItsHot();
         }
-        if(game2.b){
+        if (game2.b) {
             bot.movey.grabFoundation();
         }
 
-        //SOme cool comment shit
+        if (game2.x) {
+            bot.lifty.grabOpen();
+        } else if (game2.y) {
+            bot.lifty.grabClose();
+        }
+
+
+        //SOme cool comment shit (again)
 
         if (game2.dpad_down) { //
             bot.lifty.goDown();
+            bot.lifty.grabOpen();
         } else if (game2.dpad_left) {
             bot.lifty.goUpBit();
         } else if (game2.dpad_up) {
@@ -66,14 +78,14 @@ public class GamePadHandler {
         } else if (game2.right_stick_button) {
             bot.lifty.goupBalance();
         } else {
-            if (Math.abs(game2.left_stick_y) > .5){
+            if (Math.abs(game2.left_stick_y) > .5) {
                 bot.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 bot.Motor7.setPower(game1.left_stick_y);
             }
         }
 
 
+    }
 
 
     }
-}
