@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Movement.Location;
@@ -8,7 +9,7 @@ import org.openftc.revextensions2.RevBulkData;
 
 import static android.os.SystemClock.sleep;
 
-
+@TeleOp(name="Motor Debug")
 public class MotorVeloDebug extends OpMode {
     Robot robot;
     private RevBulkData bulk;
