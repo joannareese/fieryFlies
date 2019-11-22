@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.trajectory.constraints.DriveConstraints;
+import com.qualcomm.hardware.motors.Matrix12vMotor;
 import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -19,8 +20,9 @@ public class DriveConstants {
      * adjust them in the dashboard; **config variable changes don't persist between app restarts**.
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
-            MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
-    private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
+            MotorConfigurationType.getMotorType(Matrix12vMotor.class);
+
+    private static final double TICKS_PER_REV = 537.6;
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -31,8 +33,8 @@ public class DriveConstants {
      * convenience.
      */
     public static double WHEEL_RADIUS = 50.8;
-    public static double GEAR_RATIO = 2; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 650;
+    public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
+    public static double TRACK_WIDTH = RobotValues.robtTrackWidth;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using

@@ -10,11 +10,13 @@ public class RobotValues {
     @SuppressLint("StaticFieldLeak")
     public static Context context;
     public static int WTFAREWEEVENDOING = 0;
+    public static double twentyTicksPerRev = 0;
+    public static double robtTrackWidth = 640;
     static double odoDiamMM = 50.8;
     static double odoTicksPerRev = 800;
     public static double odoTicksPerRevOddOnesOut = 800;
-    static double trackWidthmm = 330;
-    static double middleOdoFromMiddleMM = 163;
+    static double trackWidthmm = 349.7;
+    static double middleOdoFromMiddleMM = 50;
     public static double heading;
     public static double y;
     public static double x;
