@@ -36,6 +36,8 @@ public class Robot {
     //location of robot as [x,y,z,rot] (inches / degrees)
     public Location pos = new Location();
     public FoundationMover movey;
+    public Lifty lifty;
+
 
     public ExpansionHubEx expansionHub;
 
@@ -51,6 +53,7 @@ public class Robot {
 
     public Servo right;
     public Servo left;
+    public Servo grabby;
 
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
@@ -64,7 +67,7 @@ public class Robot {
     private ArrayList<DcMotorEx> encoders;
     private int[] encoderPosition = {0, 0, 0};
 
-    private Telemetry telemetry;
+    public Telemetry telemetry;
 
     private double relativeY;
     private double relativeX;
@@ -82,9 +85,13 @@ public class Robot {
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
+        Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
 
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
+
+        grabby = (Servo) hw.servo.get("grab");
+
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
@@ -95,6 +102,8 @@ public class Robot {
         robot = loc;
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
+        lifty = new Lifty(this);
+
     }
 
     public void followTrajectory(Trajectory trajectory){
@@ -139,6 +148,7 @@ public class Robot {
             relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
         }
         pos.translateLocal(relativeY, relativeX, 0);
+        telemetryMethod();
 
     }
 
@@ -201,6 +211,8 @@ public class Robot {
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
+
+        telemetry.addData("lifty", Motor7.getCurrentPosition());
         telemetry.update();
     }
 

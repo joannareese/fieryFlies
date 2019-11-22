@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class RobotValues {
-    @SuppressLint("StaticFieldLeak")
     public static Context context;
     public static int WTFAREWEEVENDOING = 0;
     public static double twentyTicksPerRev = 0;
@@ -20,9 +18,18 @@ public class RobotValues {
     public static double heading;
     public static double y;
     public static double x;
-    static double servo1bottom = .5;
-    static double servo1top = .3;
-    static double servo2bottom = .1;
-    static double servo2top = .2;
-    static double backHeading = 270;
+
+    public static double servo1bottom = .5;
+    public static double servo1top = .3;
+    public static double servo2bottom = .1;
+    public static double servo2top = .2;
+
+    public static double grabOpen= .1;
+    public static double grabClose = .9;
+
+    public static int liftyDown = 0;
+    public static int liftyUp = 200;
+    public static int liftyMid = 400;
+
+    public static double backHeading = 270;
 }
