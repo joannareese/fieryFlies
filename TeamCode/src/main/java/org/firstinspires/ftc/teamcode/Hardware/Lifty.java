@@ -31,13 +31,19 @@ public class Lifty {
     }
 
     public void grabClose(){
-        robo.grabby.setPosition(RobotValues.grabOpen);
-
+        robo.grabby.setPosition(RobotValues.grabClose);
     }
 
     public void grabOpen(){
         robo.grabby.setPosition(RobotValues.grabOpen);
-
     }
 
+//    public void vexIn(){
+//        robo.collectR.setPower(-0.5);
+//        robo.collectL.setPower(-0.5);
+//    }
+//    public void vexOut(){
+//        robo.collectR.setPower(0.5);
+//        robo.collectL.setPower(0.5);
+//    }
 }

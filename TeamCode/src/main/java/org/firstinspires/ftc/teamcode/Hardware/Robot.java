@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -54,6 +55,8 @@ public class Robot {
     public Servo right;
     public Servo left;
     public Servo grabby;
+    public CRServo collectR;
+    public CRServo collectL;
 
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
@@ -86,9 +89,13 @@ public class Robot {
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
         Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
+    //    Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
 
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
+
+        collectL = (CRServo) hw.crservo.get("collectR");
+        collectR = (CRServo) hw.crservo.get("collectL");
 
         grabby = (Servo) hw.servo.get("grab");
 
