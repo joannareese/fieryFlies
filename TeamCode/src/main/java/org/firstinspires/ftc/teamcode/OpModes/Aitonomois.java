@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Spotter;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
-
+//
 @Autonomous(name = "aito", group="trajPaths")
 public class Aitonomois extends LinearOpMode {
     Robot r;
