@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Hardware;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,7 +18,7 @@ import java.math.RoundingMode;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-//
+
 /**
  * A class for all movement methods (using PID and IMU) for Rover Ruc for autonomous as well as mechanisms methods for autonomous as well
  * (Basically an autonomous base)
@@ -25,6 +26,7 @@ import java.util.Arrays;
 public class Robot {
 
     private final HardwareMap hardware;
+    public final WheelIntake intake;
     public RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Location of the bot
@@ -34,8 +36,10 @@ public class Robot {
     //location of robot as [x,y,z,rot] (inches / degrees)
     public Location pos = new Location();
     public FoundationMover movey;
+    public Lifty lifty;
 
-    private ExpansionHubEx expansionHub;
+
+    public ExpansionHubEx expansionHub;
 
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
@@ -49,9 +53,10 @@ public class Robot {
 
     public Servo right;
     public Servo left;
+    public Servo grabby;
 
     //Arrays of different motors
-    protected ArrayList<DcMotorEx> driveMotors;
+    public ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
 
@@ -62,23 +67,31 @@ public class Robot {
     private ArrayList<DcMotorEx> encoders;
     private int[] encoderPosition = {0, 0, 0};
 
-    private Telemetry telemetry;
+    public Telemetry telemetry;
 
     private double relativeY;
     private double relativeX;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         rrBot = new RoadRunnerBot(hw);
-        movey = new FoundationMover(this);
+
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
+        Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
+        Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
+        Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
+        Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
+        Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
 
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
+
+        grabby = (Servo) hw.servo.get("grab");
+
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
 
@@ -87,6 +100,10 @@ public class Robot {
         rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
         encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
         robot = loc;
+        movey = new FoundationMover(this);
+        intake = new WheelIntake(this);
+        lifty = new Lifty(this);
+
     }
 
     public void followTrajectory(Trajectory trajectory){
@@ -131,6 +148,7 @@ public class Robot {
             relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
         }
         pos.translateLocal(relativeY, relativeX, 0);
+        telemetryMethod();
 
     }
 
@@ -153,7 +171,7 @@ public class Robot {
             throw new InvalidParameterException("BOI YOUR ARRAY NEEDS TO HAVE 4 VALUES");
         int i = 0;
         for (DcMotorEx motorEx : driveMotors) {
-            motorEx.setPower(i);
+            motorEx.setPower(powers[i]);
             i++;
         }
     }
@@ -193,6 +211,8 @@ public class Robot {
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
+
+        telemetry.addData("lifty", Motor7.getCurrentPosition());
         telemetry.update();
     }
 

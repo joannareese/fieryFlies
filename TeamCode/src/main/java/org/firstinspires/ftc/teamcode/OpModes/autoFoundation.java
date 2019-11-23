@@ -37,10 +37,10 @@ public class autoFoundation extends LinearOpMode {
         //press b to go 1 m
 
         r.followTrajectorySync(trajectory);
-        r.movey.dropItLikeItsHot();
+        r.movey.grabFoundation();
         sleep(1000);
         r.followTrajectorySync(trajectory2);
-        r.movey.grabFoundation();
+        r.movey.dropItLikeItsHot();
         sleep(1000);
         r.followTrajectorySync(trajectory3);
     }

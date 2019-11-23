@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class GamePadHandler {
@@ -21,20 +22,70 @@ public class GamePadHandler {
         //  | |\___/ \__, |___/\__|_|\___|_|\_\
         // _/ |       __/ |
         //|__/       |___/
-        driveX = game1.left_stick_x;
-        driveY = game1.left_stick_y;
-        driveRot = game1.right_stick_x;
-        // Thx for the Code ally :) ///
-        double P = Math.hypot(-driveX, -driveY);
-        double robotAngle = Math.atan2(-driveY, -driveX);
+
+        double P = Math.hypot(-game1.left_stick_x, -game1.left_stick_y);
+        double robotAngle = Math.atan2(-game1.left_stick_y, -game1.left_stick_x);
+        double rightX = game1.right_stick_x;
         double sinRAngle = Math.sin(robotAngle);
         double cosRAngle = Math.cos(robotAngle);
 
-        final double v1 = (P * sinRAngle) + (P * cosRAngle) - driveRot;
-        final double v2 = (P * sinRAngle) - (P * cosRAngle) + driveRot;
-        final double v3 = (P * sinRAngle) - (P * cosRAngle) - driveRot;
-        final double v4 = (P * sinRAngle) + (P * cosRAngle) + driveRot;
-        double[] powers = {v1,v2,v3,v4};
+        final double v1 = (P * sinRAngle) + (P * cosRAngle) + rightX;
+        final double v2 = (P * sinRAngle) - (P * cosRAngle) - rightX;
+        final double v3 = (P * sinRAngle) - (P * cosRAngle) + rightX;
+        final double v4 = (P * sinRAngle) + (P * cosRAngle) - rightX;
+
+        double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
+
+        //_________ _______ _________ _______  _______  _______  _______  _______
+        //\__   __/(  ____ )\__   __/(  ____ \(  ____ \(  ____ \(  ____ )(  ____ \
+        //   ) (   | (    )|   ) (   | (    \/| (    \/| (    \/| (    )|| (    \/
+        //   | |   | (____)|   | |   | |      | |      | (__    | (____)|| (_____
+        //   | |   |     __)   | |   | | ____ | | ____ |  __)   |     __)(_____  )
+        //   | |   | (\ (      | |   | | \_  )| | \_  )| (      | (\ (         ) |
+        //   | |   | ) \ \_____) (___| (___) || (___) || (____/\| ) \ \__/\____) |
+        //   )_(   |/   \__/\_______/(_______)(_______)(_______/|/   \__/\_______)
+
+        double intakepower = game2.right_trigger - game2.left_trigger;
+        bot.intake.intake(intakepower);
+
+
+        //Some cool comment shit
+
+        if (game2.a) {
+            bot.movey.dropItLikeItsHot();
+        }
+        if (game2.b) {
+            bot.movey.grabFoundation();
+        }
+
+        if (game2.x) {
+            bot.lifty.grabOpen();
+        } else if (game2.y) {
+            bot.lifty.grabClose();
+        }
+
+
+        //SOme cool comment shit (again)
+
+        if (game2.dpad_down) { //
+            bot.lifty.goDown();
+            bot.lifty.grabOpen();
+        } else if (game2.dpad_left) {
+            bot.lifty.goUpBit();
+        } else if (game2.dpad_up) {
+            bot.lifty.goUpAll();
+        } else if (game2.right_stick_button) {
+            bot.lifty.goupBalance();
+        } else {
+            if (Math.abs(game2.left_stick_y) > .5) {
+                bot.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                bot.Motor7.setPower(game1.left_stick_y);
+            }
+        }
+
+
     }
-}
+//
+
+    }
