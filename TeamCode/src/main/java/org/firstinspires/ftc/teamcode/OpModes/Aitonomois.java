@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 //
-@Autonomous(name = "aito", group="trajPaths")
+@Autonomous(name = "aito actual", group="trajPaths")
 public class Aitonomois extends LinearOpMode {
     Robot r;
     public static int skystoneSpot;
