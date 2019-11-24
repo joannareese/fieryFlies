@@ -40,10 +40,10 @@ public class GamePadHandler {
         double sinRAngle = Math.sin(robotAngle);
         double cosRAngle = Math.cos(robotAngle);
 
-        final double v1 = (P * sinRAngle) + (P * cosRAngle) + rightX;
-        final double v2 = (P * sinRAngle) - (P * cosRAngle) - rightX;
-        final double v3 = (P * sinRAngle) - (P * cosRAngle) + rightX;
-        final double v4 = (P * sinRAngle) + (P * cosRAngle) - rightX;
+        final double v1 = (P * sinRAngle) - (P * cosRAngle) + rightX;
+        final double v2 = (P * sinRAngle) + (P * cosRAngle) - rightX;
+        final double v3 = (P * sinRAngle) + (P * cosRAngle) + rightX;
+        final double v4 = (P * sinRAngle) - (P * cosRAngle) - rightX;
 
         double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
@@ -102,7 +102,7 @@ public class GamePadHandler {
 
         if (game2.dpad_down) { //
             bot.lifty.goDown();
-            bot.lifty.grabOpen();
+
         } else if (game2.dpad_left) {
             bot.lifty.goUpBit();
         } else if (game2.dpad_up) {
@@ -112,7 +112,9 @@ public class GamePadHandler {
         } else {
             if (Math.abs(game2.left_stick_y) > .5) {
                 bot.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                bot.Motor7.setPower(game2.left_stick_y);
+                bot.Motor7.setPower(game2.left_stick_y*.45);
+            } else{
+                bot.Motor7.setPower(0);
             }
         }
 

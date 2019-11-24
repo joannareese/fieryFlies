@@ -55,8 +55,8 @@ public class Robot {
     public Servo right;
     public Servo left;
     public Servo grabby;
-    public CRServo collectR;
-    public CRServo collectL;
+   // public CRServo collectR;
+   // public CRServo collectL;
 
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
@@ -94,13 +94,16 @@ public class Robot {
         right = (Servo) hw.servo.get("right");
         left = (Servo) hw.servo.get("left");
 
-        collectL = (CRServo) hw.crservo.get("collectR");
-        collectR = (CRServo) hw.crservo.get("collectL");
+     //   collectL = (CRServo) hw.crservo.get("collectR");
+     //   collectR = (CRServo) hw.crservo.get("collectL");
 
         grabby = (Servo) hw.servo.get("grab");
 
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
+        Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        Motor7.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
         leftMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2));

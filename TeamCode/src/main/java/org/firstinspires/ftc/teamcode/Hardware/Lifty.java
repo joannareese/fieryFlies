@@ -9,25 +9,32 @@ public class Lifty {
     }
 
     public void goUpBit() {
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setTargetPosition(RobotValues.liftyMid);
-        robo.Motor7.setPower(1);
+        robo.Motor7.setPower(.45);
     }
-//////
+
     public void goUpAll() {
-        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         robo.Motor7.setTargetPosition(RobotValues.liftyUp);
-        robo.Motor7.setPower(1);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
     }
     public void goupBalance() {
-        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         robo.Motor7.setTargetPosition(RobotValues.liftyMid);
-        robo.Motor7.setPower(1);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
     }
     public void goDown() {
-        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         robo.Motor7.setTargetPosition(RobotValues.liftyDown);
-        robo.Motor7.setPower(1);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
     }
 
     public void grabClose(){
