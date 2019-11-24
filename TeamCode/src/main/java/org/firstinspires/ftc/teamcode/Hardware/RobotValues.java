@@ -26,12 +26,12 @@ public class RobotValues {
     public static double servo2bottom = .1;
     public static double servo2top = .2;
 
-    public static double grabOpen= .1;
-    public static double grabClose = .5;
+    public static double grabOpen= .2;
+    public static double grabClose = .35;
 
     public static int liftyDown = 0;
-    public static int liftyUp = 200;
-    public static int liftyMid = 400;
+    public static int liftyUp = -1500;
+    public static int liftyMid = -1000;
 
 
 
