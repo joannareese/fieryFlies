@@ -13,8 +13,10 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import java.io.File;
 
-@Autonomous(name = "foundation",group="trajPaths")
-public class autoFoundation extends LinearOpMode {
+import static org.firstinspires.ftc.teamcode.Hardware.RobotValues.back;
+
+@Autonomous(name = "blue foundation",group="trajPaths")
+public class BlueFoundation extends LinearOpMode {
     Robot r;
 
     @Override
@@ -22,14 +24,9 @@ public class autoFoundation extends LinearOpMode {
         r = new Robot(telemetry,new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
                 .reverse()
-                .splineTo(new Pose2d(-35 * 25.4, -15 * 25.4, 0))
+                .splineTo(new Pose2d(RobotValues.x * 25.4, -RobotValues.y * 25.4, 0))
                 .build();
-        Trajectory trajectory2 = r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(20*25.4, 15*25.4,90))
-                .build();
-        Trajectory trajectory3 = r.rrBot.trajectoryBuilder()
-                .forward(30)
-                .build();
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -37,11 +34,13 @@ public class autoFoundation extends LinearOpMode {
         //press b to go 1 m
 
         r.followTrajectorySync(trajectory);
+
+
+
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(back*25.4).build());
+        sleep(1000);
         r.movey.grabFoundation();
-        sleep(1000);
-        r.followTrajectorySync(trajectory2);
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-5*25.4,5*25.4,Math.toRadians(90))).build());
         r.movey.dropItLikeItsHot();
-        sleep(1000);
-        r.followTrajectorySync(trajectory3);
     }
 }

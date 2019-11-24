@@ -13,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvWebcam;
 //
-@Autonomous(name = "aito actual", group="trajPaths")
+@Autonomous(name = "oneStone Auto", group="trajPaths")
 public class Aitonomois extends LinearOpMode {
     Robot r;
     public static int skystoneSpot;
@@ -35,12 +35,12 @@ public class Aitonomois extends LinearOpMode {
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
 
         Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder() //first movement
-                .splineTo(new Pose2d(23*25.4, Spotter.yPos1*25.4, 0)).build(); //RIGHT --> -18.0, center/Left -25
+                .splineTo(new Pose2d(23*25.4, Spotter.yPos1*25.4, 90)).build(); //RIGHT --> -18.0, center/Left -25
         Trajectory trajectoryP3ElectricBoogallo =r.rrBot.trajectoryBuilder()  //cross map
                 .splineTo(new Pose2d(22*25.4, 55*25.4, RobotValues.heading))
                 .build();
         Trajectory blockPos2 = r.rrBot.trajectoryBuilder()                     //block 2 pickup
-                .splineTo(new Pose2d(18*25.4, Spotter.yPos2*25.4, 0)) //RIGHT -4, LEFT -10, CENTER, -8
+                .splineTo(new Pose2d(18*25.4, Spotter.yPos2*25.4,90 )) //RIGHT -4, LEFT -10, CENTER, -8
                 .build();
         Trajectory blockDeposit2 =r.rrBot.trajectoryBuilder()    //crossmap 2
 //                .splineTo(new Pose2d(RobotValues.x1*25.4, RobotValues.y1*25.4, RobotValues.heading1))
@@ -56,10 +56,15 @@ public class Aitonomois extends LinearOpMode {
         webcam.closeCameraDevice();
 
         if (isStopRequested()) return;
-        r.followTrajectorySync(trajectoryPt2ElectricBoogallo); //first movement
-        r.followTrajectorySync(trajectoryP3ElectricBoogallo); //cross map
-        r.followTrajectorySync(blockPos2);                    //block 2 pickup
+        r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
+        r.intake.zuuuck();
         sleep(2000);
-        r.followTrajectorySync(blockDeposit2);                //crossmap2
+        r.intake.nozuck();
+        r.followTrajectorySync(trajectoryP3ElectricBoogallo);
+        r.intake.unzuck();
+        sleep(2000);//cross map
+      //  r.followTrajectorySync(blockPos2);                    //block 2 pickup
+     //   sleep(2000);
+       // r.followTrajectorySync(blockDeposit2);                //crossmap2
     }
 }

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 @Autonomous(name = "Tunning OpMode", group = "trajPaths")
@@ -17,19 +18,10 @@ public class AutoPrototype extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
         Trajectory trajectory = r.rrBot.trajectoryBuilder()
-                .forward(300)
-                .back(300)
-                .build();
-        Trajectory trajectory2 = r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(300, 300, Math.PI / 2))
                 .reverse()
-                .splineTo(new Pose2d(0, 0, 0))
+                .splineTo(new Pose2d(RobotValues.x * 25.4, RobotValues.y * 25.4, 0))
+                //.lineTo(new Vector2d(RobotValues.x-back*25.4,RobotValues.y*25.4))
                 .build();
-
-        Trajectory trajectory3 = r.rrBot.trajectoryBuilder()
-                .build();
-
-
         waitForStart();
 
 
@@ -39,9 +31,11 @@ public class AutoPrototype extends LinearOpMode {
 
 
         r.followTrajectorySync(trajectory);
-        wait(2000);
-        r.followTrajectorySync(trajectory2);
-        wait(2000);
-        r.turnSync(Math.toRadians(270));
+        sleep(2000);
+//        r.followTrajectorySync(trajectory2);
+//        sleep(2000);
+        sleep(2000);
+        r.turnSync(Math.toRadians(90));
+
     }
 }
