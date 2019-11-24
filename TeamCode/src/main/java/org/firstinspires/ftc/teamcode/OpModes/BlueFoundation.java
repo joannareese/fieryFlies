@@ -1,0 +1,46 @@
+package org.firstinspires.ftc.teamcode.OpModes;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.acmerobotics.roadrunner.trajectory.TrajectoryLoader;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
+import org.firstinspires.ftc.teamcode.Movement.Location;
+
+import java.io.File;
+
+import static org.firstinspires.ftc.teamcode.Hardware.RobotValues.back;
+
+@Autonomous(name = "blue foundation",group="trajPaths")
+public class BlueFoundation extends LinearOpMode {
+    Robot r;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+        r = new Robot(telemetry,new Location(), hardwareMap);
+        Trajectory trajectory = r.rrBot.trajectoryBuilder()
+                .reverse()
+                .splineTo(new Pose2d(RobotValues.x * 25.4, -RobotValues.y * 25.4, 0))
+                .build();
+
+        waitForStart();
+
+        if (isStopRequested()) return;
+
+        //press b to go 1 m
+
+        r.followTrajectorySync(trajectory);
+
+
+
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(back*25.4).build());
+        sleep(1000);
+        r.movey.grabFoundation();
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-5*25.4,5*25.4,Math.toRadians(90))).build());
+        r.movey.dropItLikeItsHot();
+    }
+}

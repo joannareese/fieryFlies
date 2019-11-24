@@ -1,55 +1,70 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryGenerator;
-import com.acmerobotics.roadrunner.trajectory.TrajectoryLoader;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.apache.commons.io.FileUtils;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
+import org.firstinspires.ftc.teamcode.Hardware.Spotter;
 import org.firstinspires.ftc.teamcode.Movement.Location;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-@Autonomous(name = "aito",group="trajPaths")
+import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.openftc.easyopencv.OpenCvWebcam;
+//
+@Autonomous(name = "oneStone Auto", group="trajPaths")
 public class Aitonomois extends LinearOpMode {
     Robot r;
-
+    public static int skystoneSpot;
+    //
     @Override
     public void runOpMode() throws InterruptedException {
-        r = new Robot(telemetry,new Location(), hardwareMap);
-        //  r.rrBot.setPoseEstimate();
-        Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(23*25.4,-18.0*25.4,0)).build();
-        Trajectory trajectoryP3ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(RobotValues.x*25.4,RobotValues.y*25.4,RobotValues.heading))
+        r = new Robot(telemetry, new Location(), hardwareMap);
+
+        OpenCvWebcam webcam;
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        webcam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        webcam.openCameraDevice();
+
+        webcam.setPipeline(new Spotter());
+
+        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
+        Trajectory trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder() //first movement
+                .splineTo(new Pose2d(23*25.4, Spotter.yPos1*25.4, 90)).build(); //RIGHT --> -18.0, center/Left -25
+        Trajectory trajectoryP3ElectricBoogallo =r.rrBot.trajectoryBuilder()  //cross map
+                .splineTo(new Pose2d(22*25.4, 55*25.4, RobotValues.heading))
                 .build();
+        Trajectory blockPos2 = r.rrBot.trajectoryBuilder()                     //block 2 pickup
+                .splineTo(new Pose2d(18*25.4, Spotter.yPos2*25.4,90 )) //RIGHT -4, LEFT -10, CENTER, -8
+                .build();
+        Trajectory blockDeposit2 =r.rrBot.trajectoryBuilder()    //crossmap 2
+//                .splineTo(new Pose2d(RobotValues.x1*25.4, RobotValues.y1*25.4, RobotValues.heading1))
+                .back(5*25.4)
+                .splineTo(new Pose2d(RobotValues.x*25.4, RobotValues.y*25.4, RobotValues.heading))
+                .build();
+
+        telemetry.addData("Skystone Spot: ", skystoneSpot);
+        telemetry.update();
+
         waitForStart();
+
+        webcam.closeCameraDevice();
 
         if (isStopRequested()) return;
         r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
-        trajectoryP3ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(RobotValues.x*25.4,RobotValues.y*25.4,RobotValues.heading))
-                .build();
+        r.intake.zuuuck();
+        sleep(2000);
+        r.intake.nozuck();
         r.followTrajectorySync(trajectoryP3ElectricBoogallo);
-        trajectoryPt2ElectricBoogallo =r.rrBot.trajectoryBuilder()
-                .splineTo(new Pose2d(23*25.4,-18.0*25.4,0)).build();
-        r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
-
-//
+        r.intake.unzuck();
+        sleep(2000);//cross map
+      //  r.followTrajectorySync(blockPos2);                    //block 2 pickup
+     //   sleep(2000);
+       // r.followTrajectorySync(blockDeposit2);                //crossmap2
     }
 }

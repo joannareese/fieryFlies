@@ -40,38 +40,38 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
 //        // TODO: adjust the names of the following hardware devices to match your configuration
 //        // for simplicity, we assume that the desired IMU and drive motors are on the same hub
 //        // if your motors are split between hubs, **you will need to add another bulk read**
-//     //   hub = hardwareMap.get(ExpansionHubEx.class, "hub");
-//
-//        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-//        imu.initialize(parameters);
-//
+       hub = hardwareMap.get(ExpansionHubEx.class, "hub");
+
+        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
+
 //        // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
 //        // upward (normal to the floor) using a command like the following:
-//        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
-//
-//        leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontLeft");
-//        leftRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
-//        rightRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
-//        rightFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
-//
-//
-//        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
-//
-//        for (ExpansionHubMotor motor : motors) {
-//            // if you keep it, then don't tune kStatic or kA
-//            // otherwise, comment out the following line
-//            //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        }
-//
-//        // reverse any motors using DcMotor.setDirection()
-//        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-//        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-//
-//
-//        setLocalizer(new localizer(hardwareMap,this));
+        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
+
+        leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontLeft");
+        leftRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
+        rightRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
+        rightFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
+
+
+        motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
+
+        for (ExpansionHubMotor motor : motors) {
+            // if you keep it, then don't tune kStatic or kA
+            // otherwise, comment out the following line
+            //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+
+        // reverse any motors using DcMotor.setDirection()
+        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        setLocalizer(new localizer(hardwareMap,this));
     }
 
     @Override
@@ -133,8 +133,8 @@ class localizer extends ThreeTrackingWheelLocalizer{
                  * TODO double check my math here
                  * I THINK I DID AN OOOF
                  */
-                (double)(50.8*Math.PI* -bulk.getMotorCurrentPosition(0)/RobotValues.odoTicksPerRevOddOnesOut),
-                encoderTicksToInches(-bulk.getMotorCurrentPosition(1)),
+                (double)(50.8*Math.PI* bulk.getMotorCurrentPosition(1)/RobotValues.odoTicksPerRevOddOnesOut),
+                encoderTicksToInches(bulk.getMotorCurrentPosition(0)),
                 encoderTicksToInches(-bulk.getMotorCurrentPosition(2))
         );
     }
