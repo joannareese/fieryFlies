@@ -23,7 +23,7 @@ public class WheelIntake {
      */
     public void intake(double power){
         for (DcMotorEx motorEx :motors) {
-            motorEx.setPower(power);
+            motorEx.setPower(power/RobotValues.powerDivider);
         }
     }
 

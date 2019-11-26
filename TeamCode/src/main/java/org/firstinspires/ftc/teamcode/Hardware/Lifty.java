@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class Lifty {
     Robot robo;
+    boolean lockout = false;
     public Lifty(Robot robot ){
         robo = robot;
     }
@@ -45,12 +46,22 @@ public class Lifty {
         robo.grabby.setPosition(RobotValues.grabOpen);
     }
 
-//    public void vexIn(){
-//        robo.collectR.setPower(-0.5);
-//        robo.collectL.setPower(-0.5);
-//    }
-//    public void vexOut(){
-//        robo.collectR.setPower(0.5);
-//        robo.collectL.setPower(0.5);
-//    }
+    //locks out encoders incase the encoder has failed
+    public void lockOut() {
+        if(lockout){
+            lockout = false;
+            robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+        if(!lockout){
+            lockout = true;
+            robo.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+    }
+    public void moveUpWithStick(double value){
+        if(!lockout){
+        robo.Motor7.setTargetPosition((int)(robo.Motor7.getCurrentPosition()+value*RobotValues.stickMultiplyier));}
+        else{
+            robo.Motor7.setPower(value);
+        }
+    }
 }

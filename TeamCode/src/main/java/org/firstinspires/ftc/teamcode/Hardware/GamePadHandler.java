@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class GamePadHandler {
@@ -13,6 +12,7 @@ public class GamePadHandler {
     public GamePadHandler() {
 
     }
+
     public void handleInput(Robot bot, Gamepad game1, Gamepad game2) {
   /*    _______________________________________________________________________
          _______  _______  _______  _______  _______  _______  ______     __
@@ -72,13 +72,23 @@ public class GamePadHandler {
         double intakepower = game2.right_trigger - game2.left_trigger;
         bot.intake.intake(intakepower);
 
+
+
         /*___________________________
         |         |  |
         |~~\|   |~|~~|~/~\|/~\ (~
         |__/ \_/| |  | \_/|   |_)
         ___________________________*/
 
+//        if (game2.left_bumper) {
+//            bot.lifty.vexIn();
+//        } else if (game2.right_bumper){
+//            bot.lifty.vexOut();
+//        }
 
+        if (game2.b) {
+            bot.movey.grabFoundation();
+        }
         if (game2.a) {
             bot.movey.dropItLikeItsHot();
         }
@@ -109,15 +119,16 @@ public class GamePadHandler {
             bot.lifty.goUpAll();
         } else if (game2.right_stick_button) {
             bot.lifty.goupBalance();
-        } else {
-            if (Math.abs(game2.left_stick_y) > .5) {
-                bot.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-                bot.Motor7.setPower(game2.left_stick_y*.45);
-            } else{
-                bot.Motor7.setPower(0);
-            }
-        }
 
+        } else if (Math.abs(game2.left_stick_y) > .5) {
+            bot.lifty.moveUpWithStick(game2.left_stick_y);
+
+        }
+        if (game2.left_stick_button) {
+            bot.lifty.lockOut();
+        }
     }
 
 }
+
+
