@@ -129,10 +129,6 @@ class localizer extends ThreeTrackingWheelLocalizer{
     public List<Double> getWheelPositions() {
         RevBulkData bulk = bot.hub.getBulkInputData();
         return Arrays.asList(
-                /**
-                 * TODO double check my math here
-                 * I THINK I DID AN OOOF
-                 */
                 encoderTicksToInches(bulk.getMotorCurrentPosition(1)),
                 encoderTicksToInches(bulk.getMotorCurrentPosition(0)),
                 encoderTicksToInches(bulk.getMotorCurrentPosition(2))

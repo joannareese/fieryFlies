@@ -8,6 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 26
+        multiDexEnabled true
     }
 
     compileSdkVersion 28
@@ -17,8 +18,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 }
-
-
 
 repositories {
     flatDir {

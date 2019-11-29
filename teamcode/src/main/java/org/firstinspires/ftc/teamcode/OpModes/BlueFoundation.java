@@ -44,7 +44,6 @@ public class BlueFoundation extends LinearOpMode {
 
 
 
-        r.rrBot.
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(22*25.4).build());
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(9*25.4).build());
         sleep(1000);
