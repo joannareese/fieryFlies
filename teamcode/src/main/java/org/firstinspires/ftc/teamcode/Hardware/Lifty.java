@@ -38,6 +38,10 @@ public class Lifty {
         robo.Motor7.setPower(.45);
     }
 
+    public void quit(){
+        robo.Motor7.setPower(0);
+    }
+
     public void grabClose(){
         robo.grabby.setPosition(RobotValues.grabClose);
     }
@@ -59,9 +63,10 @@ public class Lifty {
     }
     public void moveUpWithStick(double value){
         if(!lockout){
-        robo.Motor7.setTargetPosition((int)(robo.Motor7.getCurrentPosition()+value*RobotValues.stickMultiplyier));}
+            robo.Motor7.setTargetPosition((int)(robo.Motor7.getCurrentPosition()+value*RobotValues.stickMultiplyier));}
         else{
             robo.Motor7.setPower(value);
         }
     }
 }
+
