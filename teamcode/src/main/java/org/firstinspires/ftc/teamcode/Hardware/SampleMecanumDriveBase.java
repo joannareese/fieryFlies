@@ -31,7 +31,7 @@ import org.firstinspires.ftc.teamcode.Utils.DashboardUtil;
  */
 @Config
 public abstract class SampleMecanumDriveBase extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(.8, .2, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(1.3, .6, 0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(1, .5, 0);
 
 
@@ -65,7 +65,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
-        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(50,50,.055),2.0);
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(200,200,.55),1.0);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {

@@ -29,7 +29,7 @@ public class RobotValues {
     public static double grabClose = 1;
 
     public static int liftyDown = 0;
-    public static int liftyUp = -1600;
+    public static int liftyUp = -1550;
     public static int liftyMid =-1000;
 
     public static double backHeading = 90;

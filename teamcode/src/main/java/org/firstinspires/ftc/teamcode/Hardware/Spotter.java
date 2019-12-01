@@ -21,7 +21,7 @@ public class Spotter implements OpenCvPipeline {
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
     public static double yPos1 = -25.0;
-    public static double yPos2= -10.0;
+    public static double yPos2= -9.0;
 
     @Override
     public Mat processFrame(Mat source0) {
@@ -86,11 +86,11 @@ public class Spotter implements OpenCvPipeline {
         } else if (bestRect.x >= 40) {
             Aitonomois.skystoneSpot = 2;
             yPos1 = -25;
-            yPos2 = -8;
+            yPos2 = -4;
         } else {
             Aitonomois.skystoneSpot = 1;
             yPos1 = -25;
-            yPos2 = -10;
+            yPos2 = -4;
         }
 
         return source0;

@@ -76,8 +76,9 @@ public class Robot {
     private double relativeX;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
-        rrBot = new RoadRunnerBot(hw);
-
+        rrBot = new RoadRunnerBot(hw,telemetry);
+        telemetry.addData("donewith rrbot","");
+        telemetry.update();
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");

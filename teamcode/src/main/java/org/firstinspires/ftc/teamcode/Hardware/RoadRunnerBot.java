@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Utils.LynxModuleUtil;
 import org.firstinspires.ftc.teamcode.Utils.LynxOptimizedI2cFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -32,7 +33,7 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     private List<ExpansionHubMotor> motors;
     private BNO055IMU imu;
 
-    public RoadRunnerBot(HardwareMap hardwareMap) {
+    public RoadRunnerBot(HardwareMap hardwareMap, Telemetry tele) {
         super();
 
 //        LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
@@ -40,12 +41,14 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
 //        // TODO: adjust the names of the following hardware devices to match your configuration
 //        // for simplicity, we assume that the desired IMU and drive motors are on the same hub
 //        // if your motors are split between hubs, **you will need to add another bulk read**
+        tele.addData("out of supper","");
+        tele.update();
        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
 
-        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-        imu.initialize(parameters);
+//        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
+//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+//        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+//        imu.initialize(parameters);
 
 //        // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
 //        // upward (normal to the floor) using a command like the following:
