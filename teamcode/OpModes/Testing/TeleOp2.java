@@ -7,7 +7,7 @@ import org.firstinspires.ftc.teamcode.Hardware.GamePadHandler;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
-@TeleOp(name = "Zuck TeleOp")
+@TeleOp(name = "Zuck ZuckTeleOp")
 public class TeleOp2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

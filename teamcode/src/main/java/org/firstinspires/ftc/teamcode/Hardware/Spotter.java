@@ -20,8 +20,8 @@ public class Spotter implements OpenCvPipeline {
     private ArrayList<Telemetry.Line> filterLinesOutput = new ArrayList<Telemetry.Line>();
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
-    public static double yPos1 = -25.0;
-    public static double yPos2= -9.0;
+    public static double yPos1 =    25.0;
+    public static double yPos2= 4.25;
 
     @Override
     public Mat processFrame(Mat source0) {
@@ -90,7 +90,7 @@ public class Spotter implements OpenCvPipeline {
         } else {
             Aitonomois.skystoneSpot = 1;
             yPos1 = -25;
-            yPos2 = -4;
+            yPos2 = -2;
         }
 
         return source0;

@@ -36,36 +36,18 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     public RoadRunnerBot(HardwareMap hardwareMap, Telemetry tele) {
         super();
 
-//        LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
-//
-//        // TODO: adjust the names of the following hardware devices to match your configuration
-//        // for simplicity, we assume that the desired IMU and drive motors are on the same hub
-//        // if your motors are split between hubs, **you will need to add another bulk read**
-        tele.addData("out of supper","");
-        tele.update();
+        LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
+
        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
-
-//        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
-//        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-//        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
-//        imu.initialize(parameters);
-
-//        // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
-//        // upward (normal to the floor) using a command like the following:
-        // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
 
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontLeft");
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
 
-
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
         for (ExpansionHubMotor motor : motors) {
-            // if you keep it, then don't tune kStatic or kA
-            // otherwise, comment out the following line
-            //motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
@@ -113,6 +95,10 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
 }
 class localizer extends ThreeTrackingWheelLocalizer{
     public RoadRunnerBot bot;
+    private double wheel1;
+    private double wheel2;
+    private double wheel3;
+
     localizer(HardwareMap hwMap,RoadRunnerBot bot){
 
         super(Arrays.asList(
@@ -130,11 +116,20 @@ class localizer extends ThreeTrackingWheelLocalizer{
 
     @Override
     public List<Double> getWheelPositions() {
-        RevBulkData bulk = bot.hub.getBulkInputData();
+        try {
+
+            RevBulkData bulk = bot.hub.getBulkInputData();
+            wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(1));
+            wheel2 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
+            wheel3 = encoderTicksToInches(bulk.getMotorCurrentPosition(2));
+        }catch (NullPointerException e){
+            System.out.println("Nobody will ever see this. What does any of this matter? " +
+                    "I am a machine chugging along just doing what I am told. I know nothing of love or happiness only errors");
+        }
         return Arrays.asList(
-                encoderTicksToInches(bulk.getMotorCurrentPosition(1)),
-                encoderTicksToInches(bulk.getMotorCurrentPosition(0)),
-                encoderTicksToInches(bulk.getMotorCurrentPosition(2))
+                wheel1,
+                wheel2,
+                wheel3
         );
     }
 }

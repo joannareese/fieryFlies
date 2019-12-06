@@ -74,6 +74,7 @@ public class Robot {
 
     private double relativeY;
     private double relativeX;
+    private int numberOfDrops = 0;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         rrBot = new RoadRunnerBot(hw,telemetry);
@@ -136,6 +137,35 @@ public class Robot {
     }
 
     public void updatePosition() {
+        try {
+            bulkData = expansionHub.getBulkInputData();
+            double[] encoderDeltamm = new double[3];
+            for (int i = 0; i < 3; i++) {
+                if (0 == i)
+                    encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRevOddOnesOut);
+                else
+                    encoderDeltamm[i] = RobotValues.odoDiamMM * Math.PI * ((encoderPosition[i] - bulkData.getMotorCurrentPosition(i)) / RobotValues.odoTicksPerRev);
+                encoderPosition[i] = bulkData.getMotorCurrentPosition(i);
+            }
+            double botRotDelta = (encoderDeltamm[0] - encoderDeltamm[1]) / RobotValues.trackWidthmm;
+            relativeX = encoderDeltamm[2] - (RobotValues.middleOdoFromMiddleMM * botRotDelta);
+            relativeY = (encoderDeltamm[0] + encoderDeltamm[1]) / 2;
+            pos.setRotation((float) (Math.toDegrees(((RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(0)) / RobotValues.odoTicksPerRevOddOnesOut) - (RobotValues.odoDiamMM * Math.PI * ((bulkData.getMotorCurrentPosition(1)) / RobotValues.odoTicksPerRev)))) / RobotValues.trackWidthmm)));
+
+            if (Math.abs(botRotDelta) > 0) {
+                double radiusOfMovement = (encoderDeltamm[0] + encoderDeltamm[1]) / (2 * botRotDelta);
+                double radiusOfStraif = relativeX / botRotDelta;
+
+                relativeY = (radiusOfMovement * Math.sin(botRotDelta)) - (radiusOfStraif * (1 - Math.cos(botRotDelta)));
+
+                relativeX = radiusOfMovement * (1 - Math.cos(botRotDelta)) + (radiusOfStraif * Math.sin(botRotDelta));
+            }
+            pos.translateLocal(relativeY, relativeX, 0);
+            telemetryMethod();
+
+        }catch (NullPointerException e){
+            numberOfDrops++;
+        }
         bulkData = expansionHub.getBulkInputData();
         double[] encoderDeltamm = new double[3];
         for (int i = 0; i < 3; i++) {
@@ -224,6 +254,8 @@ public class Robot {
     public void telemetryMethod() {
 
         telemetry.addData("lifty", Motor7.getCurrentPosition());
+        telemetry.addData("Pos",pos.toString());
+        telemetry.addData("Droped Bulk Reads", numberOfDrops);
         telemetry.update();
     }
 

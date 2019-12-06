@@ -16,7 +16,8 @@ public class RobotValues {
     public static double trackWidthmm = 349.7;
     public static double middleOdoFromMiddleMM = 50;
     public static double heading = 0;
-    public static double y = -13;
+    public static double y = 4.25;
+    public static double yPos1 = 30;
     public static double x = -20;
     public static double back = 26;
 
@@ -35,4 +36,5 @@ public class RobotValues {
     public static double backHeading = 90;
     public static double powerDivider = 1;
     public static double stickMultiplyier =  2;
+    public static boolean areWeFar=false;
 }

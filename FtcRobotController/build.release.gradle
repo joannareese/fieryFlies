@@ -8,7 +8,7 @@ dependencies {
     implementation (name:'FtcCommon-release', ext: 'aar')
     implementation (name:'WirelessP2p-release', ext:'aar')
     implementation 'org.apache.directory.studio:org.apache.commons.io:2.4'
-    implementation 'com.acmerobotics.roadrunner:core:0.4.6'
+    implementation 'com.acmerobotics.roadrunner:core:0.4.7'
     implementation 'com.acmerobotics.dashboard:dashboard:0.3.6'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'org.openftc:rev-extensions-2:1.2'
