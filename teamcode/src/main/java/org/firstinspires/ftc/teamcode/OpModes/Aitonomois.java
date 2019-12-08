@@ -24,26 +24,37 @@ import org.openftc.easyopencv.OpenCvWebcam;
 public class Aitonomois extends LinearOpMode {
     Robot r;
     public static int skystoneSpot;
+    public Boolean arewered;
+    private int sideMult;
 
     //
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
+        while(arewered==null){
+            telemetry.addData("","what side are we a = red b = blue");
+            telemetry.update();
+            if(gamepad1.a){
+                arewered = true;
+                sideMult = 1;
+            }if(gamepad1.b){
+                arewered = false;
+                sideMult = -1;
+            }
 
-//        OpenCvWebcam webcam;
-//
-//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-//
-//        webcam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-//
-//        webcam.openCameraDevice();
-//
-//        webcam.setPipeline(new Spotter());
-//
-//        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        }
+        OpenCvWebcam webcam;
 
-        Trajectory trajectoryPt2ElectricBoogallo = r.rrBot.trajectoryBuilder().reverse() //first movement
-                .splineTo(new Pose2d(-23 * 25.4, RobotValues.y * 25.4, 0)).build(); //RIGHT --> -18.0, center/Left -25
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        webcam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        webcam.openCameraDevice();
+
+        webcam.setPipeline(new Spotter());
+
+        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
 
 
         telemetry.addData("Skystone Spot: ", Spotter.yPos2);
@@ -51,32 +62,35 @@ public class Aitonomois extends LinearOpMode {
 
         waitForStart();
 
-        //webcam.closeCameraDevice();
+        webcam.closeCameraDevice();
 
         if (isStopRequested()) return;
         //go to the First Stone
+        Trajectory trajectoryPt2ElectricBoogallo = r.rrBot.trajectoryBuilder().reverse() //first movement
+                .splineTo(new Pose2d(-23 * 25.4, Spotter.yPos2 * 25.4*sideMult, 0)).build(); //RIGHT --> -18.0, center/Left -25
+
         r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
         r.lifty.goUpAll();
         sleep(1000);
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo(new Vector2d(-15 * 25.4, -42 * 25.4),new LinearInterpolator(r.rrBot.getPoseEstimate().getHeading(),0)).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo(new Vector2d(-15 * 25.4, sideMult*-50 * 25.4),new LinearInterpolator(r.rrBot.getPoseEstimate().getHeading(),0)).build());
         r.lifty.goUpBit();
         sleep(1000);
-        if (RobotValues.areWeFar) {
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(10 * 25.4).reverse().splineTo(new Pose2d(-500, 650, 5.8),new SplineInterpolator(2*Math.PI,5.8)).build());
-            r.lifty.goUpAll();
-            sleep(1000);
-            r.rrBot.turnSync(Math.PI * 2 - 5.8);
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(72).build());
-        } else {
-            //second stone
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo((new Vector2d(-23 * 25.4, RobotValues.yPos1 * 25.4))).build());
-            r.lifty.goUpAll();
-            sleep(1000);
-            r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-18 * 25.4, -70 * 25.4,0)).build());//cross map
+//        if (RobotValues.areWeFar) {
+//            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(10 * 25.4).reverse().splineTo(new Pose2d(-500, 650, 5.8),new SplineInterpolator(2*Math.PI,5.8)).build());
+//            r.lifty.goUpAll();
+//            sleep(1000);
+//            r.rrBot.turnSync(Math.PI * 2 - 5.8);
+//            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(72).build());
+       /// } else {
+//            //second stone
+//            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo((new Vector2d(-23 * 25.4, RobotValues.yPos1 * 25.4))).build());
+//            r.lifty.goUpAll();
+//            sleep(1000);
+//            r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-18 * 25.4, -70 * 25.4,0)).build());//cross map
             r.lifty.goDown();
             sleep(1000);
-            r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeTo(new Vector2d(-18 * 25.4, -42 * 25.4)).build());//cross map
+            r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeTo(new Vector2d(-23 * 25.4, sideMult*-38 * 25.4)).build());//cross map
 
         }
     }
-}
+//}

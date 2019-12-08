@@ -120,7 +120,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
 
             RevBulkData bulk = bot.hub.getBulkInputData();
             wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(1));
-            wheel2 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
+            wheel2 = 50.8 * Math.PI * bulk.getMotorCurrentPosition(0) / RobotValues.odoTicksPerRevOddOnesOut;
             wheel3 = encoderTicksToInches(bulk.getMotorCurrentPosition(2));
         }catch (NullPointerException e){
             System.out.println("Nobody will ever see this. What does any of this matter? " +

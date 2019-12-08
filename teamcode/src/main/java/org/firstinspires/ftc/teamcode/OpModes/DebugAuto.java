@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.acmerobotics.roadrunner.path.heading.LinearInterpolator;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -38,17 +39,17 @@ public class DebugAuto extends LinearOpMode {
         r.followTrajectorySync(trajectoryPt2ElectricBoogallo);
         r.lifty.goUpAll();
         sleep(1000);
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo(new Vector2d(-15 * 25.4, -42 * 25.4), new LinearInterpolator(r.rrBot.getPoseEstimate().getHeading(), 0)).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo(new Vector2d(-15 * 25.4, -50 * 25.4), new LinearInterpolator(r.rrBot.getPoseEstimate().getHeading(), 0)).build());
         r.lifty.goUpBit();
         sleep(1000);
         //second stone
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().lineTo((new Vector2d(-23 * 25.4, RobotValues.yPos1 * 25.4))).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().lineTo((new Vector2d(-23 * 25.4, RobotValues.yPos1 * 25.4)),new ConstantInterpolator(0)).build());
         r.lifty.goUpAll();
         sleep(1000);
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-18 * 25.4, -70 * 25.4, 0)).build());//cross map
-        r.lifty.goDown();
-        sleep(1000);
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeTo(new Vector2d(-18 * 25.4, -42 * 25.4)).build());//cross map
+//        r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(-18 * 25.4, -70 * 25.4, 0)).build());//cross map
+//        r.lifty.goDown();
+//        sleep(1000);
+//        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeTo(new Vector2d(-18 * 25.4, -42 * 25.4)).build());//cross map
 
     }
 }

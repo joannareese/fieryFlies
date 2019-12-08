@@ -71,7 +71,8 @@ public class GamePadHandler {
 
         double intakepower = game2.right_trigger - game2.left_trigger;
         bot.intake.intake(intakepower);
-
+        if(game2.right_bumper)
+        bot.intake.turbo();
 
 
         /*___________________________

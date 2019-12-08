@@ -44,7 +44,7 @@ public class Lifty {
 
     public void grabClose(){
         robo.grabby.setPosition(RobotValues.grabClose);
-    }
+        robo.intake.intake(-0.1);}
 
     public void grabOpen(){
         robo.grabby.setPosition(RobotValues.grabOpen);

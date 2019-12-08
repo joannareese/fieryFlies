@@ -26,6 +26,11 @@ public class WheelIntake {
             motorEx.setPower(power/RobotValues.powerDivider);
         }
     }
+    public void turbo(){
+        motors.get(0).setPower(1);
+        motors.get(0).setPower(-1);
+
+    }
 
     /**
      * zuuuuck sucks in some tasty cubes
