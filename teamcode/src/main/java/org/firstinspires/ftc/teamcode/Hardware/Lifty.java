@@ -37,6 +37,16 @@ public class Lifty {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
+    public void goPlace() {
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robo.Motor7.setTargetPosition(RobotValues.liftyPlace);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
+    } public void wild() {
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+    }
 
     public void quit(){
         robo.Motor7.setPower(0);
@@ -44,7 +54,7 @@ public class Lifty {
 
     public void grabClose(){
         robo.grabby.setPosition(RobotValues.grabClose);
-        robo.intake.intake(-0.1);}
+    robo.intake.intake(-0.1);}
 
     public void grabOpen(){
         robo.grabby.setPosition(RobotValues.grabOpen);
