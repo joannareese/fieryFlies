@@ -40,10 +40,10 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
 
        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
 
-        leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontLeft");
-        leftRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
-        rightRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
-        rightFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
+        rightFront = hardwareMap.get(ExpansionHubMotor.class, "frontLeft");
+        rightRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
+        leftRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
+        leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -52,8 +52,8 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         }
 
         // reverse any motors using DcMotor.setDirection()
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         setLocalizer(new localizer(hardwareMap,this));
@@ -119,8 +119,8 @@ class localizer extends ThreeTrackingWheelLocalizer{
         try {
 
             RevBulkData bulk = bot.hub.getBulkInputData();
-            wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(1));
-            wheel2 = 50.8 * Math.PI * bulk.getMotorCurrentPosition(0) / RobotValues.odoTicksPerRevOddOnesOut;
+            wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
+            wheel2= 50.8 * Math.PI * bulk.getMotorCurrentPosition(1) / RobotValues.odoTicksPerRevOddOnesOut;
             wheel3 = encoderTicksToInches(bulk.getMotorCurrentPosition(2));
         }catch (NullPointerException e){
             System.out.println("Nobody will ever see this. What does any of this matter? " +

@@ -119,11 +119,12 @@ public class GamePadHandler {
         } else if (game2.dpad_up) {
             bot.lifty.goUpAll();
         } else if (game2.dpad_right) {
-            bot.lifty.goPlace();
+            bot.lifty.holdPosition();
 
-        } else if (Math.abs(game2.left_stick_y) > .5) {
-            bot.lifty.wild();
-            bot.lifty.moveUpWithStick(game2.left_stick_y);
+        }
+else if (Math.abs(game2.left_stick_y) > .5) {
+           // bot.lifty.wild();
+            bot.lifty.moveUpWithStick(game2.left_stick_y*0.25);
 
         }
         if (game2.left_stick_button) {

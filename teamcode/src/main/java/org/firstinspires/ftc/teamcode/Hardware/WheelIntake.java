@@ -27,8 +27,8 @@ public class WheelIntake {
         }
     }
     public void turbo(){
-        motors.get(0).setPower(1);
         motors.get(0).setPower(-1);
+        motors.get(1).setPower(-1);
 
     }
 

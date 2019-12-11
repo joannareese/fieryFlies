@@ -34,7 +34,7 @@ public class parkOnly extends LinearOpMode {
         Motor2.setPower(.3);
         Motor3.setPower(.3);
         Motor4.setPower(.3);
-        sleep(3000);
+        sleep(1000);
 
         Motor1.setPower(0);
         Motor2.setPower(0);

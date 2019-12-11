@@ -31,8 +31,8 @@ import org.firstinspires.ftc.teamcode.Utils.DashboardUtil;
  */
 @Config
 public abstract class SampleMecanumDriveBase extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(1.8, .8, 0);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(1.2, .7, 0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(1.8, 0,0);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(1.8, .9, 0);
 
 
     public enum Mode {
@@ -140,6 +140,9 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
                 double t = clock.seconds() - turnStart;
 
                 MotionState targetState = turnProfile.get(t);
+
+                turnController.setTargetPosition(targetState.getX());
+
                 double targetOmega = targetState.getV();
                 double targetAlpha = targetState.getA();
                 double correction = turnController.update(currentPose.getHeading(), targetOmega);

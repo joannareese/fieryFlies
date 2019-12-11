@@ -254,6 +254,7 @@ public class Robot {
     public void telemetryMethod() {
 
         telemetry.addData("lifty", Motor7.getCurrentPosition());
+        telemetry.addData("should be at ",Motor7.getTargetPosition());
         telemetry.addData("Pos",pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
         telemetry.update();

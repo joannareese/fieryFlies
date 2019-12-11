@@ -23,6 +23,13 @@ public class Lifty {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
+    public void intoGround() {
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robo.Motor7.setTargetPosition(RobotValues.groud);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
+    }
     public void goupBalance() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -43,7 +50,14 @@ public class Lifty {
         robo.Motor7.setTargetPosition(RobotValues.liftyPlace);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
-    } public void wild() {
+    }
+    public void holdPosition() {
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robo.Motor7.setTargetPosition(RobotValues.liftyhold);
+        robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robo.Motor7.setPower(.45);
+    }public void wild() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
@@ -73,7 +87,8 @@ public class Lifty {
     }
     public void moveUpWithStick(double value){
         if(!lockout){
-            robo.Motor7.setTargetPosition((int)(robo.Motor7.getCurrentPosition()+value*RobotValues.stickMultiplyier));}
+            robo.Motor7.setPower(.45);
+            robo.Motor7.setTargetPosition((int)(robo.Motor7.getTargetPosition()+(value*100)));}
         else{
             robo.Motor7.setPower(value);
         }
