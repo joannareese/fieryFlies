@@ -104,7 +104,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
         super(Arrays.asList(
                 new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
                 new Pose2d(0, RobotValues.trackWidthmm/2.0, 0), // right
-                new Pose2d(-RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(RobotValues.backHeading)) // back
+                new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(RobotValues.backHeading)) // back
         ));
         this.bot = bot;
         bot.hub = hwMap.get(ExpansionHubEx.class, "hub");
@@ -121,7 +121,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
             RevBulkData bulk = bot.hub.getBulkInputData();
             wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
             wheel2= 50.8 * Math.PI * bulk.getMotorCurrentPosition(1) / RobotValues.odoTicksPerRevOddOnesOut;
-            wheel3 = encoderTicksToInches(bulk.getMotorCurrentPosition(2));
+            wheel3 = RobotValues.wheel3switch*encoderTicksToInches(bulk.getMotorCurrentPosition(2));
         }catch (NullPointerException e){
             System.out.println("Nobody will ever see this. What does any of this matter? " +
                     "I am a machine chugging along just doing what I am told. I know nothing of love or happiness only errors");

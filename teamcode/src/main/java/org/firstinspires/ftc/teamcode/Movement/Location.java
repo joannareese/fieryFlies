@@ -154,7 +154,7 @@ public class Location {
      * @return String
      */
     public String toString() {
-        return "[" + pos[0] + "," + pos[1] + "," + pos[2] + "," + pos[3] + "]";
+        return "[" + Math.round(pos[0]*1000)/1000f + ","+ Math.round(1000*pos[2] )/1000f+ "," + Math.round(1000*pos[3])/1000 + "]";
     }
 
 }

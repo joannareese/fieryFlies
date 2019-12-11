@@ -43,6 +43,9 @@ public class TestingRROdo extends LinearOpMode {
             telemetry.addData("x", currentPose.getY());
             telemetry.addData("x", currentPose.getHeading());
             telemetry.update();
+            if (gamepad1.a){
+                r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
+            }
 
         }
 

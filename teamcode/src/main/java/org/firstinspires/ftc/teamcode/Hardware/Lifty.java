@@ -12,14 +12,14 @@ public class Lifty {
     public void goUpBit() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robo.Motor7.setTargetPosition(RobotValues.liftyMid);
+        robo.Motor7.setTargetPosition((int) RobotValues.liftyMid);
         robo.Motor7.setPower(.45);
     }
 
     public void goUpAll() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robo.Motor7.setTargetPosition(RobotValues.liftyUp);
+        robo.Motor7.setTargetPosition((int) RobotValues.liftyUp);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
@@ -33,21 +33,21 @@ public class Lifty {
     public void goupBalance() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robo.Motor7.setTargetPosition(RobotValues.liftyMid);
+        robo.Motor7.setTargetPosition((int) RobotValues.liftyMid);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
     public void goDown() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robo.Motor7.setTargetPosition(RobotValues.liftyDown);
+        robo.Motor7.setTargetPosition((int) RobotValues.liftyDown);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
     public void goPlace() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robo.Motor7.setTargetPosition(RobotValues.liftyPlace);
+        robo.Motor7.setTargetPosition((int) RobotValues.liftyPlace);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
     }
@@ -67,6 +67,7 @@ public class Lifty {
     }
 
     public void grabClose(){
+
         robo.grabby.setPosition(RobotValues.grabClose);
     robo.intake.intake(-0.1);}
 
@@ -92,6 +93,13 @@ public class Lifty {
         else{
             robo.Motor7.setPower(value);
         }
+    }
+
+    public void trim(float left_stick_y) {
+        RobotValues.liftyDown+=left_stick_y;
+        RobotValues.liftyhold+=left_stick_y;
+        RobotValues.liftyMid+=left_stick_y;
+        RobotValues.liftyUp+=left_stick_y;
     }
 }
 
