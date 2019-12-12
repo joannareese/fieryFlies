@@ -43,7 +43,7 @@ public class TestingOpMode extends OpMode {
         dashboardTelemetry.addData(" rr odo ", robot.rrBot.getLocalizer().getPoseEstimate().toString());
         dashboardTelemetry.addData(" absolute encder pos", round((double)(robot.bulkData.getMotorCurrentPosition(0)/RobotValues.odoTicksPerRevOddOnesOut))+" "+round((double)(robot.bulkData.getMotorCurrentPosition(1)/720f))+" "+round((double) (robot.bulkData.getMotorCurrentPosition(2)/720f)));
         dashboardTelemetry.update();
-        if(gamepad1.a || RobotValues.WTFAREWEEVENDOING==2){
+        if(gamepad1.a ){
             robot.driveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             robot.pos = new Location();
             robot.driveMode(DcMotor.RunMode.RUN_USING_ENCODER);

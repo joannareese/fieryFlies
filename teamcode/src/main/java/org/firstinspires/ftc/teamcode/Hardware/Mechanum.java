@@ -30,7 +30,7 @@ public class Mechanum extends Robot {
 
         for (DcMotorEx motorEx : driveMotors) {
             motorEx.setPower(0);
-            motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (distance / (4 * Math.PI) * RobotValues.twentyTicksPerRev));
+            motorEx.setTargetPosition(motorEx.getTargetPosition() + (int) (distance / (4 * Math.PI) * 537.6));
         }
         for (DcMotorEx motorEx : driveMotors) {
             motorEx.setPower(.5);

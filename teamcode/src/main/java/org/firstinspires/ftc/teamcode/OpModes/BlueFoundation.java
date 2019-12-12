@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import java.io.File;
 
-import static org.firstinspires.ftc.teamcode.Hardware.RobotValues.back;
 
 @Autonomous(name = "blue foundation",group="trajPaths")
 public class
