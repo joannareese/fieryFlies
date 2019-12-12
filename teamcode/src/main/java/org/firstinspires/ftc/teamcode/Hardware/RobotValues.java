@@ -41,6 +41,6 @@ public class RobotValues {
     public static double powerDivider = 2;
     public static double stickMultiplyier =  2;
     public static boolean areWeFar=false;
-    public static int groud=-1450;
+    public static int groud=-1500;
     public static double wheel3switch = 1;
 }

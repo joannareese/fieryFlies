@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.robotcore.external.stream.CameraStreamServer;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Hardware.Spotter;
@@ -29,7 +30,8 @@ public class DebugAuto extends LinearOpMode {
 
         telemetry.addData("Skystone Spot: ", Spotter.yPos2);
         telemetry.update();
-
+//        CameraStreamServer cam = CameraStreamServer.getInstance();
+//        cam.setSource(spot.source0);
         waitForStart();
 
         //webcam.closeCameraDevice();
@@ -38,20 +40,19 @@ public class DebugAuto extends LinearOpMode {
 
 
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
-        r.lifty.grabOpen();
+
         r.intake.turbo();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
+        r.lifty.grabOpen();
         r.lifty.intoGround();
         sleep(1000);
+        if(RobotValues.yPos1!=8)
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
         r.turnSync(Math.toRadians(-85));
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
-
-        sleep(3000);
-        //r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20*25.4,-72*25.4,Math.toRadians(90)),new ConstantInterpolator(Math.toRadians(90))).build());
-        r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(65*25.4).build());
+        if(RobotValues.yPos1!=8)
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(6*25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
         r.lifty.grabClose();
         r.lifty.goDown();
         sleep(1000);
