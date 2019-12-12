@@ -13,7 +13,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Spotter implements OpenCvPipeline {
+public class Spotter extends OpenCvPipeline {
     private Mat hslThresholdOutput = new Mat();
     private Mat hslThresholdOutputSS = new Mat();
     private ArrayList<MatOfPoint> findContoursOutput = new ArrayList<MatOfPoint>();

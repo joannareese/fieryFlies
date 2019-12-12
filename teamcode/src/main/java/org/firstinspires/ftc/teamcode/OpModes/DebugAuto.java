@@ -24,23 +24,12 @@ public class DebugAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-        Trajectory trajectoryPt2ElectricBoogallo = r.rrBot.trajectoryBuilder().reverse() //first movement
-                .splineTo(new Pose2d(-23 * 25.4, RobotValues.y * 25.4, 0)).build(); //RIGHT --> -18.0, center/Left -25
-
-
         telemetry.addData("Skystone Spot: ", Spotter.yPos2);
         telemetry.update();
-//        CameraStreamServer cam = CameraStreamServer.getInstance();
-//        cam.setSource(spot.source0);
         waitForStart();
-
         //webcam.closeCameraDevice();
-
         if (isStopRequested()) return;
-
-
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
-
         r.intake.turbo();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
