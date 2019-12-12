@@ -36,13 +36,25 @@ public class DebugAuto extends LinearOpMode {
 
         if (isStopRequested()) return;
 
+
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
+        r.lifty.grabOpen();
         r.intake.turbo();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
         r.lifty.intoGround();
         sleep(1000);
-        r.turnSync(Math.toRadians(-90));
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20*25.4,-72*25.4,Math.toRadians(90)),new ConstantInterpolator(Math.toRadians(90))).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
+        r.turnSync(Math.toRadians(-85));
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
+
+        sleep(3000);
+        //r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20*25.4,-72*25.4,Math.toRadians(90)),new ConstantInterpolator(Math.toRadians(90))).build());
+        r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(65*25.4).build());
+        r.lifty.grabClose();
+        r.lifty.goDown();
+        sleep(1000);
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(15*25.4).build());
     }
 }

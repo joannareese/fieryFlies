@@ -44,12 +44,23 @@ public class Aitonomois extends LinearOpMode {
 
         }
 //
+                OpenCvWebcam webcam;
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        webcam = new OpenCvWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        webcam.openCameraDevice();
+
+        webcam.setPipeline(new Spotter());
+
+        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
       telemetry.addData("Skystone Spot: ", Spotter.yPos2);
         telemetry.update();
 
         waitForStart();
 
-        //webcam.closeCameraDevice();
+        webcam.closeCameraDevice();
 
         if (isStopRequested()) return;
         //go to the First Stone

@@ -17,7 +17,7 @@ public class RobotValues {
     public static double middleOdoFromMiddleMM = 14.02;
     public static double heading = 0;
     public static double y = 4.25;
-    public static double yPos1 = -3.5;
+    public static double yPos1 = -5.5;
     public static double x = -20;
     public static double back = 26;
     public static int liftyhold = -210;
@@ -27,7 +27,7 @@ public class RobotValues {
     public static double servo2bottom = 0;
     public static double servo2top = .26;
 
-    public static double grabOpen = .4;
+    public static double grabOpen =0;
     public static double grabClose = .453;
 
 
@@ -42,5 +42,5 @@ public class RobotValues {
     public static double stickMultiplyier =  2;
     public static boolean areWeFar=false;
     public static int groud=-1450;
-    public static double wheel3switch = -1;
+    public static double wheel3switch = 1;
 }

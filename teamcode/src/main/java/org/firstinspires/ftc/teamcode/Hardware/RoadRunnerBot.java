@@ -44,6 +44,8 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "backLeft");
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "backRight");
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "frontRight");
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -52,8 +54,8 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         }
 
         // reverse any motors using DcMotor.setDirection()
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         setLocalizer(new localizer(hardwareMap,this));

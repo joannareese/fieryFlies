@@ -83,11 +83,13 @@ public class Robot {
         hardware = hw;
         this.telemetry = telemetry;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
-        Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
-        Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
+        Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
+
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
+        Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
         Motor7 = (DcMotorEx) hw.dcMotor.get("chain");

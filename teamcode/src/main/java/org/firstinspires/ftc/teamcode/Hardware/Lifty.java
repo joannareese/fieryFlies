@@ -25,7 +25,7 @@ public class Lifty {
     }
     public void intoGround() {
         robo.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        this.grabClose();
         robo.Motor7.setTargetPosition(RobotValues.groud);
         robo.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robo.Motor7.setPower(.45);
