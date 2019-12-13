@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
+import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 
@@ -31,7 +32,7 @@ RedFoundationWall extends LinearOpMode {
         r.movey.dropItLikeItsHot();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(21 * 25.4).build());
         //r.turnSync(Math.toRadians(-90)-r.rrBot.getPoseEstimate().getHeading());
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(35 * 25.4).strafeRight(2*25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(RobotValues.foundationStrafe * 25.4).strafeRight(2*25.4).build());
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(45 * 25.4).build());
 
     }

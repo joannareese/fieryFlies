@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
-@Autonomous(name="solo auto and place")
+@Autonomous(name="solo auto")
 
 public class EpicStoneFoundationAuto extends LinearOpMode {
     private Robot r;

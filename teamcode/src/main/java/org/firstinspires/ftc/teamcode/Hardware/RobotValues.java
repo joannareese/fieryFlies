@@ -41,4 +41,5 @@ public class RobotValues {
 
     public static double fullGrab = .8;
     public static int autoHold=1300;
+    public static double foundationStrafe = 20;
 }
