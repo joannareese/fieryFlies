@@ -12,8 +12,8 @@ public class RobotValues {
     public static double odoTicksPerRevOddOnesOut = 800;
     public static double trackWidthmm = 349.7;
     public static double middleOdoFromMiddleMM = 14.02;
-    public static double yPos1 = -9;
-    public static int liftyhold = -210;
+    public static double yPos1 = -8;
+    public static double liftyhold = -210;
 
     public static double servo1bottom = .9;
     public static double servo1top = .75;
@@ -33,7 +33,12 @@ public class RobotValues {
     public static double backHeading = 270;
     public static double powerDivider = 2;
 
-    public static int groud=-1450;
+    public static double groud=-1400;
     public static double wheel3switch = 1;
-    public static double heading  = -10;
+    public static double heading  = 0;
+    public static double x = -350;
+    public static double ycrax = 100;
+
+    public static double fullGrab = .8;
+    public static int autoHold=1300;
 }

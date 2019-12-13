@@ -8,17 +8,18 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
-@Autonomous(name="solo auto and place")
-
-public class EpicStoneFoundationAuto extends LinearOpMode {
+@Autonomous(name="solo auto")
+public class EpicStoneFoundationAutoPLUSPLACE extends LinearOpMode {
     private Robot r;
+
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-
+        r.rrBot.setPoseEstimate(new Pose2d(0, 0, Math.toRadians(-90)));
         waitForStart();
         //webcam.closeCameraDevice();
         if (isStopRequested()) return;
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().splineTo(new Pose2d(20, RobotValues.yPos1, Math.toRadians(RobotValues.heading))).build());
 
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
         r.intake.turbo();
@@ -27,25 +28,18 @@ public class EpicStoneFoundationAuto extends LinearOpMode {
         r.lifty.grabOpen();
         r.lifty.intoGround();
         sleep(1000);
-        r.lifty.grabFull();
-       // r.lifty.autoHold();
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
-        r.turnSync(Math.toRadians(-90));
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10*25.4).build());
+        if(RobotValues.yPos1!=8)
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
+        r.turnSync(Math.toRadians(-85));
+        if(RobotValues.yPos1!=8)
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(6*25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
-        //foundation time
-        r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
-        r.lifty.grabOpen();
-        sleep(300);
+        r.lifty.grabClose();
         r.lifty.goDown();
-        r.movey.dropItLikeItsHot();
-
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(RobotValues.x, RobotValues.ycrax,Math.toRadians(90))).build());
-        r.lifty.goDown();
-        sleep(300);
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(12*25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(RobotValues.x, RobotValues.ycrax,0),new LinearInterpolator(r.rrBot.getPoseEstimate().getHeading(),0)).build());
         r.movey.grabFoundation();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
+
         r.turnSync(Math.toRadians(-98));
         r.movey.dropItLikeItsHot();
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(21 * 25.4).build());

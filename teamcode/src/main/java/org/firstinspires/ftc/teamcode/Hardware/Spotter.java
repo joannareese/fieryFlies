@@ -85,7 +85,7 @@ public class Spotter extends OpenCvPipeline {
             yPos2 = -2;
         } else if (bestRect.x <= 180) {
             Aitonomois.skystoneSpot = 2;
-            RobotValues.yPos1 = 2;
+            RobotValues.yPos1 = 3;
             yPos2 = -4;
         } else {
             Aitonomois.skystoneSpot = 3;
