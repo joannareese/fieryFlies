@@ -29,9 +29,10 @@ RedFoundation extends LinearOpMode {
 
         r.turnSync(Math.toRadians(-98));
         r.movey.dropItLikeItsHot();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(9 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(21 * 25.4).build());
         //r.turnSync(Math.toRadians(-90)-r.rrBot.getPoseEstimate().getHeading());
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(36 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(45 * 25.4).build());
 
     }
 }

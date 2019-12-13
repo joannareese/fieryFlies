@@ -20,7 +20,7 @@ public class Spotter extends OpenCvPipeline {
     private ArrayList<Telemetry.Line> filterLinesOutput = new ArrayList<Telemetry.Line>();
     private ArrayList<MatOfPoint> filterContoursOutput = new ArrayList<MatOfPoint>();
 
-    public static double yPos1 =    25.0;
+    public  double best = 0;
     public static double yPos2= 4.25;
 
     @Override
@@ -78,18 +78,18 @@ public class Spotter extends OpenCvPipeline {
         }
 
         Imgproc.drawMarker(source0, bestRect.br(), new Scalar(255, 255, 255));
-
-        if(bestRect.x > 130) {
-            Aitonomois.skystoneSpot = 3;
-            RobotValues.yPos1 = 9;
-            yPos2 = -4;
-        } else if (bestRect.x >= 40) {
+        best = bestRect.x;
+        if(bestRect.x <= 90) {
+            Aitonomois.skystoneSpot = 1;
+            RobotValues.yPos1 = -7;
+            yPos2 = -2;
+        } else if (bestRect.x <= 180) {
             Aitonomois.skystoneSpot = 2;
             RobotValues.yPos1 = 2;
             yPos2 = -4;
         } else {
-            Aitonomois.skystoneSpot = 1;
-            RobotValues.yPos1 = -7;
+            Aitonomois.skystoneSpot = 3;
+            RobotValues.yPos1 = 10;
             yPos2 = -2;
         }
 

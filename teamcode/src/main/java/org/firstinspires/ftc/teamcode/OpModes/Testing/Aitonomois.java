@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,9 +12,8 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
-@Autonomous(name = "oneStone Auto", group = "trajPaths")
+@Autonomous(name = "Foundation and Thing", group = "trajPaths")
 public class Aitonomois extends LinearOpMode {
     public static int skystoneSpot;
     private Robot r;
@@ -74,12 +73,6 @@ public class Aitonomois extends LinearOpMode {
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((70 - ( RobotValues.yPos1*sideMult)) * 25.4).build());
         r.lifty.grabClose();
         r.lifty.goDown();
-
-        sleep(1000);
-        if (skystoneSpot==3)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(4 * 25.4).build());
-
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
     }
 }
 
