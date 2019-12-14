@@ -50,8 +50,6 @@ public class Aitonomois extends LinearOpMode {
         }
         waitForStart();
         webcam.closeCameraDevice();
-        waitForStart();
-        webcam.closeCameraDevice();
         if (isStopRequested()) return;
         //back and deploy
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
@@ -75,7 +73,7 @@ public class Aitonomois extends LinearOpMode {
 
         r.lifty.grabOpen();
         sleep(500);
-        r.lifty.goDown();
+        r.lifty.liftKinda();
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((55 - ( RobotValues.yPos1*sideMult)) * 25.4).build());
 
 

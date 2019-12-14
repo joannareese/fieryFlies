@@ -38,6 +38,13 @@ public class Lifty {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setPower(.45);
     }
+    public void liftKinda() {
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftykinda);
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mrRoboto.Motor7.setPower(.45);
+    }
     public void goDown() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -69,7 +76,9 @@ public class Lifty {
     public void grabFull(){
         mrRoboto.grabby.setPosition(RobotValues.fullGrab);
     }
-
+    public void grabmega(){
+        mrRoboto.grabby.setPosition(RobotValues.grabmegaOpen);
+    }
     public void grabClose(){
 
         mrRoboto.grabby.setPosition(RobotValues.grabClose);

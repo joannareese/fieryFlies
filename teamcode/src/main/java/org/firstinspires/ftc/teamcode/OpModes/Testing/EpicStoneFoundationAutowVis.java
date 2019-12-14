@@ -48,16 +48,17 @@ public class EpicStoneFoundationAutowVis extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
-        //webcam.closeCameraDevice();
+        webcam.closeCameraDevice();
         if (isStopRequested()) return;
 
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
         r.intake.turbo();
-        telemetry.addData("Robot Values", RobotValues.yPos1);
-        telemetry.update();
         if(skystoneSpot==3)
             RobotValues.yPos1=12;
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
+        telemetry.addData("Robot Values", RobotValues.yPos1);
+        telemetry.update();
+
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-19 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
         r.lifty.grabOpen();
         r.lifty.autoHold();
@@ -67,24 +68,30 @@ public class EpicStoneFoundationAutowVis extends LinearOpMode {
         r.lifty.grabClose();
         // r.lifty.autoHold();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(6  *25.4).build());
-        r.turnSync(Math.toRadians(-90));
-        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10*25.4).build());
+        if(skystoneSpot==1)
+        r.turnSync(Math.toRadians(-95*sideMult));
+        else
+            r.turnSync(Math.toRadians(-90*sideMult));
+        if (sideMult == 1) {
+            r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10*25.4).build());
+        }
+        else {
+            r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeLeft(10*25.4).build());
+        }
         r.lifty.grabOpen();
-        sleep(500);
-        r.lifty.goDown();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
         //foundation time
         r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
         r.lifty.grabOpen();
         sleep(300);
-        r.lifty.goDown();
+        r.lifty.liftKinda();
         r.movey.dropItLikeItsHot();
 
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(RobotValues.x, RobotValues.ycrax,Math.toRadians(90))).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(RobotValues.x, RobotValues.ycrax,Math.toRadians(sideMult*90))).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(8*25.4).build());
         r.movey.grabFoundation();
         r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(20 * 25.4).build());
-        r.turnSync(Math.toRadians(-98));
+        r.turnSync(Math.toRadians(sideMult*-110));
         r.movey.dropItLikeItsHot();
         r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10 * 25.4).build());
         r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(45 * 25.4).build());
