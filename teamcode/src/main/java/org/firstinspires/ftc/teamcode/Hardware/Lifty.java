@@ -75,6 +75,7 @@ public class Lifty {
         mrRoboto.grabby.setPosition(RobotValues.grabClose);
     mrRoboto.intake.intake(-0.1);}
 
+
     public void grabOpen(){
         mrRoboto.grabby.setPosition(RobotValues.grabOpen);
     }

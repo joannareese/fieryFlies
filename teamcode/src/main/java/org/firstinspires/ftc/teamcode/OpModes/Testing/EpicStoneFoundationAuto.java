@@ -25,6 +25,8 @@ public class EpicStoneFoundationAuto extends LinearOpMode {
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
         r.lifty.grabOpen();
+        r.lifty.autoHold();
+        sleep(500);
         r.lifty.intoGround();
         sleep(1000);
         r.lifty.grabFull();
@@ -32,6 +34,9 @@ public class EpicStoneFoundationAuto extends LinearOpMode {
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(6  *25.4).build());
         r.turnSync(Math.toRadians(-90));
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10*25.4).build());
+        r.lifty.grabOpen();
+        sleep(500);
+        r.lifty.goDown();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
         //foundation time
         r.rrBot.setPoseEstimate(new Pose2d(0,0,0));

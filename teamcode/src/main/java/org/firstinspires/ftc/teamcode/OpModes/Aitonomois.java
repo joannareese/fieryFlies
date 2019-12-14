@@ -61,28 +61,29 @@ public class Aitonomois extends LinearOpMode {
         r.intake.intake(0);
         //grab
         r.lifty.grabOpen();
+        r.lifty.autoHold();
+        sleep(500);
         r.lifty.intoGround();
         sleep(1000);
-        if (skystoneSpot!=1)
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6 * 25.4).build());
-        if((skystoneSpot==3&&sideMult==1))
-            r.turnSync(Math.toRadians(sideMult * -95));
-        else
+
             r.turnSync(Math.toRadians(sideMult * -90));
-        if ((skystoneSpot != 3&&sideMult ==1)||(skystoneSpot != 1&&sideMult ==-1))
             if(sideMult==1)
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(8 * 25.4).build());
             else
                 r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(8 * 25.4).build());
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((70 - ( RobotValues.yPos1*sideMult)) * 25.4).build());
-        r.lifty.grabClose();
+
+        r.lifty.grabOpen();
+        sleep(500);
         r.lifty.goDown();
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((55 - ( RobotValues.yPos1*sideMult)) * 25.4).build());
+
 
         sleep(1000);
         if (skystoneSpot==3)
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(4 * 25.4).build());
 
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(10 * 25.4).build());
     }
 }
 

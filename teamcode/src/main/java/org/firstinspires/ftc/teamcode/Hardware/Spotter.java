@@ -93,7 +93,7 @@ public class Spotter extends OpenCvPipeline {
         } else {
             Aitonomois.skystoneSpot = 3;
             EpicStoneFoundationAutowVis.skystoneSpot = 3;
-            RobotValues.yPos1 = 10;
+            RobotValues.yPos1 = 12;
             yPos2 = -2;
         }
 
