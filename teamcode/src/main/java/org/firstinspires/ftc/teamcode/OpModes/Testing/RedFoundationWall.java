@@ -9,9 +9,7 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 
 
 @Autonomous(name = "Red foundationWall", group = "trajPaths")
-public class
-
-RedFoundationWall extends LinearOpMode {
+public class RedFoundationWall extends LinearOpMode {
     Robot r;
 
     @Override

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes;
+package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,17 +12,16 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
-@Autonomous(name = "oneStone Auto", group = "trajPaths")
-public class Aitonomois extends LinearOpMode {
+@Autonomous(name="solo auto WITH VISION")
+
+public class EpicStoneFoundationAutowVis extends LinearOpMode {
     public static int skystoneSpot;
     private Robot r;
     private Boolean arewered;
     private int sideMult = 1;
     private OpenCvCamera webcam;
     private Spotter spot;
-
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
@@ -49,40 +48,46 @@ public class Aitonomois extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
-        webcam.closeCameraDevice();
+
         waitForStart();
-        webcam.closeCameraDevice();
+        //webcam.closeCameraDevice();
         if (isStopRequested()) return;
-        //back and deploy
+
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(10 * 25.4).build());
         r.intake.turbo();
-        //too stone
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4 , 0)).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-20 * 25.4, RobotValues.yPos1 * 25.4, 0)).build());
         r.intake.intake(0);
-        //grab
         r.lifty.grabOpen();
         r.lifty.intoGround();
         sleep(1000);
-        if (skystoneSpot!=1)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6 * 25.4).build());
-        if((skystoneSpot==3&&sideMult==1))
-            r.turnSync(Math.toRadians(sideMult * -95));
-        else
-            r.turnSync(Math.toRadians(sideMult * -90));
-        if ((skystoneSpot != 3&&sideMult ==1)||(skystoneSpot != 1&&sideMult ==-1))
-            if(sideMult==1)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(8 * 25.4).build());
-            else
-                r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(8 * 25.4).build());
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((70 - ( RobotValues.yPos1*sideMult)) * 25.4).build());
-        r.lifty.grabClose();
+        r.lifty.grabFull();
+       // r.lifty.autoHold();
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(6  *25.4).build());
+        r.turnSync(Math.toRadians(sideMult*-90));
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10*25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back((65-RobotValues.yPos1*sideMult)*25.4).build());
+        //foundation time
+        r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
+        r.lifty.grabOpen();
+        sleep(300);
         r.lifty.goDown();
+        r.movey.dropItLikeItsHot();
 
-        sleep(1000);
-        if (skystoneSpot==3)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(4 * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(RobotValues.x, RobotValues.ycrax*sideMult,Math.toRadians(90*sideMult))).build());
+        r.lifty.goDown();
+        sleep(300);
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(12*25.4).build());
+        r.movey.grabFoundation();
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(20 * 25.4).build());
+        r.turnSync(Math.toRadians(-98*sideMult));
+        r.movey.dropItLikeItsHot();
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(21 * 25.4).build());
+        if(arewered)
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10 * 25.4).build());
+        else
+            r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeLeft(10 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(45 * 25.4).build());
 
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
+
     }
 }
-

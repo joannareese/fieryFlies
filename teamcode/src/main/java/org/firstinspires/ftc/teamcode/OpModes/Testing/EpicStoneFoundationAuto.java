@@ -29,10 +29,10 @@ public class EpicStoneFoundationAuto extends LinearOpMode {
         sleep(1000);
         r.lifty.grabFull();
        // r.lifty.autoHold();
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(6  *25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(6  *25.4).build());
         r.turnSync(Math.toRadians(-90));
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10*25.4).build());
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10*25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back((65-RobotValues.yPos1)*25.4).build());
         //foundation time
         r.rrBot.setPoseEstimate(new Pose2d(0,0,0));
         r.lifty.grabOpen();
@@ -45,12 +45,12 @@ public class EpicStoneFoundationAuto extends LinearOpMode {
         sleep(300);
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(12*25.4).build());
         r.movey.grabFoundation();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(20 * 25.4).build());
         r.turnSync(Math.toRadians(-98));
         r.movey.dropItLikeItsHot();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(21 * 25.4).build());
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10 * 25.4).build());
-        //r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(45 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(21 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(10 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(45 * 25.4).build());
 
 
     }

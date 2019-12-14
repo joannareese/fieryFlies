@@ -51,6 +51,8 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private double turnStart;
 
     private DriveConstraints constraints;
+    private DriveConstraints fastConstraints;
+
     private TrajectoryFollower follower;
 
     public SampleMecanumDriveBase() {
@@ -65,11 +67,15 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
         turnController.setInputBounds(0, 2 * Math.PI);
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
+        fastConstraints = new MecanumConstraints(FAST_CONSTRAINTS, TRACK_WIDTH);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(200,200,.55),1.0);
     }
 
     public TrajectoryBuilder trajectoryBuilder() {
         return new TrajectoryBuilder(getPoseEstimate(), constraints);
+    }
+    public TrajectoryBuilder fastTrajectoryBuilder() {
+        return new TrajectoryBuilder(getPoseEstimate(), fastConstraints);
     }
 
     public void turn(double angle) {
