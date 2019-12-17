@@ -249,7 +249,7 @@ else if (Math.abs(game2.left_stick_y) > .5) {
     }
     else if (Math.abs(game2.left_stick_y) > .5) {
         // bot.lifty.wild();
-        bot.lifty.moveUpWithStick(game2.left_stick_y*0.25);
+        bot.lifty.moveUpWithStick(game2.left_stick_y*0.125);
 
     }
     if (game2.left_stick_button) {

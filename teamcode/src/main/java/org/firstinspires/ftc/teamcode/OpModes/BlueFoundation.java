@@ -33,6 +33,7 @@ BlueFoundation extends LinearOpMode {
 
 
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(22*25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10*25.4).build());
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(9*25.4).build());
         r.movey.grabFoundation();
         sleep(500);

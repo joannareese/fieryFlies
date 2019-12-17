@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsTouchSensor;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -55,12 +58,12 @@ public class Robot {
     public Servo right;
     public Servo left;
     public Servo grabby;
-   // public CRServo collectR;
-   // public CRServo collectL;
+
 
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
+    public AnalogInput magneticSensor;
     protected ArrayList<DcMotorEx> rightMotors;
 
 
@@ -117,6 +120,8 @@ public class Robot {
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
+        magneticSensor = hw.analogInput.get("magnet");
+
 
     }
 
@@ -219,18 +224,6 @@ public class Robot {
         }
     }
 
-    /**
-     * Sets drive motor target encoder to given values.
-     *
-     * @param left  encoder set for left motors.
-     * @param right encoder set for right motors.
-     */
-    public void drivePosition(int left, int right) {
-        Motor1.setTargetPosition(left);
-        Motor2.setTargetPosition(right);
-        Motor3.setTargetPosition(right);
-        Motor4.setTargetPosition(left);
-    }
 
     /**
      * @param mode DcMotor.RunMode of what you want to set the motors to sets for all drive motors
@@ -241,13 +234,6 @@ public class Robot {
         }
     }
 
-    /**
-     * Stops all drive motors and resets encoders.
-     */
-    public void stopAllMotors() {
-        drivePower(0f, 0f);
-        driveMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-    }
 
 
     /**
@@ -259,6 +245,7 @@ public class Robot {
         telemetry.addData("should be at ",Motor7.getTargetPosition());
         telemetry.addData("Pos",pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
+        telemetry.addData("magnet bool", magneticSensor.getVoltage());
         telemetry.update();
     }
 
