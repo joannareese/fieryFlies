@@ -71,10 +71,10 @@ public class Outreachz extends OpMode {
             game = gamepad1;
         }
         // TOGGLE BUTTONS //
-        if (game.a && (runtime.seconds() > calibToggle)) {
-            calibToggle = runtime.seconds() + 1;
-            ++driveSpeed;
-        }
+//        if (game.a && (runtime.seconds() > calibToggle)) {
+//            calibToggle = runtime.seconds() + 1;
+//            ++driveSpeed;
+//        }
         if (game.x) {
             driveMode = 0;
         }
@@ -89,7 +89,7 @@ public class Outreachz extends OpMode {
         if (driveMode == 0) {
             // ARCADE DRIVE //
             leftStick = game.left_stick_y;
-            rightStick = game.right_stick_x;
+            rightStick = -game.right_stick_x;
 
             //Left Side
             if (Math.abs(rightStick) > 0.5) {
@@ -110,7 +110,7 @@ public class Outreachz extends OpMode {
                 telemetry.addData("Speed: ", "NORMAL");
                 telemetry.addData("Stick: ", "X = " + round(rightStick) + ", Y = " + round(leftStick));
                 telemetry.addData("Power: ", "L = " + round(leftPower) + ", R = " + round(rightPower));
-
+                telemetry.addData("takeover",takeover);
                 backLeft.setPower(leftPower * coarseDiff);
                 backRight.setPower(rightPower * coarseDiff);
                 frontLeft.setPower(leftPower * coarseDiff);
@@ -120,7 +120,7 @@ public class Outreachz extends OpMode {
                 telemetry.addData("Speed: ", "SLOW");
                 telemetry.addData("Stick: ", "X = " + round(rightStick) + ", Y = " + round(leftStick));
                 telemetry.addData("Power: ", "L = " + round(leftPower) + ", R = " + round(rightPower));
-
+                telemetry.addData("takeover",takeover);
                 backLeft.setPower(leftPower * fineDiff);
                 backRight.setPower(rightPower * fineDiff);
                 frontLeft.setPower(leftPower * fineDiff);

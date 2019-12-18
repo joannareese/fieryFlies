@@ -195,9 +195,9 @@ else if (Math.abs(game2.left_stick_y) > .5) {
                 \__|\__|
         __________________________*/
 
-    double intakepower = game2.right_trigger - game2.left_trigger;
+    double intakepower = game1.right_trigger - game1.left_trigger;
     bot.intake.intake(intakepower);
-    if(game2.right_bumper)
+    if(game1.right_bumper)
         bot.intake.turbo();
 
 
@@ -211,19 +211,19 @@ else if (Math.abs(game2.left_stick_y) > .5) {
         bot.pos.setLocation(0,0,0,0);
     }
 
-    if (game2.b) {
+    if (game1.b) {
         bot.movey.grabFoundation();
     }
-    if (game2.a) {
+    if (game1.a) {
         bot.movey.dropItLikeItsHot();
     }
-    if (game2.b) {
+    if (game1.b) {
         bot.movey.grabFoundation();
     }
 
-    if (game2.y) {
+    if (game1.y) {
         bot.lifty.grabOpen();
-    } else if (game2.x) {
+    } else if (game1.x) {
         bot.lifty.grabClose();
     }
 
@@ -247,9 +247,14 @@ else if (Math.abs(game2.left_stick_y) > .5) {
         bot.lifty.holdPosition();
 
     }
-    else if (Math.abs(game2.left_stick_y) > .5) {
+    else if (game1.dpad_up) {
         // bot.lifty.wild();
-        bot.lifty.moveUpWithStick(game2.left_stick_y*0.125);
+        bot.lifty.moveUpWithStick(0.125);
+
+    }
+    else if (game1.dpad_down) {
+        // bot.lifty.wild();
+        bot.lifty.moveUpWithStick(-0.125);
 
     }
     if (game2.left_stick_button) {
