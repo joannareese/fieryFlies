@@ -133,7 +133,7 @@ else if (Math.abs(game2.left_stick_y) > .5) {
         if(game2.right_stick_button){
             bot.lifty.grabmega();
         }
-        if (game1.a&&game1.b&&game1.right_bumper&&game1.right_trigger>.5){
+        if (game1.left_bumper ){
             single= !single;
         }
 

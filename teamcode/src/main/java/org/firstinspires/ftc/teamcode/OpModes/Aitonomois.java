@@ -26,7 +26,7 @@ public class Aitonomois extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-        while (arewered == null) {
+        while (arewered == null&&!isStarted()) {
             telemetry.addData("0", "what side are we a = red b = blue");
             telemetry.update();
             if (gamepad1.a) {
