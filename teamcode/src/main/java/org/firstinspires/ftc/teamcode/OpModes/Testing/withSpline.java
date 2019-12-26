@@ -29,8 +29,7 @@ public class withSpline extends LinearOpMode {
         r.intake.intake(1);
         r.lifty.goUpBit();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23 - 6) * 25.4).build());
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12.
-                .* 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12* 25.4).build());
         sleep(500);
 
         r.lifty.goDown();
