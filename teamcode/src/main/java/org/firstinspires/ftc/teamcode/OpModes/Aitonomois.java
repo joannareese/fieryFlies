@@ -30,16 +30,16 @@ public class Aitonomois extends LinearOpMode {
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-        while (!isStarted()) {
+        while (!isStarted()&&!isStopRequested()) {
             telemetry.addData("Skystone Spot: ", skystoneSpot);
             telemetry.addData("skystone x",spot.best);
             telemetry.update();
         }
-        waitForStart();
-        if(RobotValues.yPos1==1){
+        webcam.closeCameraDevice();
+        if(skystoneSpot==1){
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5*25.4).build());
             skystone2Pos=-9;}
-        if(RobotValues.yPos1==3){
+        if(skystoneSpot==3){
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(8*25.4).build());
             skystone2Pos=-24;}
 
