@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.OpModes.Aitonomois;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;

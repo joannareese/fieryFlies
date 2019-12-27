@@ -38,6 +38,7 @@ public class Spotter extends OpenCvPipeline {
         double[] hslThresholdLuminanceSS = {0, 40};
         hslThreshold(source0, hslThresholdHueSS, hslThresholdSaturationSS, hslThresholdLuminanceSS, hslThresholdOutputSS);
         List<MatOfPoint> contoursBlack= new ArrayList<>();
+        hslThresholdOutput =hslThresholdOutput.submat(RobotValues.row1,RobotValues.row2,RobotValues.col1,RobotValues.col2);
 
         Imgproc.findContours(hslThresholdOutput, contoursYellow, hiarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.findContours(hslThresholdOutputSS, contoursBlack, hiarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -97,7 +98,7 @@ public class Spotter extends OpenCvPipeline {
             yPos2 = -2;
         }
 
-        return source0;
+        return source0.submat(RobotValues.row1,RobotValues.row2,RobotValues.col1,RobotValues.col2);
     }
 
     public Mat hslThresholdOutput() {
