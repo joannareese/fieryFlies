@@ -1,10 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsTouchSensor;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.AnalogSensor;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,7 +10,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Movement.Location;
-//import org.firstinspires.ftc.teamcode.Movement.Trajectory;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
 
@@ -23,14 +19,16 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//import org.firstinspires.ftc.teamcode.Movement.Trajectory;
+
 /**
  * A class for all movement methods (using PID and IMU) for Rover Ruc for autonomous as well as mechanisms methods for autonomous as well
  * (Basically an autonomous base)
  */
 public class Robot {
 
-    private final HardwareMap hardware;
     public final WheelIntake intake;
+    private final HardwareMap hardware;
     public RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Location of the bot
@@ -44,7 +42,13 @@ public class Robot {
 
 
     public ExpansionHubEx expansionHub;
-
+    public Servo right;
+    public Servo left;
+    public Servo grabby;
+    //Arrays of different motors
+    public ArrayList<DcMotorEx> driveMotors;
+    public AnalogInput magneticSensor;
+    public Telemetry telemetry;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -54,34 +58,18 @@ public class Robot {
     protected DcMotorEx Motor6;
     protected DcMotorEx Motor7;
     protected DcMotorEx Motor8;
-
-    public Servo right;
-    public Servo left;
-    public Servo grabby;
-
-
-    //Arrays of different motors
-    public ArrayList<DcMotorEx> driveMotors;
     protected ArrayList<DcMotorEx> leftMotors;
-    public AnalogInput magneticSensor;
     protected ArrayList<DcMotorEx> rightMotors;
-
-
-
-
     //This array should go left encoder, right encoder, back encoder
     private ArrayList<DcMotorEx> encoders;
     private int[] encoderPosition = {0, 0, 0};
-
-    public Telemetry telemetry;
-
     private double relativeY;
     private double relativeX;
     private int numberOfDrops = 0;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
-        rrBot = new RoadRunnerBot(hw,telemetry);
-        telemetry.addData("donewith rrbot","");
+        rrBot = new RoadRunnerBot(hw, telemetry);
+        telemetry.addData("donewith rrbot", "");
         telemetry.update();
         hardware = hw;
         this.telemetry = telemetry;
@@ -96,15 +84,13 @@ public class Robot {
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
         Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
-    //    Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
+        //    Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
 
-        right = (Servo) hw.servo.get("right");
-        left = (Servo) hw.servo.get("left");
+        right = hw.servo.get("right");
+        left = hw.servo.get("left");
 
-     //   collectL = (CRServo) hw.crservo.get("collectR");
-     //   collectR = (CRServo) hw.crservo.get("collectL");
 
-        grabby = (Servo) hw.servo.get("grab");
+        grabby = hw.servo.get("grab");
 
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
 
@@ -125,22 +111,24 @@ public class Robot {
 
     }
 
-    public void followTrajectory(Trajectory trajectory){
-
-        rrBot.followTrajectory(trajectory);
-    }
-    public void followTrajectorySync(Trajectory trajectory){
-        rrBot.followTrajectorySync(trajectory);
-    }
-    public void turnSync(double angle){
-        rrBot.turnSync(angle);
-    }
-
     public static double round(double value) { //Allows telemetry to display nicely
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
 
+    }
+
+    public void followTrajectory(Trajectory trajectory) {
+
+        rrBot.followTrajectory(trajectory);
+    }
+
+    public void followTrajectorySync(Trajectory trajectory) {
+        rrBot.followTrajectorySync(trajectory);
+    }
+
+    public void turnSync(double angle) {
+        rrBot.turnSync(angle);
     }
 
     public void updatePosition() {
@@ -170,7 +158,7 @@ public class Robot {
             pos.translateLocal(relativeY, relativeX, 0);
             telemetryMethod();
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             numberOfDrops++;
         }
         bulkData = expansionHub.getBulkInputData();
@@ -235,15 +223,14 @@ public class Robot {
     }
 
 
-
     /**
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
 
         telemetry.addData("lifty", Motor7.getCurrentPosition());
-        telemetry.addData("should be at ",Motor7.getTargetPosition());
-        telemetry.addData("Pos",pos.toString());
+        telemetry.addData("should be at ", Motor7.getTargetPosition());
+        telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
         telemetry.addData("magnet bool", magneticSensor.getVoltage());
         telemetry.update();

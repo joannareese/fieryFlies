@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.OpModes.Aitonomois;
+import org.firstinspires.ftc.teamcode.OpModes.TwoStone;
 import org.firstinspires.ftc.teamcode.OpModes.Testing.EpicStoneFoundationAutowVis;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -82,17 +82,17 @@ public class Spotter extends OpenCvPipeline {
         Imgproc.drawMarker(source0, bestRect.br(), new Scalar(255, 255, 255));
         best = bestRect.x;
         if(bestRect.x <= 90) {
-            Aitonomois.skystoneSpot = 1;
+            TwoStone.skystoneSpot = 1;
             EpicStoneFoundationAutowVis.skystoneSpot = 1;
             RobotValues.yPos1 = -7;
             yPos2 = -2;
         } else if (bestRect.x <= 180) {
-            Aitonomois.skystoneSpot = 2;
+            TwoStone.skystoneSpot = 2;
             EpicStoneFoundationAutowVis.skystoneSpot = 2;
             RobotValues.yPos1 = 3;
             yPos2 = -4;
         } else {
-            Aitonomois.skystoneSpot = 3;
+            TwoStone.skystoneSpot = 3;
             EpicStoneFoundationAutowVis.skystoneSpot = 3;
             RobotValues.yPos1 = 12;
             yPos2 = -2;
