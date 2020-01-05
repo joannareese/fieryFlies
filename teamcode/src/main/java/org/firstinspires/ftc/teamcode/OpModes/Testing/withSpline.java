@@ -8,15 +8,26 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
-@Autonomous(name = "testin2")
+@Autonomous(name = "Solo Auto")
 public class withSpline extends LinearOpMode {
     public Robot r;
-    public int sideMult = -1;
+
+    private boolean isRed;
+    private boolean byWall;
+    private int sideMult;
 
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-
+        while ((opModeIsActive() && !isStarted()) && (gamepad1.x)) {
+            telemetry.addData("press a to togle side", "press b to toggle where to park and x to save and move on");
+            telemetry.addData("Side:", isRed ? "red" : "blue");
+            if (gamepad1.a) {
+                isRed = !isRed;
+            }
+            sideMult = isRed ? 1 : -1;
+            telemetry.update();
+        }
         waitForStart();
         if (RobotValues.yPos1 == 1)
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());
