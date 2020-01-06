@@ -84,7 +84,8 @@ public class Robot {
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
         Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
-        //    Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
+        Motor7.setDirection(DcMotorSimple.Direction.REVERSE);
+        Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
 
         right = hw.servo.get("right");
         left = hw.servo.get("left");
@@ -97,6 +98,7 @@ public class Robot {
         Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         Motor7.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        Motor8.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
         leftMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2));
@@ -106,7 +108,7 @@ public class Robot {
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
-        magneticSensor = hw.analogInput.get("magnet");
+       // magneticSensor = hw.analogInput.get("magnet");
 
 
     }
@@ -228,11 +230,14 @@ public class Robot {
      */
     public void telemetryMethod() {
 
-        telemetry.addData("lifty", Motor7.getCurrentPosition());
+        telemetry.addData("chainbar", Motor7.getCurrentPosition());
         telemetry.addData("should be at ", Motor7.getTargetPosition());
+        telemetry.addData("lifty", Motor8.getCurrentPosition());
+        telemetry.addData("should be at ", Motor8.getTargetPosition());
+
         telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
-        telemetry.addData("magnet bool", magneticSensor.getVoltage());
+        //telemetry.addData("magnet bool", magneticSensor.getVoltage());
         telemetry.update();
     }
 
