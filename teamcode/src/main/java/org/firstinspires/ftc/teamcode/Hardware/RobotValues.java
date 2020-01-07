@@ -22,12 +22,12 @@ public class RobotValues {
     public static double grabClose = .7;
 
 
-    public static double liftyDown = -25;
-    public static double liftykinda = -100;
-    public static double liftyUp = -1400;
-    public static double liftyauto = -1300;
-    public static double liftyMid =-500;
-    public static double liftyPlace = -1200;
+    public static double chainDown = -25;
+    public static double chainkinda = -100;
+    public static double chainUp = -1400;
+    public static double chainauto = -1300;
+    public static double chainMid =-500;
+    public static double chainPlace = -1200;
 
 
     public static double backHeading = 270;
@@ -48,5 +48,8 @@ public class RobotValues {
     public static int row1 = 0;
     public static int row2=160;
 
+    public static int fourincheslift =100;
+    public static int liftyUp;
+    public static int liftyDown;
 }
 

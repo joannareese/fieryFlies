@@ -232,7 +232,6 @@ public class Robot {
         telemetry.addData("should be at ", Motor7.getTargetPosition());
         telemetry.addData("lifty", Motor8.getCurrentPosition());
         telemetry.addData("should be at ", Motor8.getTargetPosition());
-
         telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
         //telemetry.addData("magnet bool", magneticSensor.getVoltage());

@@ -139,7 +139,6 @@ public class Location {
     /**
      * Translates object x and z in world coordinates.
      * Use negative values for opposite direction.
-     *
      * @param x Translates position given distance on x axis.
      * @param z Translates position given distance on z axis.
      */

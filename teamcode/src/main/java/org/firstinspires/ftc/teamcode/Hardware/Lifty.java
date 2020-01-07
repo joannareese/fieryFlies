@@ -6,109 +6,80 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Lifty {
     Robot mrRoboto;
     boolean lockout = false;
-    public Lifty(Robot mrRobotot ){
+    private int target;
+
+    public Lifty(Robot mrRobotot) {
         mrRoboto = mrRobotot;
     }
 
-    public void goUpBit() {
+    public void goUp4Inches() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyMid);
+        target = (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) <= RobotValues.liftyUp ? (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) : RobotValues.liftyUp;
+        mrRoboto.Motor7.setTargetPosition(target);
+        mrRoboto.Motor7.setPower(.45);
+    }
+    public void goDOwn4Inches() {
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        target = (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) <= RobotValues.liftyDown ? (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) : RobotValues.liftyDown;
+        mrRoboto.Motor7.setTargetPosition(target);
         mrRoboto.Motor7.setPower(.45);
     }
 
     public void goUpAll() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyUp);
+        mrRoboto.Motor7.setTargetPosition(RobotValues.liftyUp);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setPower(.45);
     }
+
     public void intoGround() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.grabClose();
-        mrRoboto.Motor7.setTargetPosition((int)RobotValues.groud);
+        mrRoboto.Motor7.setTargetPosition((int) RobotValues.groud);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setPower(.45);
     }
-    public void goupBalance() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyMid);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.45);
-    }
-    public void liftKinda() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftykinda);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.45);
-    }
     public void goDown() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyDown);
+        mrRoboto.Motor7.setTargetPosition(RobotValues.liftyDown);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setPower(.45);
     }
-    public void goPlace() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyPlace);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.45);
-    }
-    public void holdPosition() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.liftyhold);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.45);
-    }public void wild() {
+    public void wild() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
     }
 
-    public void quit(){
+    public void quit() {
         mrRoboto.Motor7.setPower(0);
     }
-    public void grabFull(){
-        mrRoboto.grabby.setPosition(RobotValues.fullGrab);
-    }
-    public void grabmega(){
-        mrRoboto.grabby.setPosition(RobotValues.grabmegaOpen);
-    }
-    public void grabClose(){
 
-        mrRoboto.grabby.setPosition(RobotValues.grabClose);
-    mrRoboto.intake.intake(-0.1);}
-
-
-    public void grabOpen(){
-        mrRoboto.grabby.setPosition(RobotValues.grabOpen);
-    }
 
     //locks out encoders incase the encoder has failed
     public void lockOut() {
-        if(lockout){
+        if (lockout) {
             lockout = false;
             mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         }
-        if(!lockout){
+        if (!lockout) {
             lockout = true;
             mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
-    public void moveUpWithStick(double value){
-        if(!lockout){
-            mrRoboto.Motor7.setPower(.45);
-            mrRoboto.Motor7.setTargetPosition((int)(mrRoboto.Motor7.getTargetPosition()+(value*100)));}
-        else{
-            mrRoboto.Motor7.setPower(value);
-        }
+
+    public void moveUpWithStick(double value) {
+        mrRoboto.Motor7.setPower(.45);
+        mrRoboto.Motor7.setTargetPosition((int) (mrRoboto.Motor7.getTargetPosition() + (value * 100)));
+
     }
-    public void autoHold(){
+
+    public void autoHold() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         mrRoboto.Motor7.setTargetPosition(RobotValues.autoHold);
@@ -117,10 +88,8 @@ public class Lifty {
     }
 
     public void trim(float left_stick_y) {
-        RobotValues.liftyDown+=left_stick_y;
-        RobotValues.liftyhold+=left_stick_y;
-        RobotValues.liftyMid+=left_stick_y;
-        RobotValues.liftyUp+=left_stick_y;
+        RobotValues.liftyDown += left_stick_y;
+        RobotValues.liftyUp += left_stick_y;
     }
 }
 

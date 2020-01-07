@@ -19,10 +19,13 @@ public class Mechanum extends Robot {
 
     /**
      * Constructor 1
+
+     * @param loc location
+     * @param hw hardware map
+     * @param loc Location of bot at start
      *
-     * @param loc
      */
-    public Mechanum(Location loc, Telemetry telemetry, HardwareMap hw) {
+    public Mechanum(Telemetry telemetry, Location loc, HardwareMap hw) {
         super(telemetry, loc, hw);
     }
 
