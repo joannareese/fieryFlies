@@ -49,6 +49,7 @@ public class Robot {
     public ArrayList<DcMotorEx> driveMotors;
     public AnalogInput magneticSensor;
     public Telemetry telemetry;
+    public org.firstinspires.ftc.teamcode.Hardware.chainbar chainbar;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -108,6 +109,7 @@ public class Robot {
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
+        chainbar = new chainbar(this);
 
     }
 

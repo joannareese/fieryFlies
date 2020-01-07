@@ -48,6 +48,12 @@ if(!single){
 
         double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
+        if (game1.dpad_down){
+            bot.lifty.goDOwn4Inches();
+        }
+    if (game1.dpad_up){
+        bot.lifty.goUp4Inches();
+    }
 
         /*
         ___________________________________________________________________________
@@ -97,9 +103,9 @@ if(!single){
         }
 
         if (game2.y) {
-            bot.lifty.grabOpen();
+            bot.chainbar.grabOpen();
         } else if (game2.x) {
-            bot.lifty.grabClose();
+            bot.chainbar.grabClose();
         }
 
 
@@ -111,27 +117,27 @@ if(!single){
          ________________*/
 
         if (game2.dpad_down) { //
-            bot.lifty.goDown();
-            bot.lifty.grabOpen();
+            bot.chainbar.goDown();
+            bot.chainbar.grabOpen();
 
         } else if (game2.dpad_left) {
-            bot.lifty.goUpBit();
+            bot.chainbar.goUpBit();
         } else if (game2.dpad_up) {
-            bot.lifty.goUpAll();
+            bot.chainbar.goUpAll();
         } else if (game2.dpad_right) {
-            bot.lifty.holdPosition();
+            bot.chainbar.holdPosition();
 
         }
 else if (Math.abs(game2.left_stick_y) > .5) {
-           // bot.lifty.wild();
-            bot.lifty.moveUpWithStick(game2.left_stick_y*0.25);
+           // bot.chainbar.wild();
+            bot.chainbar.moveUpWithStick(game2.left_stick_y*0.25);
 
         }
         if (game2.left_stick_button) {
-            bot.lifty.lockOut();
+            bot.chainbar.lockOut();
         }
         if(game2.right_stick_button){
-            bot.lifty.grabmega();
+            bot.chainbar.grabmega();
         }
         if (game1.left_bumper ){
             single= !single;
