@@ -108,8 +108,6 @@ public class Robot {
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
-       // magneticSensor = hw.analogInput.get("magnet");
-
 
     }
 

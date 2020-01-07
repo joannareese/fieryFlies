@@ -22,21 +22,23 @@ public class TwoStone extends LinearOpMode {
     private Spotter spot;
     private boolean isRed;
     private int sidemult;
+    private String webcamName = "Webcam 1";
 
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-        while ((opModeIsActive() && !isStarted()) && (gamepad1.x)) {
+        while ( (!isStopRequested()&&!isStarted()) && (!gamepad1.x)) {
             telemetry.addData("press a to togeel side", "press b to togell where to parl and x to save and move on");
             telemetry.addData("Side:", isRed ? "red" : "blue");
             if (gamepad1.a) {
                 isRed = !isRed;
             }
             sidemult = isRed ? 1 : -1;
+            webcamName= isRed? "Webcam 1" : "Webcam 2";
             telemetry.update();
         }
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         webcam.openCameraDevice();
         spot = new Spotter();
         webcam.setPipeline(spot);
@@ -60,12 +62,12 @@ public class TwoStone extends LinearOpMode {
         r.intake.turbo();
         sleep(250);
         r.intake.intake(1);
-        r.lifty.goUpBit();
+        //r.lifty.goUpBit();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23 - 4) * 25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12 * 25.4).build());
         sleep(500);
 
-        r.lifty.goDown();
+        //r.lifty.goDown();
         r.intake.intake(0);
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, -24 * 25.4, 0)).reverse().back(25 * 25.4).build());
         r.intake.intake(1);

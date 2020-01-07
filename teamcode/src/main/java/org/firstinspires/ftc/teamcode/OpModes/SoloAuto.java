@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.OpModes.Testing;
+package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -9,12 +9,13 @@ import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 @Autonomous(name = "Solo Auto")
-public class withSpline extends LinearOpMode {
+public class SoloAuto extends LinearOpMode {
     public Robot r;
 
     private boolean isRed;
     private boolean byWall;
     private int sideMult;
+    public static int skystoneSpot;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -38,12 +39,12 @@ public class withSpline extends LinearOpMode {
         r.intake.turbo();
         sleep(250);
         r.intake.intake(1);
-        r.lifty.goUpBit();
+        //r.lifty.goUpBit();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23 - 6) * 25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12* 25.4).build());
         sleep(500);
 
-        r.lifty.goDown();
+        //r.lifty.goDown();
         r.intake.intake(0);
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, sideMult*-24 * 25.4, 0)).reverse().back(36 * 25.4).build());
 

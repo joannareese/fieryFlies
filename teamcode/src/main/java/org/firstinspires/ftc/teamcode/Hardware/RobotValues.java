@@ -1,7 +1,4 @@
 package org.firstinspires.ftc.teamcode.Hardware;
-
-import android.content.Context;
-
 import com.acmerobotics.dashboard.config.Config;
 
 @Config
@@ -50,5 +47,6 @@ public class RobotValues {
     public static int col1=75;
     public static int row1 = 0;
     public static int row2=160;
+
 }
 
