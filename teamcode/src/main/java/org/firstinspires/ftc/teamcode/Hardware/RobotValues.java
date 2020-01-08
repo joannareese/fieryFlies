@@ -3,6 +3,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class RobotValues {
+
     public static double robtTrackWidth = 320;
     public static double odoDiamMM = 50.8;
     public static double odoTicksPerRev = 800;
@@ -10,24 +11,25 @@ public class RobotValues {
     public static double trackWidthmm = 349.7;
     public static double middleOdoFromMiddleMM = 14.02;
     public static double yPos1 = 1;
-    public static double liftyhold = -210;
+
 
     public static double servo1bottom = .9;
     public static double servo1top = .75;
     public static double servo2bottom = 0;
     public static double servo2top = .26;
 
-    public static double grabOpen =.2;
+    public static double grabOpen =.3;
     public static double grabmegaOpen =0;
-    public static double grabClose = .7;
+    public static double grabClose = 0;
 
 
-    public static double chainDown = -25;
-    public static double chainkinda = -100;
-    public static double chainUp = -1400;
-    public static double chainauto = -1300;
-    public static double chainMid =-500;
-    public static double chainPlace = -1200;
+    public static double chainDown = 50;
+    public static double chainkinda = 100;
+    public static double chainUp = 5000;
+    public static double chainauto = 1300;
+    public static double chainMid =1000;
+    public static double chainPlace = 2500;
+    public static int chainhold = 4500;
 
 
     public static double backHeading = 270;
@@ -40,7 +42,7 @@ public class RobotValues {
     public static double ycrax = 100;
 
     public static double fullGrab = .8;
-    public static int autoHold=-1300;
+    public static int autoHold=680;
     public static double foundationStrafe = 20;
 
     public static int col2=285;
@@ -49,7 +51,8 @@ public class RobotValues {
     public static int row2=160;
 
     public static int fourincheslift =100;
-    public static int liftyUp;
-    public static int liftyDown;
+    public static int liftyUp = 2000;
+    public static int liftyDown = 0;
+
 }
 

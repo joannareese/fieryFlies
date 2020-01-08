@@ -49,6 +49,7 @@ public class TwoStone extends LinearOpMode {
             telemetry.update();
         }
         webcam.closeCameraDevice();
+        r.chainbar.goUpBit();
         if (skystoneSpot == 1) {
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());
             skystone2Pos = -9;
@@ -62,16 +63,24 @@ public class TwoStone extends LinearOpMode {
         r.intake.turbo();
         sleep(250);
         r.intake.intake(1);
-        //r.lifty.goUpBit();
+        r.chainbar.autoHold();
+
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23 - 4) * 25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12 * 25.4).build());
         sleep(500);
 
-        //r.lifty.goDown();
-        r.intake.intake(0);
+
+
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, -24 * 25.4, 0)).reverse().back(25 * 25.4).build());
-        r.intake.intake(1);
-        sleep(2000);
+        r.intake.intake(0);
+        r.chainbar.goDown();
+        sleep(250);
+        r.chainbar.grabClose();
+        sleep(250);
+        r.chainbar.goUpAll();
+
+        sleep(5000);
+        r.chainbar.grabOpen();
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(5 * 25.4).splineTo(new Pose2d(skystone2Pos * 25.4, -24 * 25.4, Math.toRadians(-55))).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12 * 25.4).build());

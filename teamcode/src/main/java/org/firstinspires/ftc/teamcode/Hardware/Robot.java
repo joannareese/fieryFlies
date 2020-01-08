@@ -84,9 +84,9 @@ public class Robot {
         Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
-        Motor7 = (DcMotorEx) hw.dcMotor.get("chain");
-        Motor7.setDirection(DcMotorSimple.Direction.REVERSE);
-        Motor8 = (DcMotorEx) hw.dcMotor.get("lifty");
+        Motor7 = (DcMotorEx) hw.dcMotor.get("lifty");
+
+        Motor8 = (DcMotorEx) hw.dcMotor.get("chain");
 
         right = hw.servo.get("right");
         left = hw.servo.get("left");

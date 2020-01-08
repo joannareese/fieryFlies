@@ -68,7 +68,8 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
         fastConstraints = new MecanumConstraints(FAST_CONSTRAINTS, TRACK_WIDTH);
-        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(200,200,.55),1.0);
+        follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(200,200,.05),1.0);
+        dashboard.updateConfig();
     }
 
     public TrajectoryBuilder trajectoryBuilder() {

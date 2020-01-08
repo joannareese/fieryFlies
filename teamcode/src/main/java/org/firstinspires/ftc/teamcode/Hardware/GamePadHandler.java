@@ -48,12 +48,14 @@ if(!single){
 
         double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
+
         if (game1.dpad_down){
             bot.lifty.goDOwn4Inches();
+        }else if (game1.dpad_up){
+            bot.lifty.goUp4Inches();
+        }else if(Math.abs(game2.right_stick_y)>.5){
+            bot.lifty.moveUpWithStick(-game2.right_stick_y*0.25);
         }
-    if (game1.dpad_up){
-        bot.lifty.goUp4Inches();
-    }
 
         /*
         ___________________________________________________________________________
@@ -116,26 +118,24 @@ if(!single){
              |
          ________________*/
 
-        if (game2.dpad_down) { //
+        if (game2.dpad_down) {
             bot.chainbar.goDown();
             bot.chainbar.grabOpen();
-
         } else if (game2.dpad_left) {
             bot.chainbar.goUpBit();
         } else if (game2.dpad_up) {
             bot.chainbar.goUpAll();
         } else if (game2.dpad_right) {
             bot.chainbar.holdPosition();
-
-        }
-else if (Math.abs(game2.left_stick_y) > .5) {
+        } else if(game2.left_stick_button){
+            bot.chainbar.reset();
+        } else if (Math.abs(game2.left_stick_y) > .5) {
            // bot.chainbar.wild();
             bot.chainbar.moveUpWithStick(game2.left_stick_y*0.25);
-
         }
-        if (game2.left_stick_button) {
-            bot.chainbar.lockOut();
-        }
+//        if (game2.left_stick_button) {
+//            bot.chainbar.lockOut();
+        //}
         if(game2.right_stick_button){
             bot.chainbar.grabmega();
         }
