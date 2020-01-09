@@ -50,7 +50,8 @@ if(!single){
         double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
         bot.drivePower(powers);
 
-        if (game1.dpad_down){
+        if (game1
+                .dpad_down){
             bot.lifty.goDOwn4Inches();
         }else if (game1.dpad_up){
             bot.lifty.goUp4Inches();
@@ -139,7 +140,8 @@ if(!single){
         //}
         if(game2.right_stick_button){
             bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            bot.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.Motor7.setTargetPosition(bot.Motor7.getCurrentPosition());
         }
         if (game1.left_bumper ){
             single= !single;

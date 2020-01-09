@@ -26,10 +26,10 @@ public class TwoStone extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        msStuckDetectStop=1000;
+        msStuckDetectStop=8000;
         r = new Robot(telemetry, new Location(), hardwareMap);
-        while ( (!isStopRequested()&&!isStarted()) && (!gamepad1.x)) {
-            telemetry.addData("press a to togeel side", "press b to togell where to parl and x to save and move on");
+        while ( !isStopRequested()&& !isStopRequested() && !gamepad1.x && opModeIsActive()) {
+            telemetry.addData("press a to toggle side", " x to save and move on");
             telemetry.addData("Side:", isRed ? "red" : "blue");
             if (gamepad1.a) {
                 isRed = !isRed;
@@ -38,13 +38,16 @@ public class TwoStone extends LinearOpMode {
             webcamName= isRed? "Webcam 1" : "Webcam 2";
             telemetry.update();
         }
+        if (isStopRequested()){
+            stop();
+        }
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         webcam.openCameraDevice();
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-        while (!isStarted()) {
+        while (!isStarted()&&opModeIsActive()) {
             if(isStopRequested()){
                 webcam.closeCameraDevice();
                 break;
@@ -53,7 +56,6 @@ public class TwoStone extends LinearOpMode {
             telemetry.addData("skystone x", spot.best);
             telemetry.update();
         }
-
         webcam.closeCameraDevice();
 
         r.chainbar.goUpBit();
@@ -71,25 +73,25 @@ public class TwoStone extends LinearOpMode {
 
         r.turnSync(Math.toRadians(RobotValues.heading*sidemult));
         r.intake.turbo();
-        sleep(250);
+        Thread.sleep(250);
         r.intake.intake(1);
         r.chainbar.autoHold();
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23) * 25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward( 8* 25.4).build());
-        sleep(500);
+        Thread.sleep(500);
 
 
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, sidemult*-24 * 25.4, 0)).reverse().back(25 * 25.4).build());
 //        r.intake.intake(0);
 //        r.chainbar.goDown();
-//        sleep(1000);
+//        Thread.sleep(1000);
 //        r.chainbar.grabClose();
-//        sleep(250);
+//        Thread.sleep(250);
 //        r.chainbar.goUpAll();
 //
-//        sleep(5000);
+//        Thread.sleep(5000);
 //        r.chainbar.grabOpen();
 //
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(5 * 25.4).splineTo(new Pose2d(skystone2Pos * 25.4, -24 * 25.4, Math.toRadians(-55))).build());

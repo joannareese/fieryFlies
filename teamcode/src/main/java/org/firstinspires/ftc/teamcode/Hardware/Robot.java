@@ -111,8 +111,11 @@ public class Robot {
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
         chainbar = new chainbar(this);
-        Motor7.setTargetPosition(Motor8.getCurrentPosition());
+        Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motor7.setTargetPosition(Motor7.getCurrentPosition());
         Motor8.setTargetPosition(Motor8.getCurrentPosition());
+
 
 
 
