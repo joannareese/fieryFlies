@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
 public class GamePadHandler {
@@ -131,13 +132,14 @@ if(!single){
             bot.chainbar.reset();
         } else if (Math.abs(game2.left_stick_y) > .5) {
            // bot.chainbar.wild();
-            bot.chainbar.moveUpWithStick(game2.left_stick_y*0.25);
+            bot.chainbar.moveUpWithStick(-game2.left_stick_y*0.25);
         }
 //        if (game2.left_stick_button) {
 //            bot.chainbar.lockOut();
         //}
         if(game2.right_stick_button){
-            bot.chainbar.grabmega();
+            bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bot.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         if (game1.left_bumper ){
             single= !single;

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -110,6 +111,10 @@ public class Robot {
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
         chainbar = new chainbar(this);
+        Motor7.setTargetPosition(Motor8.getCurrentPosition());
+        Motor8.setTargetPosition(Motor8.getCurrentPosition());
+
+
 
     }
 

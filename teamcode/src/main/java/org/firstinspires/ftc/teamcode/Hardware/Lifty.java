@@ -74,8 +74,8 @@ public class Lifty {
     }
 
     public void moveUpWithStick(double value) {
-        mrRoboto.Motor7.setPower(.75);
-        mrRoboto.Motor7.setTargetPosition((int) (mrRoboto.Motor7.getTargetPosition() + (value * 100)));
+        mrRoboto.Motor7.setPower(1);
+        mrRoboto.Motor7.setTargetPosition((int) (mrRoboto.Motor7.getTargetPosition() + (value * 200)));
 
     }
 

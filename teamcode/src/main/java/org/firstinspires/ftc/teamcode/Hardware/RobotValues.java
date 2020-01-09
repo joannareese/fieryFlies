@@ -3,7 +3,6 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class RobotValues {
-
     public static double robtTrackWidth = 320;
     public static double odoDiamMM = 50.8;
     public static double odoTicksPerRev = 800;
@@ -18,9 +17,9 @@ public class RobotValues {
     public static double servo2bottom = 0;
     public static double servo2top = .26;
 
-    public static double grabOpen =.3;
+    public static double grabOpen =0;
     public static double grabmegaOpen =0;
-    public static double grabClose = 0;
+    public static double grabClose = .9;
 
 
     public static double chainDown = 50;
@@ -50,7 +49,7 @@ public class RobotValues {
     public static int row1 = 0;
     public static int row2=160;
 
-    public static int fourincheslift =100;
+    public static int fourincheslift =300;
     public static int liftyUp = 2000;
     public static int liftyDown = 0;
 

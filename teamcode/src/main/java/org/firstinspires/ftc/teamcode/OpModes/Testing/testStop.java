@@ -14,6 +14,7 @@ public class testStop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
         waitForStart();
+
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(10 * 25.4).build());
     }
 }

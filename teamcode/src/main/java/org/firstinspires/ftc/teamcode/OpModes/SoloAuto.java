@@ -14,28 +14,37 @@ public class SoloAuto extends LinearOpMode {
 
     private boolean isRed;
     private boolean byWall;
-    private int sideMult;
+    private int sidemult= 1;
     public static int skystoneSpot;
 
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-        while ((opModeIsActive() && !isStarted()) && (gamepad1.x)) {
+        while ((opModeIsActive() && !isStarted()&& !isStopRequested()) && (gamepad1.x)) {
             telemetry.addData("press a to togle side", "press b to toggle where to park and x to save and move on");
             telemetry.addData("Side:", isRed ? "red" : "blue");
             if (gamepad1.a) {
                 isRed = !isRed;
             }
-            sideMult = isRed ? 1 : -1;
+            sidemult = isRed ? 1 : -1;
             telemetry.update();
         }
         waitForStart();
-        if (RobotValues.yPos1 == 1)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());
-        if (RobotValues.yPos1 == 3)
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(8 * 25.4).build());
+        r.chainbar.goUpBit();
+        if (skystoneSpot == 1) {
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(2 * 25.4).build());
 
-        r.turnSync(Math.toRadians(-55*sideMult));
+        }
+        if(skystoneSpot ==2){
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(6 * 25.4).build());
+        }
+        if (skystoneSpot == 3) {
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(14 * 25.4).build());
+
+        }
+        msStuckDetectStop=1000;
+
+        r.turnSync(Math.toRadians(RobotValues.heading*sidemult));
         r.intake.turbo();
         sleep(250);
         r.intake.intake(1);
@@ -46,14 +55,14 @@ public class SoloAuto extends LinearOpMode {
 
         //r.lifty.goDown();
         r.intake.intake(0);
-        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, sideMult*-24 * 25.4, 0)).reverse().back(36 * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, sidemult*-24 * 25.4, 0)).reverse().back(36 * 25.4).build());
 
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-74 * 25.4, sideMult*-30.5 * 25.4, Math.toRadians(90*sideMult))).reverse().back(5 * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().reverse().splineTo(new Pose2d(-74 * 25.4, sidemult*-30.5 * 25.4, Math.toRadians(90*sidemult))).reverse().back(5 * 25.4).build());
 
         r.movey.grabFoundation();
         sleep(500);
         r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(12 * 25.4).build());
-        r.turnSync(Math.toRadians(-98*sideMult));
+        r.turnSync(Math.toRadians(-98*sidemult));
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(15 * 25.4).build());
         r.movey.dropItLikeItsHot();
         sleep(500);
