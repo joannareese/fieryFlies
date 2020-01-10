@@ -32,14 +32,14 @@ public class Lifty {
 
         mrRoboto.Motor7.setTargetPosition(RobotValues.liftyUp);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.75);
+        mrRoboto.Motor7.setPower(1);
     }
 
     public void intoGround() {
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         mrRoboto.Motor7.setTargetPosition((int) RobotValues.groud);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.75);
+        mrRoboto.Motor7.setPower(1);
     }
 
 
@@ -48,7 +48,7 @@ public class Lifty {
 
         mrRoboto.Motor7.setTargetPosition(RobotValues.liftyDown);
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.75);
+        mrRoboto.Motor7.setPower(1);
     }
 
     public void wild() {

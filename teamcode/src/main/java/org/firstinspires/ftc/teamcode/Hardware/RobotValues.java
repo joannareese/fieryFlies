@@ -28,7 +28,7 @@ public class RobotValues {
     public static double chainauto = 1300;
     public static double chainMid =1000;
     public static double chainPlace = 2500;
-    public static int chainhold = 4500;
+    public static int chainhold = 4000;
 
 
     public static double backHeading = 270;
@@ -45,12 +45,12 @@ public class RobotValues {
     public static double foundationStrafe = 20;
 
     public static int col2=285;
-    public static int col1=75;
+    public static int col1=0;
     public static int row1 = 0;
     public static int row2=160;
 
     public static int fourincheslift =300;
-    public static int liftyUp = 2000;
+    public static int liftyUp = 3500;
     public static int liftyDown = 0;
 
 }

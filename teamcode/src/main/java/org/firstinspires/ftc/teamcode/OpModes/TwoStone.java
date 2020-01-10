@@ -21,25 +21,30 @@ public class TwoStone extends LinearOpMode {
     private OpenCvCamera webcam;
     private Spotter spot;
     private boolean isRed;
-    private int sidemult = 1;
+    private int sidemult;
     private String webcamName = "Webcam 1";
 
     @Override
     public void runOpMode() throws InterruptedException {
         msStuckDetectStop=8000;
-        r = new Robot(telemetry, new Location(), hardwareMap);
-        while ( !isStopRequested()&& !isStopRequested() && !gamepad1.x && opModeIsActive()) {
+r = new Robot(telemetry, new Location(), hardwareMap);
+        while ( !isStopRequested()&&  !gamepad1.x ) {
             telemetry.addData("press a to toggle side", " x to save and move on");
             telemetry.addData("Side:", isRed ? "red" : "blue");
             if (gamepad1.a) {
                 isRed = !isRed;
             }
-            sidemult = isRed ? 1 : -1;
-            webcamName= isRed? "Webcam 1" : "Webcam 2";
+                    webcamName= isRed ? "Webcam 1" : "Webcam 2";
             telemetry.update();
         }
         if (isStopRequested()){
             stop();
+        }
+        if(isRed){
+            sidemult=1;
+        }
+        else{
+            sidemult=-1;
         }
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
@@ -47,7 +52,7 @@ public class TwoStone extends LinearOpMode {
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-        while (!isStarted()&&opModeIsActive()) {
+        while (!isStarted()&&!isStopRequested()) {
             if(isStopRequested()){
                 webcam.closeCameraDevice();
                 break;
@@ -57,17 +62,34 @@ public class TwoStone extends LinearOpMode {
             telemetry.update();
         }
         webcam.closeCameraDevice();
-
+        if(!isStopRequested()){
         r.chainbar.goUpBit();
         if (skystoneSpot == 3) {
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(2 * 25.4).build());
+            telemetry.addData("thing","3")
+                    ;
+            telemetry.update();
+            if(isRed){
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());}
+            else
+                r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(7 * 25.4).build());
             skystone2Pos = -9;
         }
-        if(skystoneSpot ==2){
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(6 * 25.4).build());
+       else if(skystoneSpot ==2){
+            telemetry.addData("thing","2")            ;
+            telemetry.update();
+            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(4 * 25.4).build());
         }
-        if (skystoneSpot == 1) {
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(14 * 25.4).build());
+        else if (skystoneSpot == 1) {
+            telemetry.addData("thing","1")
+            ;
+            telemetry.update();
+            if(isRed) {
+
+                r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().back(7 * 25.4).build());
+            }
+            else {
+                r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());
+            }
             skystone2Pos = -24;
         }
 
@@ -77,7 +99,7 @@ public class TwoStone extends LinearOpMode {
         r.intake.intake(1);
         r.chainbar.autoHold();
 
-        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((23) * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward((24) * 25.4).build());
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward( 8* 25.4).build());
         Thread.sleep(500);
 
@@ -97,6 +119,6 @@ public class TwoStone extends LinearOpMode {
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(5 * 25.4).splineTo(new Pose2d(skystone2Pos * 25.4, -24 * 25.4, Math.toRadians(-55))).build());
 //        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12 * 25.4).build());
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, -24 * 25.4, 0)).reverse().back(25 * 25.4).build());
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(5 * 25.4).build());}
     }
 }
