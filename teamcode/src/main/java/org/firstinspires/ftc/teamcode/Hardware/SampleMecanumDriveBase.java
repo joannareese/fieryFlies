@@ -53,7 +53,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     private DriveConstraints constraints;
     private DriveConstraints fastConstraints;
 
-    private TrajectoryFollower follower;
+    public TrajectoryFollower follower;
 
     public SampleMecanumDriveBase() {
         super(kV, kA, kStatic, TRACK_WIDTH);

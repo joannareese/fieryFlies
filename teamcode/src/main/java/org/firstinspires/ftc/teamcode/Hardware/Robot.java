@@ -58,8 +58,8 @@ public class Robot {
     protected DcMotorEx Motor4;
     protected DcMotorEx Motor5;
     protected DcMotorEx Motor6;
-    protected DcMotorEx Motor7;
-    protected DcMotorEx Motor8;
+    public DcMotorEx Motor7;
+    public DcMotorEx Motor8;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
     //This array should go left encoder, right encoder, back encoder

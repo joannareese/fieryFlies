@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.OpModes.SoloAuto;
-import org.firstinspires.ftc.teamcode.OpModes.TwoStone;
+//import org.firstinspires.ftc.teamcode.OpModes.OneStone;
+//import org.firstinspires.ftc.teamcode.OpModes.SoloAuto;
+//import org.firstinspires.ftc.teamcode.OpModes.TwoStone;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
@@ -81,22 +82,28 @@ public class Spotter extends OpenCvPipeline {
 
         Imgproc.drawMarker(source0, bestRect.br(), new Scalar(255, 255, 255));
         best = bestRect.x;
-        if(bestRect.x <= 90) {
-            TwoStone.skystoneSpot = 1;
-            SoloAuto.skystoneSpot = 1;
-            RobotValues.yPos1 = -7;
-            yPos2 = -2;
-        } else if (bestRect.x <= 180) {
-            TwoStone.skystoneSpot = 2;
-            SoloAuto.skystoneSpot = 2;
-            RobotValues.yPos1 = 3;
-            yPos2 = -4;
-        } else {
-            TwoStone.skystoneSpot = 3;
-            SoloAuto.skystoneSpot = 3;
-            RobotValues.yPos1 = 12;
-            yPos2 = -2;
-        }
+//        if(bestRect.x <= 90) {
+//            TwoStone.skystoneSpot = 1;
+//            SoloAuto.skystoneSpot = 1;
+//            OneStone.skystoneSpot = 1;
+//
+//            RobotValues.yPos1 = -7;
+//            yPos2 = -2;
+//        } else if (bestRect.x <= 180) {
+//            TwoStone.skystoneSpot = 2;
+//            SoloAuto.skystoneSpot = 2;
+//            OneStone.skystoneSpot = 2;
+//
+//            RobotValues.yPos1 = 3;
+//            yPos2 = -4;
+//        } else {
+//            TwoStone.skystoneSpot = 3;
+//            SoloAuto.skystoneSpot = 3;
+//            OneStone.skystoneSpot = 3;
+//
+//            RobotValues.yPos1 = 12;
+//            yPos2 = -2;
+//        }
 
         return source0.submat(RobotValues.row1,RobotValues.row2,RobotValues.col1,RobotValues.col2);
     }

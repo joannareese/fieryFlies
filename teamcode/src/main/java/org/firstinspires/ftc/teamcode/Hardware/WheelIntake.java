@@ -22,8 +22,14 @@ public class WheelIntake {
      * @param power power to set the intake too
      */
     public void intake(double power){
+        if(power<0){
         for (DcMotorEx motorEx :motors) {
-            motorEx.setPower(power/RobotValues.powerDivider);
+            motorEx.setPower(power/2);
+        }}
+        else{
+            for (DcMotorEx motorEx :motors) {
+                motorEx.setPower(power/2.5);
+            }
         }
     }
     public void turbo(){
@@ -36,7 +42,7 @@ public class WheelIntake {
      * zuuuuck sucks in some tasty cubes
      */
     public void zuuuck(){
-        intake(.8);
+        intake(.5);
 
     }
 

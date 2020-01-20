@@ -15,6 +15,7 @@ public class parkOnly extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+
         Motor1 = (DcMotorEx) hardwareMap.dcMotor.get("frontLeft");
         Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor2 = (DcMotorEx) hardwareMap.dcMotor.get("backLeft");
@@ -22,7 +23,23 @@ public class parkOnly extends LinearOpMode {
         Motor3 = (DcMotorEx) hardwareMap.dcMotor.get("frontRight");
         Motor4 = (DcMotorEx) hardwareMap.dcMotor.get("backRight");
 
+
         waitForStart();
+        sleep(28000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         Motor1.setPower(.3);
         Motor2.setPower(.3);
         Motor3.setPower(.3);

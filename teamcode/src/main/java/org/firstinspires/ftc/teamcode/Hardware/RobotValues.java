@@ -12,9 +12,9 @@ public class RobotValues {
     public static double yPos1 = 1;
 
 
-    public static double servo1bottom = .9;
+    public static double servo1bottom = .85;
     public static double servo1top = .75;
-    public static double servo2bottom = 0;
+    public static double servo2bottom = .125;
     public static double servo2top = .26;
 
     public static double grabOpen =0;
@@ -28,7 +28,7 @@ public class RobotValues {
     public static double chainauto = 1300;
     public static double chainMid =1000;
     public static double chainPlace = 2500;
-    public static int chainhold = 4000;
+    public static int chainhold = 4500;
 
 
     public static double backHeading = 270;
@@ -37,7 +37,7 @@ public class RobotValues {
     public static double groud=-1500;
     public static double wheel3switch = 1;
     public static double heading  = -55;
-    public static double x = -350;
+    public static double x = 0;
     public static double ycrax = 100;
 
     public static double fullGrab = .8;
@@ -53,5 +53,8 @@ public class RobotValues {
     public static int liftyUp = 3500;
     public static int liftyDown = 0;
 
+    public static double y =-42 ;
+    public static double time=3;
+    public static double offset=-203.5;
 }
 

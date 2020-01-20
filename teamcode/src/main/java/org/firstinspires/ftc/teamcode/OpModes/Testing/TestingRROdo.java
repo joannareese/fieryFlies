@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 
-@TeleOp(name = "RR OdoTest")
 
 public class TestingRROdo extends LinearOpMode {
     public Robot r;

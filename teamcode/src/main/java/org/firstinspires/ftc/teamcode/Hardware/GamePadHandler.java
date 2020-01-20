@@ -60,6 +60,7 @@ public class GamePadHandler {
 
     if(game2.left_bumper){
         bot.lifty.goDown();
+
     }
 
         /*
@@ -124,8 +125,11 @@ public class GamePadHandler {
          ________________*/
 
     if (game2.dpad_down) {
+        bot.lifty.goDown();
         bot.chainbar.goDown();
         bot.chainbar.grabOpen();
+
+
     } else if (game2.dpad_left) {
         bot.chainbar.goUpBit();
     } else if (game2.dpad_up) {
@@ -134,18 +138,16 @@ public class GamePadHandler {
         bot.chainbar.holdPosition();
     } else if (game2.left_stick_button) {
         bot.chainbar.reset();
+        bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        bot.Motor7.setTargetPosition(bot.Motor7.getCurrentPosition());
+
     } else if (Math.abs(game2.left_stick_y) > .5) {
         // bot.chainbar.wild();
         bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
     }
-//        if (game2.left_stick_button) {
-//            bot.chainbar.lockOut();
-    //}
-    if (game2.right_stick_button) {
-        bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bot.Motor7.setTargetPosition(bot.Motor7.getCurrentPosition());
-    }
+
+
     if (game1.left_bumper) {
         single = !single;
     }
