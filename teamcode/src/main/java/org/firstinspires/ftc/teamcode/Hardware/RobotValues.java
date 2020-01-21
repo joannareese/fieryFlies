@@ -9,13 +9,12 @@ public class RobotValues {
     public static double odoTicksPerRevOddOnesOut = 800;
     public static double trackWidthmm = 349.7;
     public static double middleOdoFromMiddleMM = 14.02;
-    public static double yPos1 = 1;
 
 
     public static double servo1bottom = .85;
     public static double servo1top = .75;
-    public static double servo2bottom = .125;
-    public static double servo2top = .26;
+    public static double servo2bottom = .225;
+    public static double servo2top = .28;
 
     public static double grabOpen =0;
     public static double grabmegaOpen =0;
@@ -23,12 +22,12 @@ public class RobotValues {
 
 
     public static double chainDown = 50;
-    public static double chainkinda = 100;
+    public static double chainkinda = 4800;
     public static double chainUp = 5000;
     public static double chainauto = 1300;
     public static double chainMid =1000;
     public static double chainPlace = 2500;
-    public static int chainhold = 4500;
+    public static int chainhold = 4000;
 
 
     public static double backHeading = 270;
@@ -36,9 +35,7 @@ public class RobotValues {
 
     public static double groud=-1500;
     public static double wheel3switch = 1;
-    public static double heading  = -55;
-    public static double x = 0;
-    public static double ycrax = 100;
+    public static double heading  = 135;
 
     public static double fullGrab = .8;
     public static int autoHold=680;
@@ -53,8 +50,8 @@ public class RobotValues {
     public static int liftyUp = 3500;
     public static int liftyDown = 0;
 
-    public static double y =-42 ;
-    public static double time=3;
-    public static double offset=-203.5;
+
+
+    public static double offset=-0;
 }
 

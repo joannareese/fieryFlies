@@ -6,12 +6,13 @@ import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.Hardware.AutonomousValues;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Hardware.RobotValues;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
 import kotlin.Unit;
-@Autonomous(name = "kill me")
+@Autonomous(name = "nvm Dont KillMe")
 public class NewTwoStone extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -20,16 +21,45 @@ public class NewTwoStone extends LinearOpMode {
         waitForStart();
       // r.chainbar.autoHold();
         r.movey.dropItLikeItsHot();
+        r.chainbar.goPlace();
+        r.intake.turbo();
+        r.chainbar.grabOpen();
         r.rrBot.setPoseEstimate(startPose);
-        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder() .addMarker(1,() ->{r.intake.intake(1); return Unit.INSTANCE;})   .lineTo( new Vector2d(startPose.getX()-110+RobotValues.offset, startPose.getY()+730),new SplineInterpolator( r.rrBot.getPoseEstimate().getHeading(),startPose.getHeading()+-Math.PI/4))  .build());
-        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(0,-45.0*25.4,Math.toRadians(-180))).splineTo(new Pose2d(42*25.4,-33*25.4,Math.toRadians(-90)))
-                .addMarker(() ->{r.intake.intake(0);r.movey.grabFoundation(); return Unit.INSTANCE;}).build());
+        //go to stone grab
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder() .addMarker(1,() ->{r.intake.intake(1); return Unit.INSTANCE;})
+                .lineTo( new Vector2d(startPose.getX()-75+RobotValues.offset, startPose.getY()+865),new SplineInterpolator( r.rrBot.getPoseEstimate().getHeading(),startPose.getHeading()+-Math.PI/4))
+                .forward(3*25.4)
+                .build());
+
         r.chainbar.goDown();
-        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().addMarker(()->{r.chainbar.grabClose();return Unit.INSTANCE;}).addMarker(.5,()->{r.chainbar.holdPosition();return Unit.INSTANCE;}).forward(10*25.4)
-                .splineTo(new Pose2d(RobotValues.x *25.4,RobotValues.y*25.40,Math.toRadians(-180)))
+
+        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse()
+                .splineTo(new Pose2d(0,-40.0*25.4,Math.toRadians(-180))).addMarker(()->{r.chainbar.grabClose();return Unit.INSTANCE;})
+                .splineTo(new Pose2d(42*25.4,-33*25.4,Math.toRadians(-90)))
+                .addMarker(() ->{r.intake.intake(0);r.movey.grabFoundation(); return Unit.INSTANCE;}).build());
+        r.chainbar.liftKinda();
+        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(10*25.4)
                 .addMarker(()->{r.chainbar.grabOpen();return Unit.INSTANCE;})
-                .addMarker(RobotValues.time,()->{r.chainbar.grabOpen();r.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
-        r.movey.dropItLikeItsHot();
+                //.addMarker(1,()->{r.movey.dropItLikeItsHot();r.intake.intake(1);return Unit.INSTANCE;})
+                .splineTo(new Pose2d( 0*25.4,-42*25.40,Math.toRadians(-180)))
+                .addMarker(1.5,()->{r.chainbar.grabOpen();r.intake.intake(1);return Unit.INSTANCE;})
+
+                .addMarker(2.5,()->{r.movey.dropItLikeItsHot();r.intake.intake(1);return Unit.INSTANCE;})
+               .splineTo(new Pose2d(AutonomousValues.x*25.4+RobotValues.offset,startPose.getY()+850,Math.toRadians(RobotValues.heading)))
+                .reverse()
+                .splineTo(new Pose2d(5*25.4,-37*25.4,Math.toRadians(-180)))
+
+
+                .splineTo(new Pose2d(40*25.4,-37*25.4,Math.toRadians(-180)))
+                .addMarker(10,()->{r.chainbar.goDown();r.chainbar.grabOpen();return Unit.INSTANCE;})
+                .addMarker(11,()->{r.chainbar.grabClose();return Unit.INSTANCE;})
+                .addMarker(12,()->{r.chainbar.goPlace();return Unit.INSTANCE;})
+                .addMarker(13,()->{r.chainbar.grabOpen();return Unit.INSTANCE;})
+
+
+
+                .build());
+
 
 //        builder1 = TrajectoryBuilder(Pose2d(42.0,-31.0,(-90.0).toRadians), constraints)
 //
@@ -37,7 +67,7 @@ public class NewTwoStone extends LinearOpMode {
 //        list.add(builder1.build())
 //        builder1 = TrajectoryBuilder(Pose2d(20.0,-37.0,Math.PI), constraints)
 //        builder1.strafeTo(Vector2d(0.0,-36.0))
-//                .splineTo(Pose2d(-19.0,-33.0,(135.0).toRadians))
+//                .splineTo(Pose2d(-19.0,-33.0,(135.0N).toRadians))
 //        list.add(builder1.build())
 //
 //        builder1 = TrajectoryBuilder(Pose2d(-19.0,-33.0,(135.0).toRadians), constraints)
