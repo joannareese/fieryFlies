@@ -14,6 +14,7 @@ public class FoundationMover {
         robo.right.setPosition(RobotValues.servo2bottom);
     }
     public void releaseFoundation(){
-        dropItLikeItsHot();
+        robo.left.setPosition(.95);
+        robo.right.setPosition(.2);
     }
 }

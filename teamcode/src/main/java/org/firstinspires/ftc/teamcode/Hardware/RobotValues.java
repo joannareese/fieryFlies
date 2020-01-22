@@ -33,7 +33,7 @@ public class RobotValues {
     public static double backHeading = 270;
     public static double powerDivider = 2;
 
-    public static double groud=-1500;
+    public static double groud=100;
     public static double wheel3switch = 1;
     public static double heading  = 135;
 

@@ -26,7 +26,6 @@ public class chainbar {
     }
     public void intoGround() {
         mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        this.grabClose();
         mrRoboto.Motor8.setTargetPosition((int)RobotValues.groud);
         mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor8.setPower(1);

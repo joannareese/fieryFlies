@@ -1,15 +1,20 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
@@ -30,6 +35,7 @@ public class Robot {
 
     public final WheelIntake intake;
     private final HardwareMap hardware;
+    private final DistanceSensor sensyDis;
     public RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Location of the bot
@@ -68,6 +74,7 @@ public class Robot {
     private double relativeY;
     private double relativeX;
     private int numberOfDrops = 0;
+    ColorSensor sensy;
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         rrBot = new RoadRunnerBot(hw, telemetry);
@@ -115,6 +122,9 @@ public class Robot {
         Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motor7.setTargetPosition(Motor7.getCurrentPosition());
         Motor8.setTargetPosition(Motor8.getCurrentPosition());
+        sensy = hw.colorSensor.get("sensy");
+        sensyDis = hw.get(DistanceSensor.class, "sensy");
+
 
 
 
@@ -244,6 +254,8 @@ public class Robot {
         telemetry.addData("should be at ", Motor8.getTargetPosition());
         telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
+        telemetry.addData("color",sensy.blue() );
+        telemetry.addData("color",sensyDis.getDistance(DistanceUnit.INCH) );
         //telemetry.addData("magnet bool", magneticSensor.getVoltage());
         telemetry.update();
     }
