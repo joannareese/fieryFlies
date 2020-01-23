@@ -13,10 +13,15 @@ public class ZuckTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Mechanum robot = new Mechanum(telemetry, new Location(),hardwareMap);
-        GamePadHandler gamePadHandler = new GamePadHandler();
+        GamePadHandler gamePadHandler = new GamePadHandler(this);
         waitForStart();
         while(opModeIsActive()){
             gamePadHandler.handleInput(robot,gamepad1,gamepad2);
+            if(gamepad2.dpad_down){
+            robot.chainbar.grabOpen();
+            robot.chainbar.goDownSleep();
+            sleep(250);
+            robot.lifty.goDown();}
             robot.updatePosition();
         }
     }

@@ -118,5 +118,13 @@ public class chainbar {
     public void trim(float left_stick_y) {
 
     }
+
+    public void goDownSleep() {
+        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        mrRoboto.Motor8.setTargetPosition((int) RobotValues.liftyDown);
+        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mrRoboto.Motor8.setPower(1);
+    }
 }
 

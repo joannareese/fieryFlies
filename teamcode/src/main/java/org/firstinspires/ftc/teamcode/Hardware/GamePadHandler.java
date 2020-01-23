@@ -1,9 +1,14 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import kotlin.Unit;
+
 public class GamePadHandler {
+    public final OpMode Opmodethi;
     public Gamepad gm1;
     public Gamepad gm2;
     private float driveRot;
@@ -11,7 +16,8 @@ public class GamePadHandler {
     private float driveY;
     public boolean single=false;
 
-    public GamePadHandler() {
+    public GamePadHandler(OpMode opy) {
+        Opmodethi = opy;
 
     }
 
@@ -46,7 +52,7 @@ public class GamePadHandler {
     final double v3 = (P * sinRAngle) + (P * cosRAngle) + rightX;
     final double v4 = (P * sinRAngle) - (P * cosRAngle) - rightX;
 
-    double[] powers = {.75 * v2, .75 * v4, .75 * v1, .75 * v3};
+    double[] powers = {.85 * v2, .85 * v4, .85 * v1, .85 * v3};
     bot.drivePower(powers);
 
     if (game1
@@ -100,15 +106,18 @@ public class GamePadHandler {
         bot.pos.setLocation(0, 0, 0, 0);
     }
 
-    if (game2.b) {
+    if (game1.b) {
         bot.movey.grabFoundation();
     }
-    if (game2.a) {
+    if (game1.a) {
         bot.movey.dropItLikeItsHot();
     }
     if (game2.b) {
         bot.movey.grabFoundation();
     }
+        if (game2.a) {
+            bot.movey.dropItLikeItsHot();
+        }
 
     if (game2.y) {
         bot.chainbar.grabOpen();
@@ -125,12 +134,14 @@ public class GamePadHandler {
          ________________*/
 
     if (game2.dpad_down) {
-        bot.lifty.goDown();
-        bot.chainbar.goDown();
         bot.chainbar.grabOpen();
+        bot.chainbar.goDownSleep();
+        bot.lifty.goDown();
 
 
-    } else if (game2.dpad_left) {
+
+    }
+    else if (game2.dpad_left) {
         bot.chainbar.goUpBit();
     } else if (game2.dpad_up) {
         bot.chainbar.goUpAll();
@@ -147,7 +158,12 @@ public class GamePadHandler {
         bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
     }
 
-
+    if(game1.y){
+        bot.rrBot.setPoseEstimate(new Pose2d());
+        bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(24*25.4)
+                .addMarker(()->{bot.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
+        ;
+    }
     if (game1.left_bumper) {
         single = !single;
     }

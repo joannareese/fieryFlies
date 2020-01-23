@@ -21,19 +21,19 @@ public class RobotValues {
     public static double grabClose = .9;
 
 
-    public static double chainDown = 50;
-    public static double chainkinda = 4800;
+    public static double chainDown = 65;
+    public static double chainkinda = 5000;
     public static double chainUp = 5000;
     public static double chainauto = 1300;
     public static double chainMid =1000;
     public static double chainPlace = 2500;
-    public static int chainhold = 4000;
+    public static int chainhold = 3000;
 
 
     public static double backHeading = 270;
     public static double powerDivider = 2;
 
-    public static double groud=100;
+    public static double groud=450;
     public static double wheel3switch = 1;
     public static double heading  = 135;
 
@@ -51,7 +51,6 @@ public class RobotValues {
     public static int liftyDown = 0;
 
 
-
-    public static double offset=-0;
+    public static double speedDiv = 4;
 }
 

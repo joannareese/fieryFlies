@@ -35,7 +35,7 @@ public class Robot {
 
     public final WheelIntake intake;
     private final HardwareMap hardware;
-    private final DistanceSensor sensyDis;
+
     public RoadRunnerBot rrBot;
     public float beepbeep = 0;
     //Location of the bot
@@ -74,7 +74,7 @@ public class Robot {
     private double relativeY;
     private double relativeX;
     private int numberOfDrops = 0;
-    ColorSensor sensy;
+
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         rrBot = new RoadRunnerBot(hw, telemetry);
@@ -122,8 +122,7 @@ public class Robot {
         Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motor7.setTargetPosition(Motor7.getCurrentPosition());
         Motor8.setTargetPosition(Motor8.getCurrentPosition());
-        sensy = hw.colorSensor.get("sensy");
-        sensyDis = hw.get(DistanceSensor.class, "sensy");
+
 
 
 
@@ -254,8 +253,6 @@ public class Robot {
         telemetry.addData("should be at ", Motor8.getTargetPosition());
         telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
-        telemetry.addData("color",sensy.blue() );
-        telemetry.addData("color",sensyDis.getDistance(DistanceUnit.INCH) );
         //telemetry.addData("magnet bool", magneticSensor.getVoltage());
         telemetry.update();
     }

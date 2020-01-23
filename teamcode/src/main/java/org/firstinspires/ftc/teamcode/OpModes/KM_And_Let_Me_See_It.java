@@ -18,29 +18,23 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "nvm Dont KillMe")
-public class NewTwoStone extends LinearOpMode {
-    private boolean isRed = true;
-    private int sidemult = 1;
+@Autonomous(name = "red auto")
+public class KM_And_Let_Me_See_It extends LinearOpMode {
     public static int skystoneSpot;
-    private String webcamName;
+    private Robot r;
+    private boolean isRed;
+    private int sidemult;
+    private String webcamName = "Webcam 2";
     private OpenCvCamera webcam;
     private Spotter spot;
 
+
     @Override
     public void runOpMode() throws InterruptedException {
-        Robot r = new Robot(telemetry, new Location(), hardwareMap);
-//        while ((!isStarted() && !isStopRequested()) && (!gamepad1.x)) {
-//            telemetry.addData("press a to togle side", "press b to toggle where to park and x to save and move on");
-//            telemetry.addData("Side:", isRed ? "red" : "blue");
-//            if (gamepad1.a) {
-//                isRed = !isRed;
-//            }
-//            sidemult = isRed ? 1 : -1;
-//
-//            telemetry.update();
-//        }
-        webcamName= isRed ? "Webcam 2" : "Webcam 1";
+        r = new Robot(telemetry, new Location(), hardwareMap);
+        Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
+        r.rrBot.setPoseEstimate(startPose);
+    msStuckDetectStop=8000;
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
@@ -49,23 +43,13 @@ public class NewTwoStone extends LinearOpMode {
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
         while (!isStarted() && !isStopRequested()) {
-////
-           telemetry.addData("Skystone Spot: ", skystoneSpot);
-            telemetry.addData("","i hate everything");
-         telemetry.addData("skystone x", spot.best);
+
+            telemetry.addData("Skystone Spot: ", skystoneSpot);
+            telemetry.addData("skystone x", spot.best);
             telemetry.update();
             AutonomousValues.offset=(3-skystoneSpot)*-195;
-       }
-
-
-
-
-
+        }
         telemetry.update();
-        Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
-        waitForStart();
-        webcam.closeCameraDevice();
-        // r.chainbar.autoHold();
         r.movey.dropItLikeItsHot();
         r.chainbar.goPlace();
 
@@ -74,9 +58,9 @@ public class NewTwoStone extends LinearOpMode {
         //go to stone grab
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
                 .addMarker(.75, () -> {
-            r.intake.turbo();
-            return Unit.INSTANCE;
-        })
+                    r.intake.turbo();
+                    return Unit.INSTANCE;
+                })
                 .addMarker(1, () -> {
                     r.intake.intake(1);
                     return Unit.INSTANCE;
@@ -97,7 +81,7 @@ public class NewTwoStone extends LinearOpMode {
                     r.movey.grabFoundation();
                     return Unit.INSTANCE;
                 }).build());
-        r.chainbar.goDown();
+        r.chainbar.liftKinda();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
                 .forward(17 * 25.4)
                 .addMarker(() -> {
@@ -122,10 +106,10 @@ public class NewTwoStone extends LinearOpMode {
         r.chainbar.goDown();
         r.rrBot.followTrajectorySync(
                 r.rrBot.fastTrajectoryBuilder().reverse()
-                .splineTo(new Pose2d(19 * 25.4, -39 * 25.40, Math.toRadians(-180)))
-                 .reverse()
-                 .forward(4*25.4)
-                .build());
+                        .splineTo(new Pose2d(19 * 25.4, -39 * 25.40, Math.toRadians(-180)))
+                        .reverse()
+                        .forward(4*25.4)
+                        .build());
 
 
 //        builder1 = TrajectoryBuilder(Pose2d(42.0,-31.0,(-90.0).toRadians), constraints)

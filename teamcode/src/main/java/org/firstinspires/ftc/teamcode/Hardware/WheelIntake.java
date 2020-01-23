@@ -28,7 +28,7 @@ public class WheelIntake {
         }}
         else{
             for (DcMotorEx motorEx :motors) {
-                motorEx.setPower(power/2.5);
+                motorEx.setPower(power/RobotValues.powerDivider);
             }
         }
     }

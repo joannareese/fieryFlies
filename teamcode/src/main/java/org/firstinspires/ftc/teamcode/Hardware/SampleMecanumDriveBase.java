@@ -14,6 +14,7 @@ import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.followers.HolonomicPIDVAFollower;
 import com.acmerobotics.roadrunner.followers.TrajectoryFollower;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.path.PathBuilder;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
@@ -33,6 +34,8 @@ import org.firstinspires.ftc.teamcode.Utils.DashboardUtil;
 public abstract class SampleMecanumDriveBase extends MecanumDrive {
     public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(1.8, 0,0);
     public static PIDCoefficients HEADING_PID = new PIDCoefficients(1.9, .9, 0);
+    private final MecanumConstraints slowConstraints;
+    public TrajectoryBuilder slowTrajBuiler;
 
 
     public enum Mode {
@@ -68,6 +71,7 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
 
         constraints = new MecanumConstraints(BASE_CONSTRAINTS, TRACK_WIDTH);
         fastConstraints = new MecanumConstraints(FAST_CONSTRAINTS, TRACK_WIDTH);
+        slowConstraints = new MecanumConstraints(SLOW_CONSTRAINTS, TRACK_WIDTH);
         follower = new HolonomicPIDVAFollower(TRANSLATIONAL_PID, TRANSLATIONAL_PID, HEADING_PID,new Pose2d(40,40,Math.toRadians(5)),.75);
         dashboard.updateConfig();
     }
@@ -77,6 +81,9 @@ public abstract class SampleMecanumDriveBase extends MecanumDrive {
     }
     public TrajectoryBuilder fastTrajectoryBuilder() {
         return new TrajectoryBuilder(getPoseEstimate(), fastConstraints);
+    }
+    public TrajectoryBuilder slowTrajectoryBuilder() {
+        return new TrajectoryBuilder(getPoseEstimate(), slowConstraints);
     }
 
     public void turn(double angle) {
