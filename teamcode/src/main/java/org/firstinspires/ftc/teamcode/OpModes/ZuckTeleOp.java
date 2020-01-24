@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.Hardware.Mechanum;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "TeleOp")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name = "(TELE)DON't DISCONNECT, I BELIEVE IN YOU ")
 public class ZuckTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {

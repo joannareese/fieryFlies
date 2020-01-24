@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Testing;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-
+@Disabled
 @Autonomous(name = "One Stone0 Auto PROB NO WORKY")
 public class OneStone extends LinearOpMode {
     public static int skystoneSpot = 1;

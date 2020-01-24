@@ -18,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "nvm Dont KillMe")
+@Autonomous(name = "Red- Collecting Stones Like I'm Thanos")
 public class NewTwoStone extends LinearOpMode {
     private boolean isRed = true;
     private int sidemult = 1;
@@ -30,16 +30,7 @@ public class NewTwoStone extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Robot r = new Robot(telemetry, new Location(), hardwareMap);
-//        while ((!isStarted() && !isStopRequested()) && (!gamepad1.x)) {
-//            telemetry.addData("press a to togle side", "press b to toggle where to park and x to save and move on");
-//            telemetry.addData("Side:", isRed ? "red" : "blue");
-//            if (gamepad1.a) {
-//                isRed = !isRed;
-//            }
-//            sidemult = isRed ? 1 : -1;
-//
-//            telemetry.update();
-//        }
+
         webcamName= isRed ? "Webcam 2" : "Webcam 1";
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
@@ -48,22 +39,17 @@ public class NewTwoStone extends LinearOpMode {
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-        while (!isStarted() && !isStopRequested()) {
+        waitForStart();
 ////
-           telemetry.addData("Skystone Spot: ", skystoneSpot);
-            telemetry.addData("","i hate everything");
-         telemetry.addData("skystone x", spot.best);
-            telemetry.update();
-            AutonomousValues.offset=(3-skystoneSpot)*-195;
-       }
 
+        AutonomousValues.offset=(3-skystoneSpot)*-180;
 
 
 
 
         telemetry.update();
         Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
-        waitForStart();
+        telemetry.update();
         webcam.closeCameraDevice();
         // r.chainbar.autoHold();
         r.movey.dropItLikeItsHot();
@@ -81,7 +67,7 @@ public class NewTwoStone extends LinearOpMode {
                     r.intake.intake(1);
                     return Unit.INSTANCE;
                 })
-                .lineTo(new Vector2d(startPose.getX() + AutonomousValues.offset-15, startPose.getY() + 680), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(-45)))
+                .lineTo(new Vector2d(startPose.getX()+15 + AutonomousValues.offset, startPose.getY() + 680), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(-45)))
                 .build());
 
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(11 * 25.4).back(8*25.4).build());
@@ -97,13 +83,13 @@ public class NewTwoStone extends LinearOpMode {
                     r.movey.grabFoundation();
                     return Unit.INSTANCE;
                 }).build());
-        r.chainbar.goDown();
+        r.chainbar.goUpAll();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
                 .forward(17 * 25.4)
                 .addMarker(() -> {
                     r.intake.turbo();
                     r.chainbar.grabOpen();
-                    r.chainbar.intoGround();
+                    r.chainbar.goDown();
                     return Unit.INSTANCE;
                 })
                 .addMarker(2.5, () -> {

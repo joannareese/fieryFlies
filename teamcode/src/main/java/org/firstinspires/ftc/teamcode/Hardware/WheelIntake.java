@@ -24,7 +24,7 @@ public class WheelIntake {
     public void intake(double power){
         if(power<0){
         for (DcMotorEx motorEx :motors) {
-            motorEx.setPower(power/2);
+            motorEx.setPower(power/1);
         }}
         else{
             for (DcMotorEx motorEx :motors) {

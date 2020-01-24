@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -17,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
-
+@Disabled
 @Autonomous(name = "red auto")
 public class KM_And_Let_Me_See_It extends LinearOpMode {
     public static int skystoneSpot;
@@ -52,7 +53,7 @@ public class KM_And_Let_Me_See_It extends LinearOpMode {
         telemetry.update();
         r.movey.dropItLikeItsHot();
         r.chainbar.goPlace();
-
+        webcam.closeCameraDevice();
         r.chainbar.grabOpen();
         r.rrBot.setPoseEstimate(startPose);
         //go to stone grab
@@ -81,7 +82,7 @@ public class KM_And_Let_Me_See_It extends LinearOpMode {
                     r.movey.grabFoundation();
                     return Unit.INSTANCE;
                 }).build());
-        r.chainbar.liftKinda();
+        r.chainbar.goUpAll();
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
                 .forward(17 * 25.4)
                 .addMarker(() -> {

@@ -9,13 +9,13 @@ import org.firstinspires.ftc.teamcode.OpModes.KM_And_Let_Me_See_It;
 import org.firstinspires.ftc.teamcode.OpModes.NewTwoStone;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Rect;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvPipeline;
+    import org.opencv.core.MatOfPoint;
+    import org.opencv.core.Rect;
+    import org.opencv.core.Scalar;
+    import org.opencv.imgproc.Imgproc;
+    import org.openftc.easyopencv.OpenCvPipeline;
 
-import java.util.ArrayList;
+    import java.util.ArrayList;
 import java.util.List;
 
 public class Spotter extends OpenCvPipeline {

@@ -17,7 +17,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "DOnt run")
+@Autonomous(name = "Blue- Collecting Stones Like I'm Thanos")
 public class BlueSolo extends LinearOpMode {
     public static int skystoneSpot = 1;
     private Robot r;
