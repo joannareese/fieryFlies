@@ -11,10 +11,10 @@ public class RobotValues {
     public static double middleOdoFromMiddleMM = 14.02;
 
 
-    public static double servo1bottom = .85;
-    public static double servo1top = .75;
-    public static double servo2bottom = .225;
-    public static double servo2top = .28;
+    public static double servo1bottom = .6;
+    public static double servo1top = .5;
+    public static double servo2bottom = .2;
+    public static double servo2top = .3;
 
     public static double grabOpen =0;
     public static double grabmegaOpen =0;
@@ -34,7 +34,7 @@ public class RobotValues {
     public static double powerDivider = 2;
 
     public static double groud=450;
-    public static double wheel3switch = 1;
+    public static double wheel3switch = -1;
     public static double heading  = 135;
 
     public static double fullGrab = .8;

@@ -76,7 +76,7 @@ public class NewTwoStone extends LinearOpMode {
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse()
                 .splineTo(new Pose2d(0, -40.0 * 25.4, Math.toRadians(-180)))
-                .splineTo(new Pose2d(55 * 25.4, -34 * 25.4, Math.toRadians(-90)))
+                .splineTo(new Pose2d(52 * 25.4, -31 * 25.4, Math.toRadians(-90)))
                 .addMarker(() -> {
                     r.intake.intake(0);
                     r.chainbar.grabClose();
@@ -97,9 +97,9 @@ public class NewTwoStone extends LinearOpMode {
                     r.movey.dropItLikeItsHot();
                     return Unit.INSTANCE;
                 })
-                .splineTo(new Pose2d(30 * 25.4,-55 * 25.40, Math.toRadians(-205)))
-                .splineTo(new Pose2d(12 * 25.4, -48 * 25.40, Math.toRadians(-180)))
-                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+550, startPose.getY() + 600, Math.toRadians(135)))
+                .splineTo(new Pose2d(30 * 25.4,-38 * 25.40, Math.toRadians(-205)))
+                .splineTo(new Pose2d(12 * 25.4, -38 * 25.40, Math.toRadians(-180)))
+                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+700, startPose.getY() + 600, Math.toRadians(135)))
 
                 .build());
         r.chainbar.goUpBit();

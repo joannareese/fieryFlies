@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.localization.ThreeTrackingWheelLocalizer;
+import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.acmerobotics.roadrunner.path.PathBuilder;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -32,12 +33,16 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     public ExpansionHubEx hub;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
-    private BNO055IMU imu;
+    public BNO055IMU imu;
 
     public RoadRunnerBot(HardwareMap hardwareMap, Telemetry tele) {
         super();
 
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
+        imu = hardwareMap.get(BNO055IMU.class,"imu");
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.angleUnit=BNO055IMU.AngleUnit.RADIANS;
+        imu.initialize(parameters);
 
        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
 
@@ -97,7 +102,7 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
         return imu.getAngularOrientation().firstAngle;
     }
 }
-class localizer extends ThreeTrackingWheelLocalizer{
+class localizer extends ThreeTrackingWheelLocalizer {
     public RoadRunnerBot bot;
     private double wheel1;
     private double wheel2;
@@ -106,7 +111,7 @@ class localizer extends ThreeTrackingWheelLocalizer{
     localizer(HardwareMap hwMap,RoadRunnerBot bot){
 
         super(Arrays.asList(
-                new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
+               new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
                 new Pose2d(0, RobotValues.trackWidthmm/2.0, 0), // right
                 new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(RobotValues.backHeading)) // back
         ));
@@ -123,8 +128,8 @@ class localizer extends ThreeTrackingWheelLocalizer{
         try {
 
             RevBulkData bulk = bot.hub.getBulkInputData();
-            wheel1 = -encoderTicksToInches(bulk.getMotorCurrentPosition(0));
-            wheel2= -50.8 * Math.PI * bulk.getMotorCurrentPosition(1) / RobotValues.odoTicksPerRevOddOnesOut;
+            wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
+            wheel2= 50.8 * Math.PI * bulk.getMotorCurrentPosition(1) / RobotValues.odoTicksPerRevOddOnesOut;
             wheel3 = RobotValues.wheel3switch*encoderTicksToInches(bulk.getMotorCurrentPosition(2));
         }catch (NullPointerException e){
             System.out.println("Nobody will ever see this. What does any of this matter? " +
@@ -136,4 +141,6 @@ class localizer extends ThreeTrackingWheelLocalizer{
                 wheel3
         );
     }
+
+
 }

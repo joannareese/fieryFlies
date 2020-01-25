@@ -253,7 +253,16 @@ public class Robot {
         telemetry.addData("should be at ", Motor8.getTargetPosition());
         telemetry.addData("Pos", pos.toString());
         telemetry.addData("Droped Bulk Reads", numberOfDrops);
-        //telemetry.addData("magnet bool", magneticSensor.getVoltage());
+        rrBot.updatePoseEstimate();
+        telemetry.addData("Pos", rrBot.getPoseEstimate().toString());
+        telemetry.addData("chainbar", Motor1.getCurrentPosition());
+        telemetry.addData("chainbar", Motor2.getCurrentPosition());
+        telemetry.addData("chainbar", Motor3.getCurrentPosition());
+        telemetry.addData("chainbar", Motor4.getCurrentPosition());
+        telemetry.addData("chainbar", Motor5.getCurrentPosition());
+
+
+
         telemetry.update();
     }
 

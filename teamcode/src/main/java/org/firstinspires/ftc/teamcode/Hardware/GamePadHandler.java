@@ -160,7 +160,7 @@ public class GamePadHandler {
 
     if(game1.y){
         bot.rrBot.setPoseEstimate(new Pose2d());
-        bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(24*25.4)
+        bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(26*25.4)
                 .addMarker(()->{bot.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
         ;
     }

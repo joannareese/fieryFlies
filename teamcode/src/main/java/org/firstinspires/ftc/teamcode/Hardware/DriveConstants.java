@@ -59,7 +59,7 @@ public class DriveConstants {
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
     public static DriveConstraints FAST_CONSTRAINTS = new DriveConstraints(
-            762, 762, 0.05,
+            850, 850, 0.05,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.05
     );
     public static DriveConstraints SLOW_CONSTRAINTS = new DriveConstraints(

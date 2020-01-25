@@ -32,14 +32,14 @@ public class Foundation extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(22 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(24 * 25.4).build());
         if (isRed){
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(6*25.4).build());
         }
         else{
             r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(6*25.4).build());
         }
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(9 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(11 * 25.4).build());
         r.movey.grabFoundation();
         sleep(500);
         r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
@@ -62,7 +62,7 @@ public class Foundation extends LinearOpMode {
                 r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(10 * 25.4).build());
             }
         }
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(45 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(48* 25.4).build());
 
     }
 }
