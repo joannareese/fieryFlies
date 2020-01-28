@@ -75,7 +75,7 @@ public class BlueSolo extends LinearOpMode {
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse()
                 .splineTo(new Pose2d(0, sidemult*-40.0 * 25.4, Math.toRadians(-180)))
-                .splineTo(new Pose2d(55 * 25.4, sidemult*-34 * 25.4, Math.toRadians(sidemult*-90)))
+                .splineTo(new Pose2d(53  * 25.4, sidemult*-31* 25.4, Math.toRadians(sidemult*-90)))
                 .addMarker(() -> {
                     r.intake.intake(0);
                     r.chainbar.grabClose();

@@ -20,7 +20,6 @@ public class ZuckTeleOp extends LinearOpMode {
             if(gamepad2.dpad_down){
             robot.chainbar.grabOpen();
             robot.chainbar.goDownSleep();
-            sleep(250);
             robot.lifty.goDown();}
             robot.updatePosition();
         }

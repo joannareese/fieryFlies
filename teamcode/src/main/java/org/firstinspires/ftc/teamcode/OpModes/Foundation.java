@@ -32,37 +32,37 @@ public class Foundation extends LinearOpMode {
             telemetry.update();
         }
         waitForStart();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(24 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(24 * 25.4).build());
         if (isRed){
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(6*25.4).build());
+            r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeLeft(6*25.4).build());
         }
         else{
-            r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(6*25.4).build());
+            r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(6*25.4).build());
         }
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(11 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(11 * 25.4).build());
         r.movey.grabFoundation();
         sleep(500);
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(20 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(25 * 25.4).build());
 
         r.turnSync(Math.toRadians(-98 * sidemult));
         r.movey.dropItLikeItsHot();
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().back(21 * 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().back(21 * 25.4).build());
         if (isRed) {
             if (byWall) {
-                r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(RobotValues.foundationStrafe * 25.4).strafeRight(2 * 25.4).build());
+                r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeLeft(RobotValues.foundationStrafe * 25.4).strafeRight(2 * 25.4).build());
 
             } else {
-                r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(10 * 25.4).build());
+                r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(14 * 25.4).build());
             }
         } else {
             if (byWall) {
-                r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeRight(RobotValues.foundationStrafe * 25.4).strafeLeft(2 * 25.4).build());
+                r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeRight(RobotValues.foundationStrafe * 25.4).strafeLeft(2 * 25.4).build());
 
             } else {
-                r.followTrajectorySync(r.rrBot.trajectoryBuilder().strafeLeft(10 * 25.4).build());
+                r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().strafeLeft(10 * 25.4).build());
             }
         }
-        r.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(48* 25.4).build());
+        r.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(48* 25.4).build());
 
     }
 }

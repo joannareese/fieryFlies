@@ -84,7 +84,7 @@ public class chainbar {
     public void grabClose(){
 
         mrRoboto.grabby.setPosition(RobotValues.grabClose);
-    mrRoboto.intake.intake(-0.1);}
+    }
 
 
     public void grabOpen(){
