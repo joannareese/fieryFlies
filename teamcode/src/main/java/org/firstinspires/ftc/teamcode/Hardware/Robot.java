@@ -1,24 +1,16 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.AnalogInput;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.security.InvalidParameterException;
@@ -57,6 +49,8 @@ public class Robot {
     public AnalogInput magneticSensor;
     public Telemetry telemetry;
     public org.firstinspires.ftc.teamcode.Hardware.chainbar chainbar;
+    public DcMotorEx Motor7;
+    public DcMotorEx Motor8;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -64,8 +58,6 @@ public class Robot {
     protected DcMotorEx Motor4;
     protected DcMotorEx Motor5;
     protected DcMotorEx Motor6;
-    public DcMotorEx Motor7;
-    public DcMotorEx Motor8;
     protected ArrayList<DcMotorEx> leftMotors;
     protected ArrayList<DcMotorEx> rightMotors;
     //This array should go left encoder, right encoder, back encoder
@@ -122,10 +114,8 @@ public class Robot {
         Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motor7.setTargetPosition(Motor7.getCurrentPosition());
         Motor8.setTargetPosition(Motor8.getCurrentPosition());
-
-
-
-
+        expansionHub.setLedColor(255, 0, 0);
+        expansionHub.setPhoneChargeEnabled(true);
 
 
     }
@@ -260,7 +250,6 @@ public class Robot {
         telemetry.addData("chainbar", Motor3.getCurrentPosition());
         telemetry.addData("chainbar", Motor4.getCurrentPosition());
         telemetry.addData("chainbar", Motor5.getCurrentPosition());
-
 
 
         telemetry.update();
