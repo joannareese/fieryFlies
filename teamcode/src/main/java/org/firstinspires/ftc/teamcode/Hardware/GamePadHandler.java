@@ -206,7 +206,6 @@ public class GamePadHandler {
 
 
 
-    bot.update();
     }
 
 

@@ -17,11 +17,7 @@ public class ZuckTeleOp extends LinearOpMode {
         waitForStart();
         while(opModeIsActive()){
             gamePadHandler.handleInput(robot,gamepad1,gamepad2);
-            if(gamepad2.dpad_down){
-            robot.chainbar.grabOpen();
-            robot.chainbar.goDownSleep();
-            robot.lifty.goDown();}
-            robot.updatePosition();
+            robot.update();
         }
     }
 }

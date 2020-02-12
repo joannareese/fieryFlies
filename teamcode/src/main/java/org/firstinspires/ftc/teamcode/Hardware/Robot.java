@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,19 +12,13 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.RevBulkData;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
-//
 
-/**
- * A class for all movement methods (using PID and IMU) for Rover Ruc for autonomous as well as mechanisms methods for autonomous as well
- * (Basically an autonomous base)
- */
 public class Robot {
 
     public final WheelIntake intake;
@@ -48,7 +41,6 @@ public class Robot {
     public Servo grabby;
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
-    public AnalogInput magneticSensor;
     public Telemetry telemetry;
     public org.firstinspires.ftc.teamcode.Hardware.chainbar chainbar;
     public DcMotorEx Motor7;
@@ -62,10 +54,9 @@ public class Robot {
     protected DcMotorEx Motor4;
     protected DcMotorEx Motor5;
     protected DcMotorEx Motor6;
-    protected ArrayList<DcMotorEx> leftMotors;
-    protected ArrayList<DcMotorEx> rightMotors;
+
     //This array should go left encoder, right encoder, back encoder
-    private ArrayList<DcMotorEx> encoders;
+
     private int[] encoderPosition = {0, 0, 0};
     private double relativeY;
     private double relativeX;
@@ -76,69 +67,48 @@ public class Robot {
 
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
-        time = new ElapsedTime();
-        time.now(TimeUnit.MILLISECONDS);
-        rrBot = new RoadRunnerBot(hw, telemetry,this);
-        telemetry.addData("donewith rrbot", "");
-        telemetry.update();
+        //Declare and init devices
         hardware = hw;
-        this.telemetry = telemetry;
-        Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
 
+        Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
         Motor1.setDirection(DcMotorSimple.Direction.REVERSE);
-
         Motor4 = (DcMotorEx) hw.dcMotor.get("backRight");
         Motor2.setDirection(DcMotorSimple.Direction.REVERSE);
         Motor5 = (DcMotorEx) hw.dcMotor.get("intakeLeft");
         Motor6 = (DcMotorEx) hw.dcMotor.get("intakeRight");
         Motor7 = (DcMotorEx) hw.dcMotor.get("lifty");
-
         Motor8 = (DcMotorEx) hw.dcMotor.get("chain");
+        driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
 
         foundation = hw.servo.get("foundation");
-
         capstone = hw.servo.get("capstone");
-
         grabby = hw.servo.get("grab");
-
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
-
-        Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        //Change motor values as needed
         Motor7.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motor7.setTargetPosition(Motor7.getCurrentPosition());
+        Motor8.setTargetPosition(Motor8.getCurrentPosition());
         Motor8.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
-        driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
-        leftMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2));
-        rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
-        encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
-
+        //init different mechanisms as needed
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
         chainbar = new chainbar(this);
-        Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Motor7.setTargetPosition(Motor7.getCurrentPosition());
-        Motor8.setTargetPosition(Motor8.getCurrentPosition());
+        rrBot = new RoadRunnerBot(hw, telemetry,this);
+
+        //essentially random stuff u dont need to mess with
         expansionHub.setLedColor(255, 0, 0);
         expansionHub.setPhoneChargeEnabled(true);
+        ExpansionHubEx hubx = hw.get(ExpansionHubEx.class,"hubx");
+        hubx.setPhoneChargeEnabled(true);
+        hubx.setLedColor(255,0,0);
+        time = new ElapsedTime();
+        this.telemetry = telemetry;
 
-
-    }
-
-    public static double round(double value) { //Allows telemetry to display nicely
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(3, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-
-    }
-
-    public void followTrajectory(Trajectory trajectory) {
-
-        rrBot.followTrajectory(trajectory);
     }
 
     public void followTrajectorySync(Trajectory trajectory) {
@@ -206,19 +176,7 @@ public class Robot {
 
     }
 
-    /**
-     * Sets drive motor powers.
-     * v
-     *
-     * @param left  power of left two motors as percentage (0-1).
-     * @param right power of right two motors as percentage (0-1).
-     */
-    public void drivePower(float left, float right) {
-        Motor1.setPower(left);
-        Motor2.setPower(right);
-        Motor3.setPower(right);
-        Motor4.setPower(left);
-    }
+
 
     public void drivePower(double[] powers) throws InvalidParameterException {
         if (powers.length != 4)
@@ -267,6 +225,7 @@ public class Robot {
 
 
     public void update() {
+        telemetryMethod();
         if(Motor8.getCurrentPosition()>3000){
             stackTarget++;
         }
