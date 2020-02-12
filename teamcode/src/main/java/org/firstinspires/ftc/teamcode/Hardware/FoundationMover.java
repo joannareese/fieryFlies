@@ -6,15 +6,11 @@ public class FoundationMover {
         robo = robot;
     }
     public void grabFoundation(){
-        robo.left.setPosition(RobotValues.servo1top);
-        robo.right.setPosition(RobotValues.servo2top);
+        robo.foundation.setPosition(RobotValues.foundationGrab);
     }
     public void dropItLikeItsHot(){
-        robo.left.setPosition(RobotValues.servo1bottom);
-        robo.right.setPosition(RobotValues.servo2bottom);
+        robo.foundation.setPosition(RobotValues.foundationletgo);
     }
     public void releaseFoundation(){
-        robo.left.setPosition(.95);
-        robo.right.setPosition(.2);
     }
 }

@@ -64,14 +64,9 @@ public class chainbar {
         mrRoboto.Motor8.setTargetPosition((int) RobotValues.chainhold);
         mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor8.setPower(1);
-    }public void wild() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
     }
 
-    public void quit(){
-        mrRoboto.Motor8.setPower(0);
-    }
+
     public void reset(){
         mrRoboto.Motor8.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
@@ -90,6 +85,13 @@ public class chainbar {
     public void grabOpen(){
         mrRoboto.grabby.setPosition(RobotValues.grabOpen);
     }
+    public void capstoneDepoy(){
+        mrRoboto.capstone.setPosition(RobotValues.capstoneDeploy);
+    }
+    public void umcapstoneDepoy(){
+        mrRoboto.capstone.setPosition(RobotValues.capstoneRetract);
+    }
+
 
     //locks out encoders incase the encoder has failed
     public void lockOut() {

@@ -8,31 +8,37 @@ public class Lifty {
     boolean lockout = false;
     private int target;
 
+
     public Lifty(Robot mrRobotot) {
         mrRoboto = mrRobotot;
     }
+    public void placeAtLevel(){
+    if(mrRoboto.stackTarget<=4){
+        target = 0;
+        mrRoboto.chainbar.goPlace();
 
-    public void goUp4Inches() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        target = (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) <= RobotValues.liftyUp ? (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) : RobotValues.liftyUp;
-        mrRoboto.Motor7.setTargetPosition(target);
-        mrRoboto.Motor7.setPower(.75);
     }
+    else {
+        mrRoboto.deployChainbarin500 = true;
+        target=(mrRoboto.stackTarget-4)*RobotValues.fourincheslift;
+
+    }
+    }
+//    public void goUp4Inches() {
+//
+//        target = (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) <= RobotValues.liftyUp ? (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) : RobotValues.liftyUp;
+//
+//    }
     public void goDOwn4Inches() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         target = (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) <= RobotValues.liftyDown ? (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) : RobotValues.liftyDown;
-        mrRoboto.Motor7.setTargetPosition(target);
-        mrRoboto.Motor7.setPower(.75);
+
     }
 
     public void goUpAll() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition(RobotValues.liftyUp);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(1);
+
+        target = RobotValues.liftyUp;
     }
 
     public void intoGround() {
@@ -44,38 +50,16 @@ public class Lifty {
 
 
     public void goDown() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor7.setTargetPosition(RobotValues.liftyDown);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(1);
-    }
-
-    public void wild() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        target = RobotValues.liftyDown;
 
     }
 
-    public void quit() {
-        mrRoboto.Motor7.setPower(0);
-    }
-
-
-    //locks out encoders incase the encoder has failed
-    public void lockOut() {
-        if (lockout) {
-            lockout = false;
-            mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        if (!lockout) {
-            lockout = true;
-            mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-    }
+//
 
     public void moveUpWithStick(double value) {
-        mrRoboto.Motor7.setPower(1);
-        mrRoboto.Motor7.setTargetPosition((int) (mrRoboto.Motor7.getTargetPosition() + (value * 200)));
+
+        target=(int) (mrRoboto.Motor7.getTargetPosition() + (value * 200));
 
     }
 
@@ -90,6 +74,12 @@ public class Lifty {
     public void trim(float left_stick_y) {
         RobotValues.liftyDown += left_stick_y;
         RobotValues.liftyUp += left_stick_y;
+    }
+    public void update(){
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mrRoboto.Motor7.setTargetPosition(target);
+        mrRoboto.Motor7.setPower(.75);
     }
 }
 

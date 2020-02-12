@@ -15,6 +15,7 @@ public class GamePadHandler {
     private float driveX;
     private float driveY;
     public boolean single=false;
+    private boolean undeployed= true;
 
     public GamePadHandler(OpMode opy) {
         Opmodethi = opy;
@@ -52,22 +53,53 @@ public class GamePadHandler {
     final double v3 = (P * sinRAngle) + (P * cosRAngle) + rightX;
     final double v4 = (P * sinRAngle) - (P * cosRAngle) - rightX;
 
-    double[] powers = {.85 * v2, .85 * v4, .85 * v1, .85 * v3};
+    double[] powers = {RobotValues.power * v2, RobotValues.power * v4, RobotValues.power * v1, RobotValues.power * v3};
     bot.drivePower(powers);
+    /*
+                ______                 _
+                |  _  \               | |
+                | | | |_ __   __ _  __| |
+                | | | | '_ \ / _` |/ _` |
+                | |/ /| |_) | (_| | (_| |
+                |___/ | .__/ \__,_|\__,_|
+                      | |
+                      |_|
+ */
 
     if (game1
             .dpad_down) {
         bot.lifty.goDOwn4Inches();
-    } else if (game2.right_bumper) {
-        bot.lifty.goUpAll();
-    } else if (Math.abs(game2.right_stick_y) > .5) {
-        bot.lifty.moveUpWithStick(-game2.right_stick_y * 0.25);
-    }
-
-    if(game2.left_bumper){
-        bot.lifty.goDown();
 
     }
+    if(game1.dpad_right){
+        bot.stackTarget++;
+    }
+        if(game1.dpad_left){
+            bot.stackTarget--;
+        }
+
+        /*___________________________
+        |         |  |
+        |~~\|   |~|~~|~/~\|/~\ (~
+        |__/ \_/| |  | \_/|   |_)
+        ___________________________*/
+
+
+        if (game1.b) {
+            bot.movey.grabFoundation();
+        }
+        if (game1.a) {
+            bot.movey.dropItLikeItsHot();
+        }
+        if(game1.y){
+            bot.rrBot.setPoseEstimate(new Pose2d());
+            bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(26*25.4)
+                    .addMarker(()->{bot.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
+            ;
+        }
+
+
+
 
         /*
         ___________________________________________________________________________
@@ -93,6 +125,16 @@ public class GamePadHandler {
 
     double intakepwr = (game1.right_trigger+game2.right_trigger) - (game1.left_trigger+game2.left_trigger);
     bot.intake.intake(intakepwr);
+//        if(game2.left_bumper){
+//            bot.lifty.goDown();
+//
+//        }
+        if (game2.right_bumper) {
+            bot.lifty.goUpAll();
+        } else if (Math.abs(game2.right_stick_y) > .5) {
+            bot.lifty.moveUpWithStick(-game2.right_stick_y * 0.25);
+        }
+
 
 
 
@@ -102,21 +144,12 @@ public class GamePadHandler {
         |__/ \_/| |  | \_/|   |_)
         ___________________________*/
 
-    if (game1.a) {
-        bot.pos.setLocation(0, 0, 0, 0);
-    }
 
-    if (game1.b) {
-        bot.movey.grabFoundation();
-    }
-    if (game1.a) {
-        bot.movey.dropItLikeItsHot();
-    }
     if (game2.b) {
-        bot.movey.grabFoundation();
+        bot.stackTarget--;
     }
         if (game2.a) {
-            bot.movey.dropItLikeItsHot();
+            bot.stackTarget++;
         }
 
     if (game2.y) {
@@ -124,7 +157,18 @@ public class GamePadHandler {
     } else if (game2.x) {
         bot.chainbar.grabClose();
     }
+        if(game2.right_stick_button){
+            bot.chainbar.capstoneDepoy();
+            undeployed = !undeployed;
 
+        }
+        if (game2.start) {
+            bot.chainbar.umcapstoneDepoy();
+
+        }
+        if(game2.left_bumper){
+            bot.lifty.placeAtLevel();
+        }
 
         /*_______________
         |~~\            |
@@ -158,18 +202,11 @@ public class GamePadHandler {
         bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
     }
 
-    if(game1.y){
-        bot.rrBot.setPoseEstimate(new Pose2d());
-        bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(26*25.4)
-                .addMarker(()->{bot.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
-        ;
-    }
-    if (game1.left_bumper) {
-        single = !single;
-    }
 
 
 
+
+    bot.update();
     }
 
 

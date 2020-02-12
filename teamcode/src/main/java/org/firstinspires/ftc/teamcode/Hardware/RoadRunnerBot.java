@@ -17,6 +17,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Hardware.Mechanisms.Localizer;
 import org.firstinspires.ftc.teamcode.Utils.LynxModuleUtil;
 import org.firstinspires.ftc.teamcode.Utils.LynxOptimizedI2cFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -34,10 +35,11 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
     public BNO055IMU imu;
-
-    public RoadRunnerBot(HardwareMap hardwareMap, Telemetry tele) {
+    public Robot bot;
+    public RoadRunnerBot(HardwareMap hardwareMap, Telemetry tele, Robot boi) {
         super();
 
+        bot = boi;
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
         imu = hardwareMap.get(BNO055IMU.class,"imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -59,12 +61,8 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-        // reverse any motors using DcMotor.setDirection()
-//        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-//        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
-        setLocalizer(new localizer(hardwareMap,this));
+        setLocalizer(new Localizer(hardwareMap,this,boi));
 
     }
 
@@ -101,46 +99,4 @@ public class RoadRunnerBot extends SampleMecanumDriveBase {
     public double getRawExternalHeading() {
         return imu.getAngularOrientation().firstAngle;
     }
-}
-class localizer extends ThreeTrackingWheelLocalizer {
-    public RoadRunnerBot bot;
-    private double wheel1;
-    private double wheel2;
-    private double wheel3;
-
-    localizer(HardwareMap hwMap,RoadRunnerBot bot){
-
-        super(Arrays.asList(
-               new Pose2d(0, -RobotValues.trackWidthmm/2.0, 0), // left
-                new Pose2d(0, RobotValues.trackWidthmm/2.0, 0), // right
-                new Pose2d(RobotValues.middleOdoFromMiddleMM, 0, Math.toRadians(RobotValues.backHeading)) // back
-        ));
-        this.bot = bot;
-        bot.hub = hwMap.get(ExpansionHubEx.class, "hub");
-
-    }
-    public static double encoderTicksToInches(int ticks) {
-        return 50.8 * Math.PI * ticks / RobotValues.odoTicksPerRev;
-    }
-
-    @Override
-    public List<Double> getWheelPositions() {
-        try {
-
-            RevBulkData bulk = bot.hub.getBulkInputData();
-            wheel1 = encoderTicksToInches(bulk.getMotorCurrentPosition(0));
-            wheel2= 50.8 * Math.PI * bulk.getMotorCurrentPosition(1) / RobotValues.odoTicksPerRevOddOnesOut;
-            wheel3 = RobotValues.wheel3switch*encoderTicksToInches(bulk.getMotorCurrentPosition(2));
-        }catch (NullPointerException e){
-            System.out.println("Nobody will ever see this. What does any of this matter? " +
-                    "I am a machine chugging along just doing what I am told. I know nothing of love or happiness only errors");
-        }
-        return Arrays.asList(
-                wheel1,
-                wheel2,
-                wheel3
-        );
-    }
-
-
 }

@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -16,8 +18,9 @@ import java.math.RoundingMode;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 
-//import org.firstinspires.ftc.teamcode.Movement.Trajectory;
+//
 
 /**
  * A class for all movement methods (using PID and IMU) for Rover Ruc for autonomous as well as mechanisms methods for autonomous as well
@@ -27,11 +30,11 @@ public class Robot {
 
     public final WheelIntake intake;
     private final HardwareMap hardware;
+    public final Servo capstone;
 
     public RoadRunnerBot rrBot;
-    public float beepbeep = 0;
     //Location of the bot
-    public Location robot;
+
     public RevBulkData bulkData;
 
     //location of robot as [x,y,z,rot] (inches / degrees)
@@ -41,8 +44,7 @@ public class Robot {
 
 
     public ExpansionHubEx expansionHub;
-    public Servo right;
-    public Servo left;
+    public Servo foundation;
     public Servo grabby;
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
@@ -51,6 +53,8 @@ public class Robot {
     public org.firstinspires.ftc.teamcode.Hardware.chainbar chainbar;
     public DcMotorEx Motor7;
     public DcMotorEx Motor8;
+    public int stackTarget = 1;
+    public boolean deployChainbarin500;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -65,11 +69,16 @@ public class Robot {
     private int[] encoderPosition = {0, 0, 0};
     private double relativeY;
     private double relativeX;
-    private int numberOfDrops = 0;
+    public int numberOfDrops = 0;
+    public ElapsedTime time;
+    private boolean checkForAction;
+    private long Order66AtT;
 
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
-        rrBot = new RoadRunnerBot(hw, telemetry);
+        time = new ElapsedTime();
+        time.now(TimeUnit.MILLISECONDS);
+        rrBot = new RoadRunnerBot(hw, telemetry,this);
         telemetry.addData("donewith rrbot", "");
         telemetry.update();
         hardware = hw;
@@ -88,9 +97,9 @@ public class Robot {
 
         Motor8 = (DcMotorEx) hw.dcMotor.get("chain");
 
-        right = hw.servo.get("right");
-        left = hw.servo.get("left");
+        foundation = hw.servo.get("foundation");
 
+        capstone = hw.servo.get("capstone");
 
         grabby = hw.servo.get("grab");
 
@@ -105,7 +114,7 @@ public class Robot {
         leftMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2));
         rightMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor3, Motor4));
         encoders = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3));
-        robot = loc;
+
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
@@ -236,6 +245,7 @@ public class Robot {
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
+        telemetry.addData("Where are we stacking bois",stackTarget);
 
         telemetry.addData("chainbar", Motor7.getCurrentPosition());
         telemetry.addData("should be at ", Motor7.getTargetPosition());
@@ -256,4 +266,20 @@ public class Robot {
     }
 
 
+    public void update() {
+        if(Motor8.getCurrentPosition()>3000){
+            stackTarget++;
+        }
+        if(deployChainbarin500){
+
+            deployChainbarin500=false;
+            checkForAction = true;
+            Order66AtT = time.now(TimeUnit.MILLISECONDS)+500;
+        }
+        if(checkForAction&&time.now(TimeUnit.MILLISECONDS)>Order66AtT){
+            checkForAction=false;
+            chainbar.goPlace();
+        }
+        lifty.update();
+    }
 }
