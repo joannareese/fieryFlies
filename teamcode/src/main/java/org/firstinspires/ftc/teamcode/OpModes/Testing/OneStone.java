@@ -103,14 +103,14 @@ public class OneStone extends LinearOpMode {
 
             r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse().splineTo(new Pose2d(-24 * 25.4, sidemult * -24 * 25.4, 0)).reverse().back(25 * 25.4).build());
 //        r.intake.intake(0);
-//        r.chainbar.goDown();
+//        r.Chainbar.goDown();
 //        Thread.sleep(500);
-//        r.chainbar.grabClose();
+//        r.Chainbar.grabClose();
 //        Thread.sleep(250);
-//        r.chainbar.goUpAll();
+//        r.Chainbar.goUpAll();
 //
 //        Thread.sleep(5000);
-//        r.chainbar.grabOpen();
+//        r.Chainbar.grabOpen();
 //
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().forward(5 * 25.4).splineTo(new Pose2d(skystone2Pos * 25.4, -24 * 25.4, Math.toRadians(-55))).build());
 //        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(12 * 25.4).build());

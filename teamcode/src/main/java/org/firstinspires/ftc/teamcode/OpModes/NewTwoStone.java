@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -17,7 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
-
+@Disabled
 @Autonomous(name = "Red- Collecting Stones Like I'm Thanos")
 public class NewTwoStone extends LinearOpMode {
     private boolean isRed = true;
@@ -47,7 +48,7 @@ public class NewTwoStone extends LinearOpMode {
         Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
         telemetry.update();
         webcam.closeCameraDevice();
-        // r.chainbar.autoHold();
+        // r.Chainbar.autoHold();
         r.movey.dropItLikeItsHot();
         r.chainbar.goPlace();
 
@@ -116,11 +117,11 @@ public class NewTwoStone extends LinearOpMode {
 //        Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
 //        telemetry.update();
 //        webcam.closeCameraDevice();
-//        // r.chainbar.autoHold();
+//        // r.Chainbar.autoHold();
 //        r.movey.dropItLikeItsHot();
-//        r.chainbar.goPlace();
+//        r.Chainbar.goPlace();
 //
-//        r.chainbar.grabOpen();
+//        r.Chainbar.grabOpen();
 //        r.rrBot.setPoseEstimate(startPose);
 //        //go to stone grab
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
@@ -137,28 +138,28 @@ public class NewTwoStone extends LinearOpMode {
 //
 //        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(11 * 25.4).back(8*25.4).build());
 //
-//        r.chainbar.goDown();
+//        r.Chainbar.goDown();
 //
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse()
 //                .splineTo(new Pose2d(0, -40.0 * 25.4, Math.toRadians(-180)))
 //                .splineTo(new Pose2d(52 * 25.4, -31 * 25.4, Math.toRadians(-90)))
 //                .addMarker(() -> {
 //                    r.intake.intake(0);
-//                    r.chainbar.grabClose();
+//                    r.Chainbar.grabClose();
 //                    r.movey.grabFoundation();
 //                    return Unit.INSTANCE;
 //                }).build());
-//        r.chainbar.goUpAll();
+//        r.Chainbar.goUpAll();
 //        r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
 //                .forward(17 * 25.4)
 //                .addMarker(() -> {
 //                    r.intake.turbo();
-//                    r.chainbar.grabOpen();
-//                    r.chainbar.goDown();
+//                    r.Chainbar.grabOpen();
+//                    r.Chainbar.goDown();
 //                    return Unit.INSTANCE;
 //                })
 //                .addMarker(2.5, () -> {
-//                    r.chainbar.grabOpen();
+//                    r.Chainbar.grabOpen();
 //                    r.movey.dropItLikeItsHot();
 //                    return Unit.INSTANCE;
 //                })
@@ -167,10 +168,10 @@ public class NewTwoStone extends LinearOpMode {
 //                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+700, startPose.getY() + 600, Math.toRadians(135)))
 //
 //                .build());
-//        r.chainbar.goUpBit();
+//        r.Chainbar.goUpBit();
 //        r.intake.intake(1);
 //        r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(11*25.4).build());
-//        r.chainbar.goDown();
+//        r.Chainbar.goDown();
 //        r.rrBot.followTrajectorySync(
 //                r.rrBot.fastTrajectoryBuilder().reverse()
 //                .splineTo(new Pose2d(19 * 25.4, -39 * 25.40, Math.toRadians(-180)))

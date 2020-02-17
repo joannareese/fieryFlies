@@ -7,6 +7,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.OpModes.BlueSolo;
 import org.firstinspires.ftc.teamcode.OpModes.KM_And_Let_Me_See_It;
 import org.firstinspires.ftc.teamcode.OpModes.NewTwoStone;
+import org.firstinspires.ftc.teamcode.OpModes.VisionRed;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
     import org.opencv.core.MatOfPoint;
@@ -89,17 +90,20 @@ public class Spotter extends OpenCvPipeline {
             KM_And_Let_Me_See_It.skystoneSpot = 3;
             NewTwoStone.skystoneSpot = 3;
             BlueSolo.skystoneSpot = 3;
+            VisionRed.skystoneSpot=3;
 
     } else if (bestRect.x <= 180){
             KM_And_Let_Me_See_It.skystoneSpot = 2;
             NewTwoStone.skystoneSpot = 2;
             BlueSolo.skystoneSpot = 2;
+            VisionRed.skystoneSpot=2;
 
        } else {
             KM_And_Let_Me_See_It.skystoneSpot = 1;
             NewTwoStone.skystoneSpot = 1;
             BlueSolo.skystoneSpot = 1;
-       }
+            VisionRed.skystoneSpot=1;
+        }
 
         return source0.submat(RobotValues.row1,RobotValues.row2,RobotValues.col1,RobotValues.col2);
     }

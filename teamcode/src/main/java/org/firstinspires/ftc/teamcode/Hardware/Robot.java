@@ -42,7 +42,7 @@ public class Robot {
     //Arrays of different motors
     public ArrayList<DcMotorEx> driveMotors;
     public Telemetry telemetry;
-    public org.firstinspires.ftc.teamcode.Hardware.chainbar chainbar;
+    public Chainbar chainbar;
     public DcMotorEx Motor7;
     public DcMotorEx Motor8;
     public int stackTarget = 1;
@@ -52,8 +52,8 @@ public class Robot {
     protected DcMotorEx Motor2;
     protected DcMotorEx Motor3;
     protected DcMotorEx Motor4;
-    protected DcMotorEx Motor5;
-    protected DcMotorEx Motor6;
+    public DcMotorEx Motor5;
+    public DcMotorEx Motor6;
 
     //This array should go left encoder, right encoder, back encoder
 
@@ -64,12 +64,14 @@ public class Robot {
     public ElapsedTime time;
     private boolean checkForAction;
     private long Order66AtT;
+    private boolean hasNotGoneDown = true;
+
 
 
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         //Declare and init devices
         hardware = hw;
-
+        AutonomousValues.autoChainbarOffset=0;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
@@ -88,16 +90,18 @@ public class Robot {
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
         //Change motor values as needed
         Motor7.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motor7.setTargetPosition(Motor7.getCurrentPosition());
-        Motor8.setTargetPosition(Motor8.getCurrentPosition());
+        Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Motor8.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        Motor8.setTargetPosition(0);
+        Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         Motor8.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //init different mechanisms as needed
         movey = new FoundationMover(this);
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
-        chainbar = new chainbar(this);
+        chainbar = new Chainbar(this);
         rrBot = new RoadRunnerBot(hw, telemetry,this);
 
         //essentially random stuff u dont need to mess with
@@ -204,20 +208,20 @@ public class Robot {
      */
     public void telemetryMethod() {
         telemetry.addData("Where are we stacking bois",stackTarget);
+        telemetry.addData("powermult",RobotValues.power);
 
-        telemetry.addData("chainbar", Motor7.getCurrentPosition());
+        telemetry.addData("lift", Motor7.getCurrentPosition());
         telemetry.addData("should be at ", Motor7.getTargetPosition());
-        telemetry.addData("lifty", Motor8.getCurrentPosition());
+        telemetry.addData("Chainbar", Motor8.getCurrentPosition());
         telemetry.addData("should be at ", Motor8.getTargetPosition());
-        telemetry.addData("Pos", pos.toString());
-        telemetry.addData("Droped Bulk Reads", numberOfDrops);
         rrBot.updatePoseEstimate();
         telemetry.addData("Pos", rrBot.getPoseEstimate().toString());
-        telemetry.addData("chainbar", Motor1.getCurrentPosition());
-        telemetry.addData("chainbar", Motor2.getCurrentPosition());
-        telemetry.addData("chainbar", Motor3.getCurrentPosition());
-        telemetry.addData("chainbar", Motor4.getCurrentPosition());
-        telemetry.addData("chainbar", Motor5.getCurrentPosition());
+        telemetry.addData("left", Motor1.getCurrentPosition());
+        telemetry.addData("right ", Motor2.getCurrentPosition());
+        telemetry.addData("battery",expansionHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS));
+        telemetry.speak("Hello, I am Jack ");
+        telemetry.addData("center", Motor5.getCurrentPosition());
+        chainbar.umcapstoneDepoy();
 
 
         telemetry.update();
@@ -226,9 +230,14 @@ public class Robot {
 
     public void update() {
         telemetryMethod();
-        if(Motor8.getCurrentPosition()>3000){
+        if(Motor8.getCurrentPosition()>3000&&hasNotGoneDown){
             stackTarget++;
+            hasNotGoneDown=false;
         }
+        if(Motor8.getCurrentPosition()<2500){
+            hasNotGoneDown= true;
+        }
+
         if(deployChainbarin500){
 
             deployChainbarin500=false;
@@ -237,7 +246,7 @@ public class Robot {
         }
         if(checkForAction&&time.now(TimeUnit.MILLISECONDS)>Order66AtT){
             checkForAction=false;
-            chainbar.goPlace();
+            chainbar.goUpAll();
         }
         lifty.update();
     }

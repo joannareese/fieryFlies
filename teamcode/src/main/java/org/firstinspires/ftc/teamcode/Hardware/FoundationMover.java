@@ -11,6 +11,8 @@ public class FoundationMover {
     public void dropItLikeItsHot(){
         robo.foundation.setPosition(RobotValues.foundationletgo);
     }
-    public void releaseFoundation(){
+    public void get_in_position(){
+        robo.foundation.setPosition(RobotValues.foundationReady);
+
     }
 }

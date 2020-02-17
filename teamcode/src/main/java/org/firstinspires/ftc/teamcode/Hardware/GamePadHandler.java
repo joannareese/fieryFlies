@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
+import java.util.concurrent.TimeUnit;
+
 import kotlin.Unit;
 
 public class GamePadHandler {
@@ -16,6 +18,8 @@ public class GamePadHandler {
     private float driveY;
     public boolean single=false;
     private boolean undeployed= true;
+    private int slowToggle = 0;
+    private float slowToggleDelay=0;
 
     public GamePadHandler(OpMode opy) {
         Opmodethi = opy;
@@ -55,6 +59,15 @@ public class GamePadHandler {
 
     double[] powers = {RobotValues.power * v2, RobotValues.power * v4, RobotValues.power * v1, RobotValues.power * v3};
     bot.drivePower(powers);
+    if (game1.right_trigger > 0.3){
+        if (slowToggle % 2 == 0 && slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
+            RobotValues.power = 0.45;
+        } else if (slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)){
+            RobotValues.power = 0.9;
+        }
+        slowToggle++;
+        slowToggleDelay=bot.time.now(TimeUnit.MILLISECONDS)+25;
+    }
     /*
                 ______                 _
                 |  _  \               | |
@@ -86,10 +99,10 @@ public class GamePadHandler {
 
 
         if (game1.b) {
-            bot.movey.grabFoundation();
+            bot.movey.dropItLikeItsHot();
         }
         if (game1.a) {
-            bot.movey.dropItLikeItsHot();
+            bot.movey.grabFoundation();
         }
         if(game1.y){
             bot.rrBot.setPoseEstimate(new Pose2d());
@@ -123,7 +136,7 @@ public class GamePadHandler {
         __________________________*/
 
 
-    double intakepwr = (game1.right_trigger+game2.right_trigger) - (game1.left_trigger+game2.left_trigger);
+    double intakepwr = (game2.right_trigger) - (game1.left_trigger+game2.left_trigger);
     bot.intake.intake(intakepwr);
 //        if(game2.left_bumper){
 //            bot.lifty.goDown();
@@ -195,10 +208,10 @@ public class GamePadHandler {
         bot.chainbar.reset();
         bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bot.Motor7.setTargetPosition(bot.Motor7.getCurrentPosition());
+        bot.Motor7.setTargetPosition(0);
 
     } else if (Math.abs(game2.left_stick_y) > .5) {
-        // bot.chainbar.wild();
+        // bot.Chainbar.wild();
         bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
     }
 

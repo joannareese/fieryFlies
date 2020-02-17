@@ -15,7 +15,7 @@ public class Lifty {
     public void placeAtLevel(){
     if(mrRoboto.stackTarget<=4){
         target = 0;
-        mrRoboto.chainbar.goPlace();
+        mrRoboto.chainbar.goUpAll();
 
     }
     else {
@@ -59,7 +59,7 @@ public class Lifty {
 
     public void moveUpWithStick(double value) {
 
-        target=(int) (mrRoboto.Motor7.getTargetPosition() + (value * 200));
+        target=(int) (mrRoboto.Motor7.getTargetPosition() + (value *300));
 
     }
 
@@ -76,7 +76,9 @@ public class Lifty {
         RobotValues.liftyUp += left_stick_y;
     }
     public void update(){
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        if(target>2300){
+            target=2300;
+        }
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setTargetPosition(target);
         mrRoboto.Motor7.setPower(.75);

@@ -7,7 +7,6 @@ public class AutonomousValues {
     public static double x = 30;
     public static double y = -55;
     public static double heading = -11;
-
-
+    public static double autoChainbarOffset=0;
     public static double offset =0;
 }
