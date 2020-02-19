@@ -66,7 +66,7 @@ public class GamePadHandler {
             RobotValues.power = 0.9;
         }
         slowToggle++;
-        slowToggleDelay=bot.time.now(TimeUnit.MILLISECONDS)+25;
+        slowToggleDelay=bot.time.now(TimeUnit.MILLISECONDS)+50;
     }
     /*
                 ______                 _
@@ -84,12 +84,7 @@ public class GamePadHandler {
         bot.lifty.goDOwn4Inches();
 
     }
-    if(game1.dpad_right){
-        bot.stackTarget++;
-    }
-        if(game1.dpad_left){
-            bot.stackTarget--;
-        }
+
 
         /*___________________________
         |         |  |

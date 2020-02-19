@@ -22,7 +22,7 @@ public class RobotValues {
     public static double grabOpen = 0;
     public static double grabmegaOpen = 0;
     public static double grabClose = .4;
-    public static double chainkinda = 5000;
+    public static double chainkinda = 4500;
     public static double chainUp = 5000;
     public static double chainMid = 1500;
     public static double chainPlace = 2500;

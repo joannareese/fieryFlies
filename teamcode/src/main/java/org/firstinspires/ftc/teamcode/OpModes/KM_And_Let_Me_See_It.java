@@ -134,25 +134,25 @@ public class KM_And_Let_Me_See_It extends LinearOpMode {
                 .build());
         r.chainbar.goUpBalance();
 
-//       r.chainbar.goDown();
-//        r.rrBot.followTrajectorySync(
-//                r.rrBot.fastTrajectoryBuilder().reverse()
-//                        .addMarker(new Vector2d(0*25.4,-39*25.4),() -> {
-//                            r.chainbar.grabClose();
-//                            return Unit.INSTANCE;})
-//                        .addMarker(new Vector2d(5*25.4,-39*25.4),() -> {
-//                            r.chainbar.goUpAll();
-//                            return Unit.INSTANCE;})
-//                        .splineTo(new Pose2d(35* 25.4, -39 * 25.40, Math.toRadians(-180)))
-//                        .build());
-//        r.chainbar.grabOpen();
-//        r.chainbar.goDown();
-//        sleep(1000);
-//        r.rrBot.followTrajectorySync(
-//                r.rrBot.fastTrajectoryBuilder()
-//                .forward(22*25.4)
-//                .build()
-//        );
+       r.chainbar.goDown();
+        r.rrBot.followTrajectorySync(
+                r.rrBot.fastTrajectoryBuilder().reverse()
+                        .addMarker(new Vector2d(0*25.4,-39*25.4),() -> {
+                            r.chainbar.grabClose();
+                            return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(5*25.4,-39*25.4),() -> {
+                            r.chainbar.goUpAll();
+                            return Unit.INSTANCE;})
+                        .splineTo(new Pose2d(35* 25.4, -39 * 25.40, Math.toRadians(-180)))
+                        .build());
+        r.chainbar.grabOpen();
+        r.chainbar.goDown();
+        sleep(1000);
+        r.rrBot.followTrajectorySync(
+                r.rrBot.fastTrajectoryBuilder()
+                .forward(22*25.4)
+                .build()
+        );
 //        builder1 = TrajectoryBuilder(Pose2d(42.0,-31.0,(-90.0).toRadians), constraints)
 //
 //        builder1     .splineTo(Pose2d(20.0,-37.0,Math.PI))

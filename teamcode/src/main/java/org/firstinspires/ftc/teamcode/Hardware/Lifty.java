@@ -12,19 +12,20 @@ public class Lifty {
     public Lifty(Robot mrRobotot) {
         mrRoboto = mrRobotot;
     }
-    public void placeAtLevel(){
-    if(mrRoboto.stackTarget<=4){
-        target = 0;
-        mrRoboto.chainbar.goUpAll();
 
-    }
-    else {
-        mrRoboto.deployChainbarin500 = true;
-        target=(mrRoboto.stackTarget-4)*RobotValues.fourincheslift;
+    public void placeAtLevel() {
+        if (mrRoboto.stackTarget <= 4) {
+            target = 0;
+            mrRoboto.chainbar.goUpAll();
 
+        } else {
+            mrRoboto.deployChainbarin500 = true;
+            target = (mrRoboto.stackTarget - 4) * RobotValues.fourincheslift;
+
+        }
     }
-    }
-//    public void goUp4Inches() {
+
+    //    public void goUp4Inches() {
 //
 //        target = (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) <= RobotValues.liftyUp ? (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) : RobotValues.liftyUp;
 //
@@ -59,7 +60,7 @@ public class Lifty {
 
     public void moveUpWithStick(double value) {
 
-        target=(int) (mrRoboto.Motor7.getTargetPosition() + (value *300));
+        target = (int) (mrRoboto.Motor7.getTargetPosition() + (value * 300));
 
     }
 
@@ -75,9 +76,13 @@ public class Lifty {
         RobotValues.liftyDown += left_stick_y;
         RobotValues.liftyUp += left_stick_y;
     }
-    public void update(){
-        if(target>2300){
-            target=2300;
+
+    public void update() {
+        if (target > 2300) {
+            target = 2300;
+        }
+        if (target < 0) {
+            target = 0;
         }
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setTargetPosition(target);

@@ -229,6 +229,10 @@ public class Robot {
 
 
     public void update() {
+        updatePosition();
+        if(stackTarget<1){
+            stackTarget = 1;
+        }
         telemetryMethod();
         if(Motor8.getCurrentPosition()>3000&&hasNotGoneDown){
             stackTarget++;

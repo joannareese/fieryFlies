@@ -17,8 +17,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "red Vision")
-public class VisionRed extends LinearOpMode {
+@Autonomous(name = "Blue Vision")
+public class VisionBlue extends LinearOpMode {
     public static int skystoneSpot = 1;
     private Robot r;
     private boolean isRed;
@@ -31,7 +31,7 @@ public class VisionRed extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         r = new Robot(telemetry, new Location(), hardwareMap);
-        Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
+        Pose2d startPose = new Pose2d(-33 * 25.4, sidemult*-63.0 * 25.4, -3.14);
         r.rrBot.setPoseEstimate(startPose);
     msStuckDetectStop=2000;
 //
@@ -47,6 +47,9 @@ public class VisionRed extends LinearOpMode {
 //            telemetry.addData("skystone x", spot.best);
 //            telemetry.update();
 //        }
+                    telemetry.addData("Skystone Spot: ", skystoneSpot);
+            telemetry.addData("skystone x", spot.best);
+            telemetry.update();
         waitForStart();
         AutonomousValues.offset=(3-skystoneSpot)*-195;
         telemetry.addData("skystoneSpit",skystoneSpot);
@@ -72,7 +75,7 @@ public class VisionRed extends LinearOpMode {
 
                     return Unit.INSTANCE;
                 })
-                .lineTo(new Vector2d(startPose.getX() + AutonomousValues.offset-60, startPose.getY() + 820), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(-45)))
+                .lineTo(new Vector2d(startPose.getX() + AutonomousValues.offset-60, startPose.getY() + sidemult*820), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(sidemult*-45)))
                 .build());
 
 
@@ -86,16 +89,16 @@ public class VisionRed extends LinearOpMode {
                     r.chainbar.liftKinda();
                     return Unit.INSTANCE;
                 })
-                .addMarker(.4,() -> {
+                .addMarker(.5,() -> {
                     r.chainbar.goDown();
                     return Unit.INSTANCE;
                 })
-                               .addMarker(.6,() -> {
+                               .addMarker(.8,() -> {
             r.chainbar.grabClose();
             return Unit.INSTANCE;
         })
                 //go under bridge
-                .splineTo(new Pose2d(0, -40.0 * 25.4, Math.toRadians(-180)))
+                .splineTo(new Pose2d(0, sidemult*-40.0 * 25.4, Math.toRadians(-180)))
                 //after the bridge is cleared start lifting
                 .addMarker(() -> {
                     r.chainbar.grabClose();
@@ -103,7 +106,7 @@ public class VisionRed extends LinearOpMode {
                     return Unit.INSTANCE;
                 })
                 //go to foundation
-                .splineTo(new Pose2d(43 * 25.4, -32 * 25.4, Math.toRadians(-90)))
+                .splineTo(new Pose2d(43 * 25.4, sidemult*-32 * 25.4, Math.toRadians(sidemult*-90)))
                 .reverse()
                 .back(3*25.4)
                 //get a good grip on foundation
@@ -129,13 +132,13 @@ public class VisionRed extends LinearOpMode {
                 })
 
                 //mess with this
-                .splineTo(new Pose2d(28 * 25.4,-42* 25.40, Math.toRadians(-180)))
+                .splineTo(new Pose2d(28 * 25.4,sidemult*-42* 25.40, Math.toRadians(-180)))
                 .build());
                 r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
 
                         //.forward(29*25.4)
 
-                .splineTo(new Pose2d(    AutonomousValues.offset+0* 25.4, -42 * 25.40, Math.toRadians(-180)))
+                .splineTo(new Pose2d(    AutonomousValues.offset+0* 25.4, sidemult*-42 * 25.40, Math.toRadians(-180)))
 
                 //turn intake back on
                 .addMarker( () -> {
@@ -144,7 +147,7 @@ public class VisionRed extends LinearOpMode {
 
                     return Unit.INSTANCE;
                 })
-                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+625, startPose.getY() + 650, Math.toRadians(135)))
+                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+625, sidemult*startPose.getY() + 650, Math.toRadians(sidemult*135)))
                 .addMarker( () -> {
                     r.chainbar.goUpBalance();
                     return Unit.INSTANCE;
@@ -157,15 +160,15 @@ public class VisionRed extends LinearOpMode {
 
         r.rrBot.followTrajectorySync(
                 r.rrBot.fastTrajectoryBuilder().reverse()
-                        .addMarker(new Vector2d(0*25.4,-39*25.4),() -> {
+                        .addMarker(new Vector2d(0*25.4,sidemult*-39*25.4),() -> {
                             r.chainbar.grabClose();
                             return Unit.INSTANCE;})
-                        .addMarker(new Vector2d(5*25.4,-39*25.4),() -> {
+                        .addMarker(new Vector2d(5*25.4,sidemult*-39*25.4),() -> {
                             r.chainbar.goUpAll();
                             return Unit.INSTANCE;})
-                        .splineTo(new Pose2d(0* 25.4, -39 * 25.40, Math.toRadians(-180)))
+                        .splineTo(new Pose2d(0* 25.4, sidemult*-39 * 25.40, Math.toRadians(-180)))
 
-                        .splineTo(new Pose2d(35* 25.4, -39 * 25.40, Math.toRadians(-180)))
+                        .splineTo(new Pose2d(35* 25.4, sidemult*-39 * 25.40, Math.toRadians(-180)))
 
                         .build());
         r.chainbar.grabOpen();
