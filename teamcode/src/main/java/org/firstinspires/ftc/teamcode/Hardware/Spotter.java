@@ -73,9 +73,9 @@ public class Spotter extends OpenCvPipeline {
         for(MatOfPoint cont : contoursBlack){
 
             Rect recta = Imgproc.boundingRect(cont);
-            Imgproc.rectangle(source0, recta.tl(), recta.br(), new Scalar(255, 255, 0), 1); // Draws on black rectangles with yellow boxes
+            Imgproc.rectangle(source0, recta.tl(), recta.br(), new Scalar(255, 255, 0), 2); // Draws on black rectangles with yellow boxes
 
-            if (ratioJudge(recta.height, recta.width, .5)<ratioJudge(bestRect.height, bestRect.width, .5) && recta.height * recta.width > 2000 && recta.height * recta.width < 25000) {
+            if (ratioJudge(recta.height, recta.width, .5)<ratioJudge(bestRect.height, bestRect.width, .5) && recta.height * recta.width > 1000 && recta.height * recta.width < 2000) {
                 bestRect = recta;
                 okayish = true;
             }

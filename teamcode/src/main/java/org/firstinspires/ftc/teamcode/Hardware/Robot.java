@@ -110,7 +110,9 @@ public class Robot {
         ExpansionHubEx hubx = hw.get(ExpansionHubEx.class,"hubx");
         hubx.setPhoneChargeEnabled(true);
         hubx.setLedColor(255,0,0);
+        telemetry.speak("Hello, I am Jack ");
         time = new ElapsedTime();
+        chainbar.umcapstoneDepoy();
         this.telemetry = telemetry;
 
     }
@@ -219,9 +221,9 @@ public class Robot {
         telemetry.addData("left", Motor1.getCurrentPosition());
         telemetry.addData("right ", Motor2.getCurrentPosition());
         telemetry.addData("battery",expansionHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS));
-        telemetry.speak("Hello, I am Jack ");
+
         telemetry.addData("center", Motor5.getCurrentPosition());
-        chainbar.umcapstoneDepoy();
+
 
 
         telemetry.update();
@@ -253,5 +255,6 @@ public class Robot {
             chainbar.goUpAll();
         }
         lifty.update();
+        chainbar.update();
     }
 }

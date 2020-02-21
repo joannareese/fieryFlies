@@ -6,126 +6,98 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Chainbar {
     Robot mrRoboto;
     boolean lockout = false;
-    public Chainbar(Robot mrRobotot ){
+    private int target;
+
+    public Chainbar(Robot mrRobotot) {
         mrRoboto = mrRobotot;
     }
 
     public void goUpBit() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.chainMid-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setPower(1);
+
+        target = ((int) (RobotValues.chainMid - AutonomousValues.autoChainbarOffset));
     }
 
     public void goUpAll() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.chainUp-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.chainUp - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void intoGround() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mrRoboto.Motor8.setTargetPosition((int)(RobotValues.groud-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.groud - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void goUpBalance() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.chainMid-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.chainMid - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void liftKinda() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int)( RobotValues.chainkinda-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.chainkinda - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void goDown() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.liftyDown-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.liftyDown - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void goPlace() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.chainPlace-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+        target = ((int) (RobotValues.chainPlace - AutonomousValues.autoChainbarOffset));
+
     }
+
     public void holdPosition() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition((int) (RobotValues.chainhold-AutonomousValues.autoChainbarOffset));
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
+
+        target = ((int) (RobotValues.chainhold - AutonomousValues.autoChainbarOffset));
+
     }
 
 
-    public void reset(){
+    public void reset() {
         mrRoboto.Motor8.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        target=0;
     }
-    public void grabFull(){
-        mrRoboto.grabby.setPosition(RobotValues.fullGrab);
-    }
-    public void grabmega(){
-        mrRoboto.grabby.setPosition(RobotValues.grabmegaOpen);
-    }
-    public void grabClose(){
+
+    public void grabClose() {
 
         mrRoboto.grabby.setPosition(RobotValues.grabClose);
     }
 
 
-    public void grabOpen(){
+    public void grabOpen() {
         mrRoboto.grabby.setPosition(RobotValues.grabOpen);
     }
-    public void capstoneDepoy(){
+
+    public void capstoneDepoy() {
         mrRoboto.capstone.setPosition(RobotValues.capstoneDeploy);
     }
-    public void umcapstoneDepoy(){
+
+    public void umcapstoneDepoy() {
         mrRoboto.capstone.setPosition(RobotValues.capstoneRetract);
     }
 
+    public void moveUpWithStick(double value) {
 
-    //locks out encoders incase the encoder has failed
-    public void lockOut() {
-        if(lockout){
-            lockout = false;
-            mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        }
-        if(!lockout){
-            lockout = true;
-            mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        }
-    }
-    public void moveUpWithStick(double value){
-            mrRoboto.Motor8.setPower(1);
-            mrRoboto.Motor8.setTargetPosition((int)(mrRoboto.Motor8.getTargetPosition()+(value*200)));
+        target = ((int) (mrRoboto.Motor8.getTargetPosition() + (value * 200)));
 
     }
-    public void autoHold(){
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        mrRoboto.Motor8.setTargetPosition(RobotValues.autoHold);
+    public void autoHold() {
+        target = (int) (RobotValues.autoHold - AutonomousValues.autoChainbarOffset);
+    }
+
+    public void update() {
+
+
         mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setPower(1);
-    }
-
-    public void trim(float left_stick_y) {
-
-    }
-
-    public void goDownSleep() {
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        mrRoboto.Motor8.setTargetPosition((int) RobotValues.liftyDown);
-        mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        mrRoboto.Motor8.setTargetPosition(target);
         mrRoboto.Motor8.setPower(1);
     }
 }

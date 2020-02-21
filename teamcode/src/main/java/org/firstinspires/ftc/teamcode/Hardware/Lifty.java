@@ -3,10 +3,14 @@ package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import java.util.concurrent.TimeUnit;
+
 public class Lifty {
     Robot mrRoboto;
     boolean lockout = false;
     private int target;
+    private long time;
+    private boolean waiiiiitForIt;
 
 
     public Lifty(Robot mrRobotot) {
@@ -25,11 +29,19 @@ public class Lifty {
         }
     }
 
-    //    public void goUp4Inches() {
-//
-//        target = (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) <= RobotValues.liftyUp ? (mrRoboto.Motor7.getCurrentPosition() + RobotValues.fourincheslift) : RobotValues.liftyUp;
-//
-//    }
+    public void goDownAll() {
+        if (target>100) {
+           mrRoboto.chainbar.goDown();
+           waiiiiitForIt=true;
+           time=mrRoboto.time.now(TimeUnit.MILLISECONDS)+500;
+
+        } else {
+
+            mrRoboto.chainbar.goDown();
+
+        }
+    }
+
     public void goDOwn4Inches() {
 
         target = (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) <= RobotValues.liftyDown ? (mrRoboto.Motor7.getCurrentPosition() - RobotValues.fourincheslift) : RobotValues.liftyDown;
@@ -40,13 +52,6 @@ public class Lifty {
 
 
         target = RobotValues.liftyUp;
-    }
-
-    public void intoGround() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        mrRoboto.Motor7.setTargetPosition((int) RobotValues.groud);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(1);
     }
 
 
@@ -60,30 +65,21 @@ public class Lifty {
 
     public void moveUpWithStick(double value) {
 
-        target = (int) (mrRoboto.Motor7.getTargetPosition() + (value * 300));
+        target = (int) (mrRoboto.Motor7.getTargetPosition() + (value * 350));
 
     }
 
-    public void autoHold() {
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        mrRoboto.Motor7.setTargetPosition(RobotValues.autoHold);
-        mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor7.setPower(.75);
-    }
-
-    public void trim(float left_stick_y) {
-        RobotValues.liftyDown += left_stick_y;
-        RobotValues.liftyUp += left_stick_y;
-    }
 
     public void update() {
-        if (target > 2300) {
-            target = 2300;
+        if (target > 2400) {
+            target = 2400;
         }
-        if (target < 0) {
-            target = 0;
+    if (waiiiiitForIt){
+        if(mrRoboto.time.now(TimeUnit.MILLISECONDS)>time){
+            target=0;
+            waiiiiitForIt=false;
         }
+    }
         mrRoboto.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         mrRoboto.Motor7.setTargetPosition(target);
         mrRoboto.Motor7.setPower(.75);

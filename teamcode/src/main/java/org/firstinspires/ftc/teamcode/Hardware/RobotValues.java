@@ -39,7 +39,7 @@ public class RobotValues {
     public static int col1 = 0;
     public static int row1 = 0;
     public static int row2 = 150;
-    public static int fourincheslift = 150;
+    public static int fourincheslift = 500;
     public static int liftyUp = 1750;
     public static int liftyDown = 0;
     public static double speedDiv = 4;

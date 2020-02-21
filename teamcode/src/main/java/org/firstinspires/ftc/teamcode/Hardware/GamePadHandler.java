@@ -13,13 +13,13 @@ public class GamePadHandler {
     public final OpMode Opmodethi;
     public Gamepad gm1;
     public Gamepad gm2;
+    public boolean single = false;
     private float driveRot;
     private float driveX;
     private float driveY;
-    public boolean single=false;
-    private boolean undeployed= true;
+    private boolean undeployed = true;
     private int slowToggle = 0;
-    private float slowToggleDelay=0;
+    private float slowToggleDelay = 0;
 
     public GamePadHandler(OpMode opy) {
         Opmodethi = opy;
@@ -46,28 +46,28 @@ public class GamePadHandler {
         \_|\_/ \/ _) | |\__| \_)
               _/
          _________________________*/
-    double P = Math.hypot(-game1.left_stick_x, -game1.left_stick_y);
-    double robotAngle = Math.atan2(-game1.left_stick_y, -game1.left_stick_x);
-    double rightX = game1.right_stick_x;
-    double sinRAngle = Math.sin(robotAngle);
-    double cosRAngle = Math.cos(robotAngle);
+        double P = Math.hypot(-game1.left_stick_x, -game1.left_stick_y);
+        double robotAngle = Math.atan2(-game1.left_stick_y, -game1.left_stick_x);
+        double rightX = game1.right_stick_x;
+        double sinRAngle = Math.sin(robotAngle);
+        double cosRAngle = Math.cos(robotAngle);
 
-    final double v1 = (P * sinRAngle) - (P * cosRAngle) + rightX;
-    final double v2 = (P * sinRAngle) + (P * cosRAngle) - rightX;
-    final double v3 = (P * sinRAngle) + (P * cosRAngle) + rightX;
-    final double v4 = (P * sinRAngle) - (P * cosRAngle) - rightX;
+        final double v1 = (P * sinRAngle) - (P * cosRAngle) + rightX;
+        final double v2 = (P * sinRAngle) + (P * cosRAngle) - rightX;
+        final double v3 = (P * sinRAngle) + (P * cosRAngle) + rightX;
+        final double v4 = (P * sinRAngle) - (P * cosRAngle) - rightX;
 
-    double[] powers = {RobotValues.power * v2, RobotValues.power * v4, RobotValues.power * v1, RobotValues.power * v3};
-    bot.drivePower(powers);
-    if (game1.right_trigger > 0.3){
-        if (slowToggle % 2 == 0 && slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
-            RobotValues.power = 0.45;
-        } else if (slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)){
-            RobotValues.power = 0.9;
+        double[] powers = {RobotValues.power * v2, RobotValues.power * v4, RobotValues.power * v1, RobotValues.power * v3};
+        bot.drivePower(powers);
+        if (game1.right_bumper) {
+            if (slowToggle % 2 == 0 && slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
+                RobotValues.power = 0.45;
+            } else if (slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
+                RobotValues.power = 0.9;
+            }
+            slowToggle++;
+            slowToggleDelay = bot.time.now(TimeUnit.MILLISECONDS) + 50;
         }
-        slowToggle++;
-        slowToggleDelay=bot.time.now(TimeUnit.MILLISECONDS)+50;
-    }
     /*
                 ______                 _
                 |  _  \               | |
@@ -79,11 +79,11 @@ public class GamePadHandler {
                       |_|
  */
 
-    if (game1
-            .dpad_down) {
-        bot.lifty.goDOwn4Inches();
+        if (game1
+                .dpad_down) {
+            bot.lifty.goDOwn4Inches();
 
-    }
+        }
 
 
         /*___________________________
@@ -99,11 +99,13 @@ public class GamePadHandler {
         if (game1.a) {
             bot.movey.grabFoundation();
         }
-        if(game1.y){
+        if (game1.y) {
             bot.rrBot.setPoseEstimate(new Pose2d());
-            bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(26*25.4)
-                    .addMarker(()->{bot.movey.dropItLikeItsHot();return Unit.INSTANCE;}).build());
-            ;
+            bot.rrBot.followTrajectorySync(bot.rrBot.slowTrajectoryBuilder().forward(26 * 25.4)
+                    .addMarker(() -> {
+                        bot.movey.dropItLikeItsHot();
+                        return Unit.INSTANCE;
+                    }).build());
         }
 
 
@@ -131,8 +133,8 @@ public class GamePadHandler {
         __________________________*/
 
 
-    double intakepwr = (game2.right_trigger) - (game1.left_trigger+game2.left_trigger);
-    bot.intake.intake(intakepwr);
+        double intakepwr = (game2.right_trigger) - (game1.left_trigger + game2.left_trigger);
+        bot.intake.intake(intakepwr);
 //        if(game2.left_bumper){
 //            bot.lifty.goDown();
 //
@@ -153,19 +155,19 @@ public class GamePadHandler {
         ___________________________*/
 
 
-    if (game2.b) {
-        bot.stackTarget--;
-    }
+        if (game2.b) {
+            bot.stackTarget--;
+        }
         if (game2.a) {
             bot.stackTarget++;
         }
 
-    if (game2.y) {
-        bot.chainbar.grabOpen();
-    } else if (game2.x) {
-        bot.chainbar.grabClose();
-    }
-        if(game2.right_stick_button){
+        if (game2.y) {
+            bot.chainbar.grabOpen();
+        } else if (game2.x) {
+            bot.chainbar.grabClose();
+        }
+        if (game2.right_stick_button) {
             bot.chainbar.capstoneDepoy();
             undeployed = !undeployed;
 
@@ -174,7 +176,7 @@ public class GamePadHandler {
             bot.chainbar.umcapstoneDepoy();
 
         }
-        if(game2.left_bumper){
+        if (game2.left_bumper) {
             bot.lifty.placeAtLevel();
         }
 
@@ -185,33 +187,27 @@ public class GamePadHandler {
              |
          ________________*/
 
-    if (game2.dpad_down) {
-        bot.chainbar.grabOpen();
-        bot.chainbar.goDownSleep();
-        bot.lifty.goDown();
+        if (game2.dpad_down) {
+
+            bot.lifty.goDownAll();
 
 
+        } else if (game2.dpad_left) {
+            bot.chainbar.goUpBit();
+        } else if (game2.dpad_up) {
+            bot.chainbar.goUpAll();
+        } else if (game2.dpad_right) {
+            bot.chainbar.holdPosition();
+        } else if (game2.left_stick_button) {
+            bot.chainbar.reset();
+            bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            bot.Motor7.setTargetPosition(0);
 
-    }
-    else if (game2.dpad_left) {
-        bot.chainbar.goUpBit();
-    } else if (game2.dpad_up) {
-        bot.chainbar.goUpAll();
-    } else if (game2.dpad_right) {
-        bot.chainbar.holdPosition();
-    } else if (game2.left_stick_button) {
-        bot.chainbar.reset();
-        bot.Motor7.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        bot.Motor7.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        bot.Motor7.setTargetPosition(0);
-
-    } else if (Math.abs(game2.left_stick_y) > .5) {
-        // bot.Chainbar.wild();
-        bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
-    }
-
-
-
+        } else if (Math.abs(game2.left_stick_y) > .5) {
+            // bot.Chainbar.wild();
+            bot.chainbar.moveUpWithStick(-game2.left_stick_y * 0.25);
+        }
 
 
     }
