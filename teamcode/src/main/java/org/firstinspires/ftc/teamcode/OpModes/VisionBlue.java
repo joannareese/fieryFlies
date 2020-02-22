@@ -22,7 +22,7 @@ public class VisionBlue extends LinearOpMode {
     public static int skystoneSpot = 1;
     private Robot r;
     private boolean isRed;
-    private int sidemult;
+    private int sidemult = -1;
     private String webcamName = "Webcam 2";
     private OpenCvCamera webcam;
     private Spotter spot;
