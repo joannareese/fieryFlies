@@ -22,9 +22,8 @@ import java.util.concurrent.TimeUnit;
 public class Robot {
 
     public final WheelIntake intake;
-    private final HardwareMap hardware;
     public final Servo capstone;
-
+    private final HardwareMap hardware;
     public RoadRunnerBot rrBot;
     //Location of the bot
 
@@ -47,31 +46,29 @@ public class Robot {
     public DcMotorEx Motor8;
     public int stackTarget = 1;
     public boolean deployChainbarin500;
+    public DcMotorEx Motor5;
+    public DcMotorEx Motor6;
+    public int numberOfDrops = 0;
+    public ElapsedTime time;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
-    protected DcMotorEx Motor3;
-    protected DcMotorEx Motor4;
-    public DcMotorEx Motor5;
-    public DcMotorEx Motor6;
 
     //This array should go left encoder, right encoder, back encoder
-
+    protected DcMotorEx Motor3;
+    protected DcMotorEx Motor4;
     private int[] encoderPosition = {0, 0, 0};
     private double relativeY;
     private double relativeX;
-    public int numberOfDrops = 0;
-    public ElapsedTime time;
     private boolean checkForAction;
     private long Order66AtT;
     private boolean hasNotGoneDown = true;
 
 
-
     public Robot(Telemetry telemetry, Location loc, HardwareMap hw) {
         //Declare and init devices
         hardware = hw;
-        AutonomousValues.autoChainbarOffset=0;
+        AutonomousValues.autoChainbarOffset = 0;
         Motor1 = (DcMotorEx) hw.dcMotor.get("frontLeft");
         Motor2 = (DcMotorEx) hw.dcMotor.get("backLeft");
         Motor3 = (DcMotorEx) hw.dcMotor.get("frontRight");
@@ -102,14 +99,14 @@ public class Robot {
         intake = new WheelIntake(this);
         lifty = new Lifty(this);
         chainbar = new Chainbar(this);
-        rrBot = new RoadRunnerBot(hw, telemetry,this);
+        rrBot = new RoadRunnerBot(hw, telemetry, this);
 
         //essentially random stuff u dont need to mess with
         expansionHub.setLedColor(255, 0, 0);
         expansionHub.setPhoneChargeEnabled(true);
-        ExpansionHubEx hubx = hw.get(ExpansionHubEx.class,"hubx");
+        ExpansionHubEx hubx = hw.get(ExpansionHubEx.class, "hubx");
         hubx.setPhoneChargeEnabled(true);
-        hubx.setLedColor(255,0,0);
+        hubx.setLedColor(255, 0, 0);
         telemetry.speak("Hello, I am Jack ");
         time = new ElapsedTime();
         chainbar.umcapstoneDepoy();
@@ -183,7 +180,6 @@ public class Robot {
     }
 
 
-
     public void drivePower(double[] powers) throws InvalidParameterException {
         if (powers.length != 4)
             throw new InvalidParameterException("BOI YOUR ARRAY NEEDS TO HAVE 4 VALUES");
@@ -209,9 +205,8 @@ public class Robot {
      * A simple method to output the status of all motors and other variables to telemetry.
      */
     public void telemetryMethod() {
-        telemetry.addData("Where are we stacking bois",stackTarget);
-        telemetry.addData("powermult",RobotValues.power);
-
+        telemetry.addData("Where are we stacking bois", stackTarget);
+        telemetry.addData("powermult", RobotValues.power);
         telemetry.addData("lift", Motor7.getCurrentPosition());
         telemetry.addData("should be at ", Motor7.getTargetPosition());
         telemetry.addData("Chainbar", Motor8.getCurrentPosition());
@@ -220,39 +215,55 @@ public class Robot {
         telemetry.addData("Pos", rrBot.getPoseEstimate().toString());
         telemetry.addData("left", Motor1.getCurrentPosition());
         telemetry.addData("right ", Motor2.getCurrentPosition());
-        telemetry.addData("battery",expansionHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS));
-
+        telemetry.addData("battery", expansionHub.read12vMonitor(ExpansionHubEx.VoltageUnits.VOLTS));
         telemetry.addData("center", Motor5.getCurrentPosition());
-
-
 
         telemetry.update();
     }
 
 
     public void update() {
+
         updatePosition();
-        if(stackTarget<1){
+        if (stackTarget < 1) {
             stackTarget = 1;
         }
+
         telemetryMethod();
-        if(Motor8.getCurrentPosition()>3000&&hasNotGoneDown){
+        if (Motor8.getCurrentPosition() > 3000 && hasNotGoneDown) {
             stackTarget++;
-            hasNotGoneDown=false;
+            if (stackTarget > 4) {
+            }
+            telemetry.speak("we stacking 0" + stackTarget + "high");
+            hasNotGoneDown = false;
         }
-        if(Motor8.getCurrentPosition()<2500){
-            hasNotGoneDown= true;
+        if (Motor8.getCurrentPosition() < 2500) {
+            hasNotGoneDown = true;
         }
 
-        if(deployChainbarin500){
+        if (deployChainbarin500) {
 
-            deployChainbarin500=false;
+            deployChainbarin500 = false;
             checkForAction = true;
-            Order66AtT = time.now(TimeUnit.MILLISECONDS)+500;
+            Order66AtT = time.now(TimeUnit.MILLISECONDS) + 500;
         }
-        if(checkForAction&&time.now(TimeUnit.MILLISECONDS)>Order66AtT){
-            checkForAction=false;
+        if (checkForAction && time.now(TimeUnit.MILLISECONDS) > Order66AtT) {
+            checkForAction = false;
             chainbar.goUpAll();
+        }
+        int intTime = (int) time.now(TimeUnit.SECONDS);
+        if (intTime % 30 == 0) {
+            switch (intTime / 30) {
+                case 1: {
+                    telemetry.speak("One minute, Thirty seconds");
+                }
+                case 2: {
+                    telemetry.speak("One minute");
+                }
+                case 3: {
+                    telemetry.speak("GET THE FOUNDATION ");
+                }
+            }
         }
         lifty.update();
         chainbar.update();
