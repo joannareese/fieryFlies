@@ -34,31 +34,25 @@ public class VisionRed extends LinearOpMode {
         Pose2d startPose = new Pose2d(-33 * 25.4, -63.0 * 25.4, -3.14);
         r.rrBot.setPoseEstimate(startPose);
     msStuckDetectStop=2000;
-//
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         webcam.openCameraDevice();
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-//        while (!isStarted() && !isStopRequested()) {
-//
-//            telemetry.addData("Skystone Spot: ", skystoneSpot);
-//            telemetry.addData("skystone x", spot.best);
-//            telemetry.update();
-//        }
+
         waitForStart();
         AutonomousValues.offset=(3-skystoneSpot)*-195;
         telemetry.addData("skystoneSpit",skystoneSpot);
         telemetry.update();
-        //AutonomousValues.autoChainbarOffset=550;
+        AutonomousValues.autoChainbarOffset=550;
 
         r.movey.get_in_position();
         r.chainbar.goPlace();
-       // webcam.closeCameraDevice();
+        r.chainbar.update();
         r.chainbar.grabOpen();
         r.rrBot.setPoseEstimate(startPose);
-
 
         //go to stone grab
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder()
@@ -77,17 +71,20 @@ public class VisionRed extends LinearOpMode {
 
 
         //movechainbardown
-        r.chainbar.goDown();
+        r.chainbar.goGrab();
+        r.chainbar.update();
 
 
         r.rrBot.followTrajectorySync(r.rrBot.fastTrajectoryBuilder().reverse()
                 //this bit of code may help correct for stones that are intook wonky
                 .addMarker(.2,() -> {
                     r.chainbar.liftKinda();
+                    r.chainbar.update();
                     return Unit.INSTANCE;
                 })
                 .addMarker(.4,() -> {
-                    r.chainbar.goDown();
+                    r.chainbar.goGrab();
+                    r.chainbar.update();
                     return Unit.INSTANCE;
                 })
                                .addMarker(.6,() -> {
@@ -100,6 +97,7 @@ public class VisionRed extends LinearOpMode {
                 .addMarker(() -> {
                     r.chainbar.grabClose();
                     r.chainbar.liftKinda();
+                    r.chainbar.update();
                     return Unit.INSTANCE;
                 })
                 //go to foundation
@@ -120,6 +118,7 @@ public class VisionRed extends LinearOpMode {
                 //start moving chainbar back to a good pos
                 .addMarker(.75, () -> {
                     r.chainbar.intoGround();
+                    r.chainbar.update();
                     return Unit.INSTANCE;
                 })
                 .addMarker(1.5, () -> {
@@ -144,32 +143,49 @@ public class VisionRed extends LinearOpMode {
 
                     return Unit.INSTANCE;
                 })
-                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+625, startPose.getY() + 650, Math.toRadians(135)))
+                .splineTo(new Pose2d(startPose.getX()+AutonomousValues.offset+600, startPose.getY() + 650, Math.toRadians(135)))
                 .addMarker( () -> {
                     r.chainbar.goUpBalance();
+                    r.chainbar.update();
                     return Unit.INSTANCE;
                 })
                 .forward(13*25.4)
                 .build());
 
 //
-       r.chainbar.goDown();
-
-        r.rrBot.followTrajectorySync(
-                r.rrBot.fastTrajectoryBuilder().reverse()
-                        .addMarker(new Vector2d(0*25.4,-39*25.4),() -> {
+       r.chainbar.goGrab();
+       r.chainbar.update();
+        if(skystoneSpot==3){        r.rrBot.followTrajectorySync(
+                r.rrBot.fastTrajectoryBuilder()
+                        .strafeLeft(10*25.4).reverse()
+                        .addMarker(new Vector2d(500+AutonomousValues.offset,-39*25.4),() -> {
                             r.chainbar.grabClose();
                             return Unit.INSTANCE;})
                         .addMarker(new Vector2d(5*25.4,-39*25.4),() -> {
-                            r.chainbar.goUpAll();
+                            r.chainbar.goUpAll();r.chainbar.update();
                             return Unit.INSTANCE;})
                         .splineTo(new Pose2d(0* 25.4, -39 * 25.40, Math.toRadians(-180)))
 
                         .splineTo(new Pose2d(35* 25.4, -39 * 25.40, Math.toRadians(-180)))
 
-                        .build());
+                        .build());}
+        else {
+        r.rrBot.followTrajectorySync(
+                r.rrBot.fastTrajectoryBuilder().reverse()
+                        .addMarker(new Vector2d(500+AutonomousValues.offset,-39*25.4),() -> {
+                            r.chainbar.grabClose();
+                            return Unit.INSTANCE;})
+                        .addMarker(new Vector2d(5*25.4,-39*25.4),() -> {
+                            r.chainbar.goUpAll();r.chainbar.update();
+                            return Unit.INSTANCE;})
+                        .splineTo(new Pose2d(0* 25.4, -39 * 25.40, Math.toRadians(-180)))
+
+                        .splineTo(new Pose2d(35* 25.4, -39 * 25.40, Math.toRadians(-180)))
+
+                        .build());}
         r.chainbar.grabOpen();
-        r.chainbar.goDown();
+        r.chainbar.goGrab();
+        r.chainbar.update();
         sleep(1000);
         r.rrBot.followTrajectorySync(
                 r.rrBot.fastTrajectoryBuilder()

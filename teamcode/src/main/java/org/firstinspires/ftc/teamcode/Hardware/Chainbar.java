@@ -45,6 +45,12 @@ public class Chainbar {
         target = ((int) (RobotValues.liftyDown - AutonomousValues.autoChainbarOffset));
 
     }
+    public void goGrab() {
+
+        target = ((int) (RobotValues.liftyDown - AutonomousValues.autoChainbarOffset));
+
+    }
+
 
     public void goPlace() {
 

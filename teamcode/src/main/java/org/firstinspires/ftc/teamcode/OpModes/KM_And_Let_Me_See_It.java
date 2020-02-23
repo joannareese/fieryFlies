@@ -4,6 +4,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.SplineInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Hardware.AutonomousValues;
@@ -14,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.revextensions2.ExpansionHubEx;
 
 import kotlin.Unit;
-
+@Disabled
 @Autonomous(name = "red auto")
 public class KM_And_Let_Me_See_It extends LinearOpMode {
     public static int skystoneSpot;
