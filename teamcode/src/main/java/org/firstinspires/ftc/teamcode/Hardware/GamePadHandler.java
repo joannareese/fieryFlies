@@ -62,10 +62,13 @@ public class GamePadHandler {
         if (game1.right_bumper) {
             if (slowToggle % 2 == 0 && slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
                 RobotValues.power = 0.45;
+                slowToggle++;
             } else if (slowToggleDelay < bot.time.now(TimeUnit.MILLISECONDS)) {
                 RobotValues.power = 0.9;
+                slowToggle++;
+
             }
-            slowToggle++;
+
             slowToggleDelay = bot.time.now(TimeUnit.MILLISECONDS) + 50;
         }
     /*
@@ -81,9 +84,16 @@ public class GamePadHandler {
 
         if (game1
                 .dpad_down) {
-            bot.lifty.goDOwn4Inches();
+            bot.tape.setPower(1);
 
         }
+        else if (game1
+                .dpad_up) {
+            bot.tape.setPower(-1);
+
+        }
+        else
+            bot.tape.setPower(0);
 
 
         /*___________________________
@@ -141,7 +151,7 @@ public class GamePadHandler {
 //        }
         if (game2.right_bumper) {
             bot.lifty.goUpAll();
-        } else if (Math.abs(game2.right_stick_y) > .5) {
+        } else if (Math.abs(game2.right_stick_y) > .3) {
             bot.lifty.moveUpWithStick(-game2.right_stick_y * 0.25);
         }
 

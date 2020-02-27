@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.teamcode.Hardware.AutonomousValues;
 import org.firstinspires.ftc.teamcode.Hardware.Robot;
-import org.firstinspires.ftc.teamcode.Hardware.Spotter;
 import org.firstinspires.ftc.teamcode.Movement.Location;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -18,15 +17,18 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "old red Vision")
-public class VisionRed extends LinearOpMode {
+import static com.arcrobotics.ftclib.vision.SkystoneDetector.SkystonePosition.LEFT_STONE;
+
+@Autonomous(name = "new red Vision")
+public class newRed extends LinearOpMode {
     public static int skystoneSpot = 1;
     private Robot r;
     private boolean isRed;
     private int sidemult;
     private String webcamName = "Webcam 2";
     private OpenCvCamera webcam;
-    private Spotter spot;
+    private SkystoneDetector spot;
+    private SkystoneDetector.SkystonePosition position;
 
 
     @Override
@@ -39,11 +41,30 @@ public class VisionRed extends LinearOpMode {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, webcamName), cameraMonitorViewId);
         webcam.openCameraDevice();
-        spot = new Spotter();
+        spot = new SkystoneDetector();
         webcam.setPipeline(spot);
-        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-
+        webcam.startStreaming(320*2, 240*2, OpenCvCameraRotation.UPRIGHT);
+//        while (!isStarted() && !isStopRequested()) {
+//
+//            telemetry.addData("Skystone Spot: ", skystoneSpot);
+//            telemetry.update();
+//        }
         waitForStart();
+        position = spot.getSkystonePosition();
+        switch (position) {
+            case LEFT_STONE:
+                skystoneSpot=3;
+                break;
+            case CENTER_STONE:
+                skystoneSpot=2;
+                break;
+            case RIGHT_STONE:
+                skystoneSpot=1;
+                break;
+            default:
+                skystoneSpot=2;
+                break;
+        }
         AutonomousValues.offset=(3-skystoneSpot)*-195;
         telemetry.addData("skystoneSpit",skystoneSpot);
         telemetry.update();

@@ -17,13 +17,13 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import kotlin.Unit;
 
-@Autonomous(name = "Blue Vision")
+@Autonomous(name = "old Blue Vision")
 public class VisionBlue extends LinearOpMode {
     public static int skystoneSpot = 1;
     private Robot r;
     private boolean isRed;
     private int sidemult = -1;
-    private String webcamName = "Webcam 2";
+    private String webcamName = "Webcam 1";
     private OpenCvCamera webcam;
     private Spotter spot;
 
@@ -41,12 +41,7 @@ public class VisionBlue extends LinearOpMode {
         spot = new Spotter();
         webcam.setPipeline(spot);
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
-//        while (!isStarted() && !isStopRequested()) {
-//
-//            telemetry.addData("Skystone Spot: ", skystoneSpot);
-//            telemetry.addData("skystone x", spot.best);
-//            telemetry.update();
-//        }
+
                     telemetry.addData("Skystone Spot: ", skystoneSpot);
             telemetry.addData("skystone x", spot.best);
             telemetry.update();

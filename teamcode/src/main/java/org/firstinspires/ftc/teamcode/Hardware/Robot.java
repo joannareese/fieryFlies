@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -22,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 public class Robot {
 
     public final WheelIntake intake;
-    public final Servo capstone;
+    public final CRServo capstone;
     private final HardwareMap hardware;
     public RoadRunnerBot rrBot;
     //Location of the bot
@@ -50,6 +51,7 @@ public class Robot {
     public DcMotorEx Motor6;
     public int numberOfDrops = 0;
     public ElapsedTime time;
+    public CRServo tape;
     //Declaration of our 8 DC motors
     protected DcMotorEx Motor1;
     protected DcMotorEx Motor2;
@@ -82,7 +84,9 @@ public class Robot {
         driveMotors = new ArrayList<DcMotorEx>(Arrays.asList(Motor1, Motor2, Motor3, Motor4));
 
         foundation = hw.servo.get("foundation");
-        capstone = hw.servo.get("capstone");
+        tape = hw.crservo.get("tape");
+        tape.setDirection(DcMotorSimple.Direction.REVERSE);
+        capstone = hw.crservo.get("capstone");
         grabby = hw.servo.get("grab");
         expansionHub = hw.get(ExpansionHubEx.class, "hub");
         //Change motor values as needed
@@ -210,7 +214,7 @@ public class Robot {
         telemetry.addData("lift", Motor7.getCurrentPosition());
         telemetry.addData("should be at ", Motor7.getTargetPosition());
         telemetry.addData("Chainbar", Motor8.getCurrentPosition());
-        telemetry.addData("should be at ", Motor8.getTargetPosition());
+        telemetry.addData("should be at ", chainbar.target*RobotValues.chainMult);
         rrBot.updatePoseEstimate();
         telemetry.addData("Pos", rrBot.getPoseEstimate().toString());
         telemetry.addData("left", Motor1.getCurrentPosition());

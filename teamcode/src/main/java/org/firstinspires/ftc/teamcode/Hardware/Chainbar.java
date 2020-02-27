@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class Chainbar {
     Robot mrRoboto;
     boolean lockout = false;
-    private int target;
+    public int target;
 
     public Chainbar(Robot mrRobotot) {
         mrRoboto = mrRobotot;
@@ -82,16 +82,16 @@ public class Chainbar {
     }
 
     public void capstoneDepoy() {
-        mrRoboto.capstone.setPosition(RobotValues.capstoneDeploy);
+        mrRoboto.capstone.setPower(-.5);
     }
 
     public void umcapstoneDepoy() {
-        mrRoboto.capstone.setPosition(RobotValues.capstoneRetract);
+        mrRoboto.capstone.setPower(.5);
     }
 
     public void moveUpWithStick(double value) {
 
-        target = ((int) (mrRoboto.Motor8.getTargetPosition() + (value * 200)));
+        target = ((int) (mrRoboto.Motor8.getTargetPosition()/RobotValues.chainMult + (value * 250)));
 
     }
 
@@ -103,8 +103,8 @@ public class Chainbar {
 
 
         mrRoboto.Motor8.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        mrRoboto.Motor8.setTargetPosition(target);
-        mrRoboto.Motor8.setPower(1);
+        mrRoboto.Motor8.setTargetPosition((int)(RobotValues.chainMult*target));
+        mrRoboto.Motor8.setPower(.85);
     }
 }
 

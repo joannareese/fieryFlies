@@ -4,7 +4,7 @@ import com.acmerobotics.dashboard.config.Config;
 
 @Config
 public class RobotValues {
-    public static double capstoneDeploy = .5;
+    public static double capstoneDeploy = .8;
     public static double capstoneRetract = 0;
 
 
@@ -27,6 +27,7 @@ public class RobotValues {
     public static double chainMid = 1500;
     public static double chainPlace = 2500;
     public static int chainhold = 3000;
+    public static double chainMult = .53;
     public static double backHeading = 270;
     public static double powerDivider = 1.5;
     public static double groud = 450;
@@ -36,9 +37,9 @@ public class RobotValues {
     public static int autoHold = 680;
     public static double foundationStrafe = 20;
     public static int col2 = 285;
-    public static int col1 = 0;
+    public static int col1 = 50;
     public static int row1 = 0;
-    public static int row2 = 125;
+    public static int row2 = 130;
     public static int fourincheslift = 500;
     public static int liftyUp = 1750;
     public static int liftyDown = 0;

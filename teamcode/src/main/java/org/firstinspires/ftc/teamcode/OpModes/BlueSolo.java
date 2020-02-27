@@ -67,7 +67,7 @@ public class BlueSolo extends LinearOpMode {
                     r.intake.intake(1);
                     return Unit.INSTANCE;
                 })
-                .lineTo(new Vector2d(startPose.getX() + AutonomousValues.offset-15, startPose.getY() + sidemult*680), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(-45*sidemult)))
+                    .lineTo(new Vector2d(startPose.getX() + AutonomousValues.offset-15, startPose.getY() + sidemult*680), new SplineInterpolator(r.rrBot.getPoseEstimate().getHeading(), startPose.getHeading() + Math.toRadians(-45*sidemult)))
                 .build());
 
         r.rrBot.followTrajectorySync(r.rrBot.trajectoryBuilder().forward(11 * 25.4).back(8*25.4).build());

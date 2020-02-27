@@ -43,7 +43,7 @@ public class KM_And_Let_Me_See_It extends LinearOpMode {
 //        while (!isStarted() && !isStopRequested()) {
 //
 //            telemetry.addData("Skystone Spot: ", skystoneSpot);
-//            telemetry.addData("skystone x", spot.best);
+//            1q
 //            telemetry.update();
 //            AutonomousValues.offset=(3-skystoneSpot)*-195;
 //        }

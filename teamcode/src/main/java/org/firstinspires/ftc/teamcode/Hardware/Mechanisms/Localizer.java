@@ -57,8 +57,8 @@ public class Localizer extends ThreeTrackingWheelLocalizer {
                     "I am a machine chugging along just doing what I am told. I know nothing of love or happiness only errors");
         }
         return Arrays.asList(
-                wheel1,
-                wheel2,
+               wheel1,
+               wheel2,
                 wheel3
         );
     }

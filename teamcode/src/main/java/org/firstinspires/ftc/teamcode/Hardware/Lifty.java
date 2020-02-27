@@ -32,6 +32,7 @@ public class Lifty {
     public void goDownAll() {
         if (target>100) {
            mrRoboto.chainbar.goDown();
+           mrRoboto.chainbar.grabOpen();
            waiiiiitForIt=true;
            time=mrRoboto.time.now(TimeUnit.MILLISECONDS)+500;
 
